@@ -17,4 +17,4 @@ clean:
 	del lex.yy.c 2>NUL
 
 .PHONY: run
-run: protozosm.exe script.dejan ; protozosm.exe script.dejan
+run: protozosm.exe osm.script ; protozosm.exe osm.script

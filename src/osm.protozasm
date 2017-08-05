@@ -1,0 +1,11 @@
+READ fixed32 IN BigEndian AS blobheader_length
+# FLIP BYTES blobheader_length
+MARK RESET
+MATCH 0A
+READ string
+MATCH 18
+READ int32 AS datasize
+MARK EQ blobheader_length ELSE WARN
+MARK RESET
+# READ [datasize] BYTES AS blob
+MARK EQ datasize ELSE FAIL

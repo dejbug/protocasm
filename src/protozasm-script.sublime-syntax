@@ -1,0 +1,27 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+name: Protozasm Script
+file_extensions:
+  - protozasm
+scope: source.protozasm
+variables:
+  operator: '[]\[#]'
+  number: '\b[0-9A-Z]+\b'
+  identifier: '\b[_a-z][_a-z0-9]*\b'
+  keyword: 'AS|EQ|NEQ|IN|ELSE|MARK|READ|FAIL|WARN|FLIP|MATCH|BYTES|RESET'
+  type: '\b(fixed32|int32|string)\b'
+contexts:
+  main:
+    - match: ^(#)(.*)$\n?
+      scope: comment.line.protozasm
+    - match: '{{operator}}'
+      scope: operator.protozasm
+    - match: '{{keyword}}'
+      scope: keyword.protozasm
+    - match: '{{number}}'
+      scope: constant.numeric.protozasm
+    - match: '{{type}}'
+      scope: support.type.protozasm
+    - match: '{{identifier}}'
+      scope: variable.protozasm

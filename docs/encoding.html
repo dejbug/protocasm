@@ -1,0 +1,688 @@
+
+
+
+
+
+<!DOCTYPE html><html lang="en"
+      class="chekov"><head><script>var a=window.devsite||{};window.devsite=a;a.readyCallbacks=[];window.devsite.readyCallbacks=a.readyCallbacks;a.ready=function(b){a.readyCallbacks.push(b)};window.devsite.ready=a.ready;
+</script><meta charset="utf-8"><meta name="xsrf_token" content="oUgo62wwPox8lgWVkUIEaCllHymBhOg0DuAcOB8gDlY6MTUwMTA4ODMxMTc3NzIxMA" /><link rel="canonical" href="https://developers.google.com/protocol-buffers/docs/encoding"><link rel="alternate" href="https://developers.google.com/protocol-buffers/docs/encoding" hreflang="en"><link rel="alternate" href="https://developers.google.cn/protocol-buffers/docs/encoding" hreflang="en-cn"><link rel="alternate" href="https://developers.google.com/protocol-buffers/docs/encoding" hreflang="x-default"><link rel="shortcut icon" href="https://developers.google.com/_static/74dcb9f23a/images/favicon.png"><link rel="apple-touch-icon" href="https://developers.google.com/_static/74dcb9f23a/images/touch-icon.png"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet"
+      href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons"><link rel="stylesheet"
+        href="https://developers.google.com/_static/74dcb9f23a/css/devsite-cyan.css"><link rel="search"
+        type="application/opensearchdescription+xml"
+        title="Google Developers"
+        href="https://developers.google.com/s/opensearch.xml"><script src="https://developers.google.com/_static/74dcb9f23a/js/jquery-bundle.js"></script><meta property="og:site_name" content="Google Developers"><meta property="og:type" content="website"><meta property="og:url" content="https://developers.google.com/protocol-buffers/docs/encoding"><meta property="og:locale" content="en"><script>
+    var ___gcfg = ___gcfg || {};
+    ___gcfg.lang = 'en';
+  </script><title>Encoding &nbsp;|&nbsp; Protocol Buffers
+      &nbsp;|&nbsp; Google Developers</title><meta property="og:title" content="Encoding &nbsp;|&nbsp; Protocol Buffers
+      &nbsp;|&nbsp; Google Developers"></head><body class="
+               devsite-doc-page
+               
+               
+               devsite-header-no-upper-tabs
+               
+               devsite-uhura"
+        id="top_of_page"><div class="devsite-wrapper"><div class="devsite-top-section-wrapper
+            "><header class="devsite-top-section nocontent"><div class="devsite-top-logo-row-wrapper-wrapper"><div class="devsite-top-logo-row-wrapper"><div class="devsite-top-logo-row devsite-full-site-width"><button type="button" class="devsite-expand-section-nav devsite-header-icon-button
+                                       button-flat material-icons gc-analytics-event"
+                  data-category="Site-Wide Custom Events" data-label="Hamburger menu"></button><div class="devsite-product-name-wrapper"><span class="devsite-product-name"><ul class="devsite-breadcrumb-list"><li class="devsite-breadcrumb-item"><a href="https://developers.google.com/protocol-buffers/" class="devsite-breadcrumb-link gc-analytics-event"
+       data-category="Site-Wide Custom Events" data-label="Upper Header"
+       data-value="1">
+    
+    
+      
+        Protocol Buffers
+      
+    
+    
+    </a></li></ul></span></div><div class="devsite-header-upper-tabs"></div><form class="devsite-search-form"
+                action="https://developers.google.com/s/results/"
+                method="GET"
+                id="top-search"
+                search-placeholder='Search'><div id="searchbox" class="devsite-searchbox"><input placeholder='Search'
+         
+         type="text"
+         class="devsite-search-field devsite-search-query"
+         name="q"
+         value=""
+         autocomplete="off"><div class="devsite-search-image material-icons"></div></div><input type="hidden"
+       name="p"
+       id="search_project"
+       value="/protocol-buffers/"
+       data-project-name="Protocol Buffers"
+       data-project-path="/protocol-buffers/"
+       data-query-match=""><input type="hidden" class="suggest-project" value="Protocol Buffers" /><div class="suggest-project-metadata" data-home_url="/protocol-buffers/" data-path="/protocol-buffers/" data-name="Protocol Buffers" ></div></form><a class="devsite-header-link devsite-top-button button gc-analytics-event"
+               href="https://developers.google.com/products/"
+               data-category="Site-Wide Custom Events"
+               data-label="Site header link"><div class="devsite-header-link-label">All Products</div></a><button type="button" class="devsite-search-button devsite-header-icon-button button-flat
+                                       material-icons"></button><a href="https://www.google.com/accounts/ServiceLogin?passive=true&continue=https%3A%2F%2Fdevelopers.google.com%2Fprotocol-buffers%2Fdocs%2Fencoding%3Frefresh%3D1&service=ahsid"
+   class="devsite-user-signin devsite-top-button button gc-analytics-event"
+   data-category="Site-Wide Custom Events" data-label="Sign in button">
+  
+  Sign in
+</a></div></div></div><div class="devsite-collapsible-section"><div class="devsite-header-background devsite-full-site-width"><div class="devsite-doc-set-nav-row devsite-full-site-width"><nav class="devsite-doc-set-nav devsite-nav devsite-overflow-tabs-scroll-wrapper"><ul class="devsite-doc-set-nav-tab-list devsite-overflow-tabs-scroll"><li class="devsite-doc-set-nav-tab-container"><a href="https://developers.google.com/protocol-buffers/"
+         class="
+                devsite-doc-set-nav-tab gc-analytics-event"
+       
+         data-category="Site-Wide Custom Events"
+       
+         data-label="Tab: Home"
+       >
+        Home
+      </a></li><li class="devsite-doc-set-nav-tab-container"><a href="https://developers.google.com/protocol-buffers/docs/overview"
+         class="devsite-doc-set-nav-active
+                devsite-doc-set-nav-tab gc-analytics-event"
+       
+         data-category="Site-Wide Custom Events"
+       
+         data-label="Tab: Guides"
+       >
+        Guides
+      </a></li><li class="devsite-doc-set-nav-tab-container"><a href="https://developers.google.com/protocol-buffers/docs/reference/overview"
+         class="
+                devsite-doc-set-nav-tab gc-analytics-event"
+       
+         data-category="Site-Wide Custom Events"
+       
+         data-label="Tab: Reference"
+       >
+        Reference
+      </a></li><li class="devsite-doc-set-nav-tab-container"><a href="https://developers.google.com/protocol-buffers/docs/faq"
+         class="
+                devsite-doc-set-nav-tab gc-analytics-event"
+       
+         data-category="Site-Wide Custom Events"
+       
+         data-label="Tab: Support"
+       >
+        Support
+      </a></li></ul></nav></div></div></div></header><script>
+    if (window.jQuery) {
+      $(document).ready(function() {
+        if (window.devsite && window.devsite.search) {
+          
+          window.devsite.search.init('en')
+        }
+      });
+    }
+  </script></div><div id="gc-wrapper"itemscope itemtype="http://schema.org/Article"><input class="google-analytics-id-json" type="hidden" value="{&quot;dimensions&quot;: {&quot;dimension6&quot;: &quot;en&quot;, &quot;dimension4&quot;: &quot;Protocol Buffers&quot;, &quot;dimension5&quot;: &quot;en&quot;, &quot;dimension3&quot;: false, &quot;dimension1&quot;: &quot;Signed out&quot;, &quot;dimension8&quot;: null}, &quot;gaid&quot;: &quot;UA-24532603-1&quot;}"><input class="google-analytics-id-json" type="hidden" value="{&quot;dimensions&quot;: {&quot;dimension6&quot;: &quot;en&quot;, &quot;dimension4&quot;: &quot;Protocol Buffers&quot;, &quot;dimension5&quot;: &quot;en&quot;, &quot;dimension3&quot;: false, &quot;dimension1&quot;: &quot;Signed out&quot;, &quot;dimension8&quot;: null}, &quot;gaid&quot;: &quot;UA-49880327-1&quot;}"><script>
+      var dataLayer = [{"freeTrialEligibleUser": "False", "userCountry": "DE", "language": {"requested": "en", "served": "en"}, "projectName": "Protocol Buffers", "scriptsafe": null, "signedIn": "False", "internalUser": "False"}];
+    </script>
+
+      
+        <div class="devsite-site-mask"></div>
+        
+  
+
+<nav class="devsite-nav-responsive devsite-nav nocontent" tabindex="0">
+  
+  <div class="devsite-nav-responsive-tabs-panel">
+    
+      
+
+
+
+<nav class="devsite-nav-responsive-tabs devsite-nav">
+  <ul class="devsite-nav-list">
+  
+    <li class="devsite-nav-item devsite-nav-item-heading">
+    
+      <a 
+           href="https://developers.google.com/protocol-buffers/"
+         
+         class="devsite-nav-responsive-tab devsite-nav-title gc-analytics-event
+                "
+         data-category="Site-Wide Custom Events" data-label="Responsive Tab: Home">
+        Home
+      </a>
+      
+    
+    </li>
+  
+    <li class="devsite-nav-item devsite-nav-item-heading">
+    
+      <span class="devsite-nav-responsive-forward devsite-nav-responsive-tab devsite-nav-title
+                   devsite-nav-active gc-analytics-event"
+            data-category="Site-Wide Custom Events" data-label="Responsive Tab: Guides"
+            tabindex="0">
+        Guides
+      </span>
+    
+    </li>
+  
+    <li class="devsite-nav-item devsite-nav-item-heading">
+    
+      <a 
+           href="https://developers.google.com/protocol-buffers/docs/reference/overview?nav=true"
+         
+         class="devsite-nav-responsive-tab devsite-nav-title gc-analytics-event
+                "
+         data-category="Site-Wide Custom Events" data-label="Responsive Tab: Reference">
+        Reference
+      </a>
+      
+    
+    </li>
+  
+    <li class="devsite-nav-item devsite-nav-item-heading">
+    
+      <a 
+           href="https://developers.google.com/protocol-buffers/docs/faq?nav=true"
+         
+         class="devsite-nav-responsive-tab devsite-nav-title gc-analytics-event
+                "
+         data-category="Site-Wide Custom Events" data-label="Responsive Tab: Support">
+        Support
+      </a>
+      
+    
+    </li>
+  
+  
+    <li class="devsite-nav-item devsite-nav-item-heading">
+      <a href="https://developers.google.com/products/"
+         class="devsite-nav-responsive-tab devsite-nav-title gc-analytics-event"
+         data-category="Site-Wide Custom Events"
+         data-label="Responsive Tab: all_products">
+        All Products
+      </a>
+    </li>
+  
+  </ul>
+</nav>
+
+    
+  </div>
+  
+  
+  <div class="devsite-nav-responsive-sidebar-panel">
+    
+    <div class="devsite-nav-responsive-back" tabindex="0"></div>
+    
+    <nav class="devsite-nav-responsive-sidebar">
+      <ul class="devsite-nav-list"><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/overview" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="0" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Overview</a></li><li class="devsite-nav-item devsite-nav-item-heading"><span class="devsite-nav-title devsite-nav-title-no-path" track-type="leftNav" track-name="expandNavSectionNoLink" track-metadata-position="0">Developer Guide</span><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/proto" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Language Guide (proto2)</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/proto3" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Language Guide (proto3)</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/style" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Style Guide</a></li><li class="devsite-nav-item devsite-nav-active"><a href="https://developers.google.com/protocol-buffers/docs/encoding" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Encoding</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/techniques" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Techniques</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/addons" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Add-ons</a></li></li><li class="devsite-nav-item devsite-nav-item-heading"><span class="devsite-nav-title devsite-nav-title-no-path" track-type="leftNav" track-name="expandNavSectionNoLink" track-metadata-position="0">Tutorials</span><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/tutorials" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Tutorials Overview</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/cpptutorial" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Basics: C++</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/csharptutorial" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Basics: C#</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/gotutorial" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Basics: Go</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/javatutorial" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Basics: Java</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/pythontutorial" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Basics: Python</a></li></li><li class="devsite-nav-item devsite-nav-item-heading"><span class="devsite-nav-title devsite-nav-title-no-path" track-type="leftNav" track-name="expandNavSectionNoLink" track-metadata-position="0">Related Guides</span><li class="devsite-nav-item devsite-nav-external devsite-nav-has-status"><a href="http://www.grpc.io/docs/" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click"><span class="devsite-nav-text">gRPC</span><span class="devsite-nav-icon-wrapper"><span class="devsite-nav-icon material-icons" title="External"></span></span></a></li></li></ul>
+    </nav>
+  </div>
+  
+</nav>
+
+
+        <div class="devsite-main-content clearfix">
+
+        
+        
+
+        
+  
+  
+    
+    
+      
+  <nav class="devsite-section-nav devsite-nav nocontent">
+    <ul class="devsite-nav-list"><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/overview" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="0" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Overview</a></li><li class="devsite-nav-item devsite-nav-item-heading"><span class="devsite-nav-title devsite-nav-title-no-path" track-type="leftNav" track-name="expandNavSectionNoLink" track-metadata-position="0">Developer Guide</span><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/proto" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Language Guide (proto2)</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/proto3" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Language Guide (proto3)</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/style" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Style Guide</a></li><li class="devsite-nav-item devsite-nav-active"><a href="https://developers.google.com/protocol-buffers/docs/encoding" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Encoding</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/techniques" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Techniques</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/addons" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Add-ons</a></li></li><li class="devsite-nav-item devsite-nav-item-heading"><span class="devsite-nav-title devsite-nav-title-no-path" track-type="leftNav" track-name="expandNavSectionNoLink" track-metadata-position="0">Tutorials</span><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/tutorials" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Tutorials Overview</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/cpptutorial" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Basics: C++</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/csharptutorial" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Basics: C#</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/gotutorial" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Basics: Go</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/javatutorial" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Basics: Java</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/pythontutorial" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Basics: Python</a></li></li><li class="devsite-nav-item devsite-nav-item-heading"><span class="devsite-nav-title devsite-nav-title-no-path" track-type="leftNav" track-name="expandNavSectionNoLink" track-metadata-position="0">Related Guides</span><li class="devsite-nav-item devsite-nav-external devsite-nav-has-status"><a href="http://www.grpc.io/docs/" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click"><span class="devsite-nav-text">gRPC</span><span class="devsite-nav-icon-wrapper"><span class="devsite-nav-icon material-icons" title="External"></span></span></a></li></li></ul>
+  </nav>
+
+    
+
+    
+  <nav class="devsite-page-nav devsite-nav"></nav>
+
+
+      <article class="devsite-article">
+        <article class="devsite-article-inner">
+  
+          
+  
+
+
+
+  
+  <nav class="devsite-breadcrumb-nav devsite-nav">
+    
+
+
+<ul class="devsite-breadcrumb-list">
+  
+  <li class="devsite-breadcrumb-item">
+    
+    
+    <a href="https://developers.google.com/products/" class="devsite-breadcrumb-link gc-analytics-event"
+       data-category="Site-Wide Custom Events" data-label="Breadcrumbs"
+       data-value="1">
+    
+    
+      Products
+    
+    
+    </a>
+    
+  </li>
+  
+  <li class="devsite-breadcrumb-item">
+    
+    
+    <div class="devsite-breadcrumb-guillemet material-icons"></div>
+    
+    
+    <a href="https://developers.google.com/protocol-buffers/" class="devsite-breadcrumb-link gc-analytics-event"
+       data-category="Site-Wide Custom Events" data-label="Breadcrumbs"
+       data-value="2">
+    
+    
+      Protocol Buffers
+    
+    
+    </a>
+    
+  </li>
+  
+  <li class="devsite-breadcrumb-item">
+    
+    
+    <div class="devsite-breadcrumb-guillemet material-icons"></div>
+    
+    
+    <a href="https://developers.google.com/protocol-buffers/docs/overview" class="devsite-breadcrumb-link gc-analytics-event"
+       data-category="Site-Wide Custom Events" data-label="Breadcrumbs"
+       data-value="3">
+    
+    
+      Guides
+    
+    
+    </a>
+    
+  </li>
+  
+</ul>
+
+  </nav>
+  
+  
+  <h1 itemprop="name" class="devsite-page-title">
+    Encoding
+  </h1>
+  
+  
+  <nav class="devsite-page-nav-embedded devsite-nav"></nav>
+  
+  <div class="devsite-article-body clearfix
+            "
+       itemprop="articleBody">
+    
+
+
+<ul style="list-style-type: none"><li>
+<li><a href="#simple">A Simple Message</a>
+<li><a href="#varints">Base 128 Varints</a>
+<li><a href="#structure">Message Structure</a>
+<li><a href="#types">More Value Types</a>
+<li><a href="#embedded">Embedded Messages</a>
+
+<li><a href="#optional">Optional And Repeated Elements</a>
+<li><a href="#order">Field Order</a>
+</ul>
+<p>This document describes the binary wire format for protocol buffer messages.  You don't need to understand this to use protocol buffers in your applications, but it can be very useful to know how different protocol buffer formats affect the size of your encoded messages.
+<h2 id="simple">A Simple Message</h2>
+<p>Let's say you have the following very simple message definition:
+<pre>message Test1 {
+  required int32 a = 1;
+}</pre>
+<p>In an application, you create a <code>Test1</code> message and set <code>a</code> to 150.  You then serialize the message to an output stream.  If you were able to examine the encoded message, you'd see three bytes:
+<pre>08 96 01</pre>
+<p>So far, so small and numeric &#8211; but what does it mean?  Read on...
+<h2 id="varints">Base 128 Varints</h2>
+<p>To understand your simple protocol buffer encoding, you first need to understand <em>varints</em>.  Varints are a method of serializing integers using one or more bytes.  Smaller numbers take a smaller number of bytes.
+<p>Each byte in a varint, except the last byte, has the <em>most significant bit</em> (msb) set &#8211; this indicates that there are further bytes to come.  The lower 7 bits of each byte are used to store the two's complement representation of the number in groups of 7 bits, <strong>least significant group first</strong>.
+<p>So, for example, here is the number 1 &#8211; it's a single byte, so the msb is not set:
+<pre>0000 0001</pre>
+<p>And here is 300 &#8211; this is a bit more complicated:
+<pre>1010 1100 0000 0010</pre>
+<p>How do you figure out that this is 300?  First you drop the msb from each byte, as this is just there to tell us whether we've reached the end of the number (as you can see, it's set in the first byte as there is more than one byte in the varint):
+<pre>1010 1100 0000 0010
+→ 010 1100  000 0010</pre>
+<p>You reverse the two groups of 7 bits because, as you remember, varints store numbers with the least significant group first.  Then you concatenate them to get your final value:
+<pre>000 0010  010 1100
+→  000 0010 ++ 010 1100
+→  100101100
+→  256 + 32 + 8 + 4 = 300</pre>
+<h2 id="structure">Message Structure</h2>
+<p>As you know, a protocol buffer message is a series of key-value pairs.  The binary version of a message just uses the field's number as the key &#8211; the name and declared type for each field can only be determined on the decoding end by referencing the message type's definition (i.e. the <code>.proto</code> file).
+<p>When a message is encoded, the keys and values are concatenated into a byte stream. When the message is being decoded, the parser needs to be able to skip fields that it doesn't recognize. This way, new fields can be added to a message without breaking old programs that do not know about them. To this end, the "key" for each pair in a wire-format message is actually two values &#8211; the field number from your <code>.proto</code> file, plus a <em>wire type</em> that provides just enough information to find the length of the following value.
+<p>The available wire types are as follows:
+<table width="50%" border=1>
+<tr><th>Type</th><th>Meaning</th><th>Used For</th></tr>
+<tr><td>0</td><td>Varint</td><td>int32, int64, uint32, uint64, sint32, sint64, bool, enum</td><tr>
+<tr><td>1</td><td>64-bit</td><td>fixed64, sfixed64, double</td><tr>
+<tr><td>2</td><td>Length-delimited</td><td>string, bytes, embedded messages, packed repeated fields</td><tr>
+<tr><td>3</td><td>Start group</td><td>groups (deprecated)</td><tr>
+<tr><td>4</td><td>End group</td><td>groups (deprecated)</td><tr>
+<tr><td>5</td><td>32-bit</td><td>fixed32, sfixed32, float</td><tr>
+</table>
+<p>Each key in the streamed message is a varint with the value <code>(field_number << 3) | wire_type</code> &#8211; in other words, the last three bits of the number store the wire type.
+<p>Now let's look at our simple example again.  You now know that the first number in the stream is always a varint key, and here it's 08, or (dropping the msb):
+<pre>000 1000</pre>
+<p>You take the last three bits to get the wire type (0) and then right-shift by three to get the field number (1). So you now know that the tag is 1 and the following value is a varint.  Using your varint-decoding knowledge from the previous section, you can see that the next two bytes store the value 150.
+<pre>96 01 = 1001 0110  0000 0001
+       → 000 0001  ++  001 0110 (drop the msb and reverse the groups of 7 bits)
+       → 10010110
+       → 2 + 4 + 16 + 128 = 150</pre>
+<h2 id="types">More Value Types</h2>
+<h3>Signed Integers</h3>
+<p>As you saw in the previous section, all the protocol buffer types associated with wire type 0 are encoded as varints.  However, there is an important difference between the signed int types (<code>sint32</code> and <code>sint64</code>) and the "standard" int types (<code>int32</code> and <code>int64</code>) when it comes to encoding negative numbers. If you use <code>int32</code> or <code>int64</code> as the type for a negative number, the resulting varint is <em>always ten bytes long</em> &#8211; it is, effectively, treated like a very large unsigned integer.  If you use one of the signed types, the resulting varint uses ZigZag encoding, which is much more efficient.
+<p>ZigZag encoding maps signed integers to unsigned integers so that numbers with a small <em>absolute value</em> (for instance, -1) have a small varint encoded value too. It does this in a way that "zig-zags" back and forth through the positive and negative integers, so that -1 is encoded as 1, 1 is encoded as 2, -2 is encoded as 3, and so on, as you can see in the following table:
+<table width="50%" border=1>
+<tr><th>Signed Original</th><th>Encoded As</th></tr>
+<tr><td>0</td><td>0</td><tr>
+<tr><td>-1</td><td>1</td><tr>
+<tr><td>1</td><td>2</td><tr>
+<tr><td>-2</td><td>3</td><tr>
+<tr><td>2147483647</td><td>4294967294</td><tr>
+<tr><td>-2147483648</td><td>4294967295</td><tr>
+</table>
+<p>In other words, each value <code>n</code> is encoded using
+<pre class="prettyprint">(n << 1) ^ (n >> 31)</pre>
+<p>for <code>sint32</code>s, or
+<pre class="prettyprint">(n << 1) ^ (n >> 63)</pre>
+<p>for the 64-bit version.
+<p>Note that the second shift &#8211; the <code>(n >> 31)</code> part &#8211; is an arithmetic shift.  So, in other words, the result of the shift is either a number that is all zero bits (if <code>n</code> is positive) or all one bits (if <code>n</code> is negative).
+<p>When the <code>sint32</code> or <code>sint64</code> is parsed, its value is decoded back to the original, signed version.
+<h3>Non-varint Numbers</h3>
+<p>Non-varint numeric types are simple &#8211; <code>double</code> and <code>fixed64</code> have wire type 1, which tells the parser to expect a fixed 64-bit lump of data; similarly <code>float</code> and <code>fixed32</code> have wire type 5, which tells it to expect 32 bits.  In both cases the values are stored in little-endian byte order.
+<h3>Strings</h3>
+<p>A wire type of 2 (length-delimited) means that the value is a varint encoded length followed by the specified number of bytes of data.
+<pre>message Test2 {
+  required string b = 2;
+}</pre>
+<p>Setting the value of b to "testing" gives you:
+<pre>12 07 <font color="red">74 65 73 74 69 6e 67</font></pre></pre>
+<p>The red bytes are the UTF8 of "testing". The key here is 0x12 → tag = 2, type = 2. The length varint in the value is 7 and lo and behold, we find seven bytes following it &#8211; our string.
+<h2 id="embedded">Embedded Messages</h2>
+<p>Here's a message definition with an embedded message of our example type, Test1:
+<pre>message Test3 {
+  required Test1 c = 3;
+}</pre>
+<p>And here's the encoded version, again with the Test1's <code>a</code> field set to 150:
+<pre> 1a 03 <font color="red">08 96 01</font></pre>
+<p>As you can see, the last three bytes are exactly the same as our first example (<code>08 96 01</code>), and they're preceded by the number 3 &#8211; embedded messages are treated in exactly the same way as strings (wire type = 2).
+<h2 id="optional">Optional And Repeated Elements</h2>
+<p>If a proto2 message definition has <code>repeated</code> elements (without the <code>[packed=true]</code> option), the encoded message has zero or more key-value pairs with the same tag number.  These repeated values do not have to appear consecutively; they may be interleaved with other fields.  The order of the elements with respect to each other is preserved when parsing, though the ordering with respect to other fields is lost. In proto3, repeated fields use <a href="#packed">packed encoding</a>, which you can read about below.
+<p>For any non-repeated fields in proto3, or <code>optional</code> fields in proto2, the encoded message may or may not have a key-value pair with that tag number.
+<p>Normally, an encoded message would never have more than one instance of a non-repeated field.  However, parsers are expected to handle the case in which they do.  For numeric types and strings, if the same field appears multiple times, the parser accepts the <i>last</i> value it sees.  For embedded message fields, the parser merges multiple instances of the same field, as if with the <code>Message::MergeFrom</code> method &#8211; that is, all singular scalar fields in the latter instance replace those in the former, singular embedded messages are merged, and repeated fields are concatenated.  The effect of these rules is that parsing the concatenation of two encoded messages produces exactly the same result as if you had parsed the two messages separately and merged the resulting objects.  That is, this:
+<pre>MyMessage message;
+message.ParseFromString(str1 + str2);</pre>
+<p>is equivalent to this:
+<pre>MyMessage message, message2;
+message.ParseFromString(str1);
+message2.ParseFromString(str2);
+message.MergeFrom(message2);</pre>
+<p>This property is occasionally useful, as it allows you to merge two messages even if you do not know their types.
+
+<h3 id="packed">Packed Repeated Fields</h3>
+
+<p>Version 2.1.0 introduced packed repeated fields, which in proto2 are declared like repeated fields but with the special <code>[packed=true]</code> option. In proto3, repeated fields are packed by default. These function like repeated fields, but are encoded differently.  A packed repeated field containing zero elements does not appear in the encoded message.  Otherwise, all of the elements of the field are packed into a single key-value pair with wire type 2 (length-delimited).  Each element is encoded the same way it would be normally, except without a tag preceding it.
+
+<p>For example, imagine you have the message type:
+<pre>message Test4 {
+  repeated int32 d = 4 [packed=true];
+}</pre>
+
+<p>Now let's say you construct a <code>Test4</code>, providing the values 3, 270, and 86942 for the repeated field <code>d</code>.  Then, the encoded form would be:
+<pre>22        // tag (field number 4, wire type 2)
+06        // payload size (6 bytes)
+03        // first element (varint 3)
+8E 02     // second element (varint 270)
+9E A7 05  // third element (varint 86942)</pre>
+
+<p>Only repeated fields of primitive numeric types (types which use the varint, 32-bit, or 64-bit wire types) can be declared "packed".</p>
+
+<p>Note that although there's usually no reason to encode more than one key-value pair for a packed repeated field, encoders must be prepared to accept multiple key-value pairs.  In this case, the payloads should be concatenated.  Each pair must contain a whole number of elements.
+
+<p>Protocol buffer parsers must be able to parse repeated fields that were compiled as <code>packed</code>
+as if they were not packed, and vice versa. This permits adding <code>[packed=true]</code> to existing fields
+in a forward- and backward-compatible way.</p>
+
+<h2 id="order">Field Order</h2>
+<p>While you can use field numbers in any order in a <code>.proto</code>, when a message is serialized its known fields should be written sequentially by field number, as in the provided C++, Java, and Python serialization code.  This allows parsing code to use optimizations that rely on field numbers being in sequence.  However, protocol buffer parsers must be able to parse fields in any order, as not all messages are created by simply serializing an object &#8211; for instance, it's sometimes useful to merge two messages by simply concatenating them.
+<p>If a message has <a href="https://developers.google.com/protocol-buffers/docs/proto.html#updating">unknown fields</a>, the current Java and C++ implementations write them in arbitrary order after the sequentially-ordered known fields.  The current Python implementation does not track unknown fields.
+  
+  </div>
+  
+
+  
+        
+  
+
+
+
+
+
+
+
+        
+<div class="devsite-content-footer nocontent">
+  
+  
+    <p>Except as otherwise noted, the content of this page is licensed under the <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 License</a>, and code samples are licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 License</a>. For details, see our <a href="https://developers.google.com/terms/site-policies">Site Policies</a>. Java is a registered trademark of Oracle and/or its affiliates.</p>
+  
+
+  
+    
+    <p class="devsite-content-footer-date" itemprop="datePublished"
+       content="2016-04-14T14:05:08.851170">
+      
+      Last updated April 14, 2016.
+    </p>
+  
+
+</div>
+
+        </article>
+      </article>
+  
+
+        </div>
+      
+
+<footer class="devsite-footer-promos nocontent"><nav class="devsite-full-site-width"><ul class="devsite-footer-promos-list"><li class="devsite-footer-promo"><a href="https://developers.google.com/protocol-buffers/docs/downloads"
+           class="devsite-footer-promo-title gc-analytics-event"
+           data-category="Site-Wide Custom Events" data-label="Content Page Footer Promo"><div class="devsite-footer-promo-icon material-icons">file_download</div>
+          
+          
+            Downloads
+          
+        </a><div class="devsite-footer-promo-description">Protocol buffers downloads and instructions</div></li><li class="devsite-footer-promo"><a href="https://github.com/google/protobuf/releases"
+           class="devsite-footer-promo-title gc-analytics-event"
+           data-category="Site-Wide Custom Events" data-label="Content Page Footer Promo"><img class="devsite-footer-promo-icon" src="https://developers.google.com/site-assets/logo-github.svg">
+          
+          
+            GitHub
+          
+        </a><div class="devsite-footer-promo-description">The latest protocol buffers code and releases</div></li></ul></nav></footer><footer class="devsite-footer-linkboxes nocontent
+               devsite-footer-linkboxes-all-backup
+               devsite-footer-linkboxes-with-sites"><nav class="devsite-full-site-width"><ul class="devsite-footer-linkboxes-list"><li class="devsite-footer-linkbox devsite-footer-linkbox-backup"><h3 class="devsite-footer-linkbox-heading">Connect</h3><ul class="devsite-footer-linkbox-list"><li class="devsite-footer-linkbox-item"><a href="//googledevelopers.blogspot.com" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Blog Link">
+                Blog
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//www.facebook.com/Google-Developers-967415219957038/" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Facebook Link">
+                Facebook
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//plus.google.com/+GoogleDevelopers" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer G+ Link">
+                Google+
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//medium.com/google-developers" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Medium Link">
+                Medium
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//twitter.com/googledevs" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Twitter Link">
+                Twitter
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//www.youtube.com/user/GoogleDevelopers" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer YouTube Link">
+                YouTube
+            </a></li></ul></li><li class="devsite-footer-linkbox devsite-footer-linkbox-backup"><h3 class="devsite-footer-linkbox-heading">Programs</h3><ul class="devsite-footer-linkbox-list"><li class="devsite-footer-linkbox-item"><a href="//www.womentechmakers.com" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Women Techmakers">
+                Women Techmakers
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//developers.google.com/agency/" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Agency">
+                Agency Program
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//developers.google.com/groups/" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Groups">
+                GDG
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//developers.google.com/experts/" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Experts">
+                Google Developer Experts
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//developers.google.com/startups/" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Startups">
+                Startup Launchpad
+            </a></li></ul></li><li class="devsite-footer-linkbox devsite-footer-linkbox-backup"><h3 class="devsite-footer-linkbox-heading">Developer Consoles</h3><ul class="devsite-footer-linkbox-list"><li class="devsite-footer-linkbox-item"><a href="//console.developers.google.com" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Google Developers Console">
+                Google API Console
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//console.cloud.google.com" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Google Cloud Platform Console">
+                Google Cloud Platform Console
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//play.google.com/apps/publish/" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Google Play Console">
+                Google Play Console
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//console.firebase.google.com" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Firebase Console">
+                Firebase Console
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//cast.google.com/publish/" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Cast SDK Developer Console">
+                Cast SDK Developer Console
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//chrome.google.com/webstore/developer/dashboard" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Chrome Web Store Developer Dashboard">
+                Chrome Web Store Dashboard
+            </a></li></ul></li><li class="devsite-footer-linkbox devsite-footer-linkbox-sites"><a href="https://developers.google.com/"
+           class="gc-analytics-event devsite-footer-linkbox-logo-link"
+           data-category="Site-Wide Custom Events" data-label="Footer Google Developers Link"><img class="devsite-footer-linkbox-logo"
+               src="https://developers.google.com/_static/74dcb9f23a/images/redesign-14/lockup-color-knockout.png"></a><ul class="devsite-footer-linkbox-list"><li class="devsite-footer-linkbox-item"><a href="//developer.android.com/index.html" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Android Link">
+                Android
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//developer.chrome.com/home" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Chrome Link">
+                Chrome
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//firebase.google.com" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Firebase Link">
+                Firebase
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//cloud.google.com" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Cloud Link">
+                Google Cloud Platform
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//developers.google.com/products/" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Products Link">
+                All Products
+            </a></li></ul></li></ul></nav></footer><footer class="devsite-utility-footer"><nav class="devsite-utility-footer-nav devsite-nav devsite-full-site-width"><div class="devsite-utility-footer-nav-left"><form class="devsite-utility-footer-language" action="/i18n/setlang/" method="post"><input type="hidden" name="xsrf_token" value="oUgo62wwPox8lgWVkUIEaCllHymBhOg0DuAcOB8gDlY6MTUwMTA4ODMxMTc3NzIxMA" /><input type="hidden" name="next" value="/protocol-buffers/docs/encoding"><select class="devsite-utility-footer-language-select kd-select" name="language"
+                track-type="languageSelector" track-name="click"><option value="id"
+                
+                track-type="languageSelector" track-name="changed"
+                track-metadata-original-language="en"
+                track-metadata-selected-language="id">
+            Bahasa Indonesia
+          </option><option value="de"
+                
+                track-type="languageSelector" track-name="changed"
+                track-metadata-original-language="en"
+                track-metadata-selected-language="de">
+            Deutsch
+          </option><option value="en"
+                 selected="selected" 
+                track-type="languageSelector" track-name="changed"
+                track-metadata-original-language="en"
+                track-metadata-selected-language="en">
+            English
+          </option><option value="es"
+                
+                track-type="languageSelector" track-name="changed"
+                track-metadata-original-language="en"
+                track-metadata-selected-language="es">
+            español
+          </option><option value="fr"
+                
+                track-type="languageSelector" track-name="changed"
+                track-metadata-original-language="en"
+                track-metadata-selected-language="fr">
+            français
+          </option><option value="pt-br"
+                
+                track-type="languageSelector" track-name="changed"
+                track-metadata-original-language="en"
+                track-metadata-selected-language="pt-br">
+            Português Brasileiro
+          </option><option value="ru"
+                
+                track-type="languageSelector" track-name="changed"
+                track-metadata-original-language="en"
+                track-metadata-selected-language="ru">
+            Русский
+          </option><option value="ja"
+                
+                track-type="languageSelector" track-name="changed"
+                track-metadata-original-language="en"
+                track-metadata-selected-language="ja">
+            日本語
+          </option><option value="zh-cn"
+                
+                track-type="languageSelector" track-name="changed"
+                track-metadata-original-language="en"
+                track-metadata-selected-language="zh-cn">
+            简体中文
+          </option><option value="ko"
+                
+                track-type="languageSelector" track-name="changed"
+                track-metadata-original-language="en"
+                track-metadata-selected-language="ko">
+            한국어
+          </option></select></form><span class="devsite-utility-footer-links"><a class="devsite-utility-footer-link gc-analytics-event"
+           href="https://developers.google.com/terms/site-terms"
+           data-category="Site-Wide Custom Events"
+           data-label="Footer terms link">Terms
+         </a><a class="devsite-utility-footer-link gc-analytics-event"
+           href="https://www.google.com/policies/privacy/"
+           data-category="Site-Wide Custom Events"
+           data-label="Footer privacy link">Privacy
+         </a></span></div><div class="devsite-utility-footer-nav-right"><div class="devsite-utility-footer-newsletter-signup-text">
+        Sign up for the Google Developers newsletter
+      </div><a class="button button-primary devsite-utility-footer-newsletter-signup-button"
+         href="https://services.google.com/fb/forms/googledevelopersnewsletter/?utm_medium=referral&amp;utm_source=google-products&amp;utm_team=googledevs&amp;utm_campaign=201611-newsletter-launch">
+        
+        Subscribe
+      </a></div></nav></footer></div><script async defer src="//www.gstatic.com/feedback/api.js"></script><script src="https://developers.google.com/_static/74dcb9f23a/js/jquery_ui-bundle.js"></script><script src="https://developers.google.com/_static2/74dcb9f23a/jsi18n/"></script><script src="https://developers.google.com/_static/74dcb9f23a/js/script_foot_closure.js"></script><script src="https://developers.google.com/_static/74dcb9f23a/js/script_foot.js"></script><script>
+        (function($) {
+          
+          devsite.devsite.Init($, {'FULL_SITE_SEARCH_ENABLED': 1, 'ENABLE_BLOCKED_VIDEO_PLACEHOLDER': 0, 'VERSION_HASH': '74dcb9f23a', 'SITE_NAME': 'devsite', 'HISTORY_ENABLED': 1, 'SUBPATH': '', 'ENABLE_BLOCKED_LINK_TOOLTIP': 0, 'ALLOWED_HOSTS': ['.android.com', '.api.ai', '.apigee.com', '.appspot.com', '.gonglchuangl.net', '.google.cn', '.google.com', '.googleplex.com', '.nest.com', '.openthread.io', '.tensorflow.org'], 'BLOCK_RSS_FEEDS': 0, 'SCRIPTSAFE_DOMAIN': 'google-developers.appspot.com'},
+                               '[]','en',
+                               true, '',
+                               {"039e5d84b87fd75807ffb37b7f1bbf2c": true, "098dafe57affddc137df300142652cfd": false, "cb025a64a50094835616312f4774a53d": true, "51470233c56fc1fde50f00b73c52b216": false, "752953480de00a336d911a46966cc16d": false, "700def1a83e356c06c0925afb05de4b0": false, "6749dcb526ce9bde6993550c7d928d24": true}, '/protocol-buffers/',
+                               'https://developers.google.com/');
+        })(jQuery);
+
+        
+        devsite.localInit = function() {
+          
+        };
+
+      </script><script>
+      $('.devsite-utility-footer-language-select').each(function() {
+        $(this).change(function(){$('.devsite-utility-footer-language').submit();});
+      });
+      </script></div><span id="devsite-request-elapsed" data-request-elapsed="190.659999847"></span></body></html>

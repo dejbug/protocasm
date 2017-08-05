@@ -1,0 +1,1060 @@
+
+
+
+
+
+<!DOCTYPE html><html lang="en"
+      class="chekov"><head><script>var a=window.devsite||{};window.devsite=a;a.readyCallbacks=[];window.devsite.readyCallbacks=a.readyCallbacks;a.ready=function(b){a.readyCallbacks.push(b)};window.devsite.ready=a.ready;
+</script><meta charset="utf-8"><meta name="xsrf_token" content="B8743CqmRrZirHxfHEir5rywi6pFc09MBns7qcIoxWE6MTUwMTMzMTI0ODAzMTQzMA" /><link rel="canonical" href="https://developers.google.com/protocol-buffers/docs/proto3"><link rel="alternate" href="https://developers.google.com/protocol-buffers/docs/proto3" hreflang="en"><link rel="alternate" href="https://developers.google.cn/protocol-buffers/docs/proto3" hreflang="en-cn"><link rel="alternate" href="https://developers.google.com/protocol-buffers/docs/proto3" hreflang="x-default"><link rel="shortcut icon" href="https://developers.google.com/_static/19991010dc/images/favicon.png"><link rel="apple-touch-icon" href="https://developers.google.com/_static/19991010dc/images/touch-icon.png"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet"
+      href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,500,700|Material+Icons"><link rel="stylesheet"
+        href="https://developers.google.com/_static/19991010dc/css/devsite-cyan.css"><link rel="search"
+        type="application/opensearchdescription+xml"
+        title="Google Developers"
+        href="https://developers.google.com/s/opensearch.xml"><script src="https://developers.google.com/_static/19991010dc/js/jquery-bundle.js"></script><meta property="og:site_name" content="Google Developers"><meta property="og:type" content="website"><meta property="og:url" content="https://developers.google.com/protocol-buffers/docs/proto3"><meta property="og:locale" content="en"><script>
+    var ___gcfg = ___gcfg || {};
+    ___gcfg.lang = 'en';
+  </script><title>Language Guide (proto3) &nbsp;|&nbsp; Protocol Buffers
+      &nbsp;|&nbsp; Google Developers</title><meta property="og:title" content="Language Guide (proto3) &nbsp;|&nbsp; Protocol Buffers
+      &nbsp;|&nbsp; Google Developers"></head><body class="
+               devsite-doc-page
+               
+               
+               devsite-header-no-upper-tabs
+               
+               devsite-uhura"
+        id="top_of_page"><div class="devsite-wrapper"><div class="devsite-top-section-wrapper
+            "><header class="devsite-top-section nocontent"><div class="devsite-top-logo-row-wrapper-wrapper"><div class="devsite-top-logo-row-wrapper"><div class="devsite-top-logo-row devsite-full-site-width"><button type="button" class="devsite-expand-section-nav devsite-header-icon-button
+                                       button-flat material-icons gc-analytics-event"
+                  data-category="Site-Wide Custom Events" data-label="Hamburger menu"></button><div class="devsite-product-name-wrapper"><span class="devsite-product-name"><ul class="devsite-breadcrumb-list"><li class="devsite-breadcrumb-item"><a href="https://developers.google.com/protocol-buffers/" class="devsite-breadcrumb-link gc-analytics-event"
+       data-category="Site-Wide Custom Events" data-label="Upper Header"
+       data-value="1">
+    
+    
+      
+        Protocol Buffers
+      
+    
+    
+    </a></li></ul></span></div><div class="devsite-header-upper-tabs"></div><form class="devsite-search-form"
+                action="https://developers.google.com/s/results/"
+                method="GET"
+                id="top-search"
+                search-placeholder='Search'><div id="searchbox" class="devsite-searchbox"><input placeholder='Search'
+         
+         type="text"
+         class="devsite-search-field devsite-search-query"
+         name="q"
+         value=""
+         autocomplete="off"><div class="devsite-search-image material-icons"></div></div><input type="hidden"
+       name="p"
+       id="search_project"
+       value="/protocol-buffers/"
+       data-project-name="Protocol Buffers"
+       data-project-path="/protocol-buffers/"
+       data-query-match=""><input type="hidden" class="suggest-project" value="Protocol Buffers" /><div class="suggest-project-metadata" data-home_url="/protocol-buffers/" data-path="/protocol-buffers/" data-name="Protocol Buffers" ></div></form><a class="devsite-header-link devsite-top-button button gc-analytics-event"
+               href="https://developers.google.com/products/"
+               data-category="Site-Wide Custom Events"
+               data-label="Site header link"><div class="devsite-header-link-label">All Products</div></a><button type="button" class="devsite-search-button devsite-header-icon-button button-flat
+                                       material-icons"></button><a href="https://www.google.com/accounts/ServiceLogin?passive=true&continue=https%3A%2F%2Fdevelopers.google.com%2Fprotocol-buffers%2Fdocs%2Fproto3%3Frefresh%3D1&service=ahsid"
+   class="devsite-user-signin devsite-top-button button gc-analytics-event"
+   data-category="Site-Wide Custom Events" data-label="Sign in button">
+  
+  Sign in
+</a></div></div></div><div class="devsite-collapsible-section"><div class="devsite-header-background devsite-full-site-width"><div class="devsite-doc-set-nav-row devsite-full-site-width"><nav class="devsite-doc-set-nav devsite-nav devsite-overflow-tabs-scroll-wrapper"><ul class="devsite-doc-set-nav-tab-list devsite-overflow-tabs-scroll"><li class="devsite-doc-set-nav-tab-container"><a href="https://developers.google.com/protocol-buffers/"
+         class="
+                devsite-doc-set-nav-tab gc-analytics-event"
+       
+         data-category="Site-Wide Custom Events"
+       
+         data-label="Tab: Home"
+       >
+        Home
+      </a></li><li class="devsite-doc-set-nav-tab-container"><a href="https://developers.google.com/protocol-buffers/docs/overview"
+         class="devsite-doc-set-nav-active
+                devsite-doc-set-nav-tab gc-analytics-event"
+       
+         data-category="Site-Wide Custom Events"
+       
+         data-label="Tab: Guides"
+       >
+        Guides
+      </a></li><li class="devsite-doc-set-nav-tab-container"><a href="https://developers.google.com/protocol-buffers/docs/reference/overview"
+         class="
+                devsite-doc-set-nav-tab gc-analytics-event"
+       
+         data-category="Site-Wide Custom Events"
+       
+         data-label="Tab: Reference"
+       >
+        Reference
+      </a></li><li class="devsite-doc-set-nav-tab-container"><a href="https://developers.google.com/protocol-buffers/docs/faq"
+         class="
+                devsite-doc-set-nav-tab gc-analytics-event"
+       
+         data-category="Site-Wide Custom Events"
+       
+         data-label="Tab: Support"
+       >
+        Support
+      </a></li></ul></nav></div></div></div></header><script>
+    if (window.jQuery) {
+      $(document).ready(function() {
+        if (window.devsite && window.devsite.search) {
+          
+          window.devsite.search.init('en')
+        }
+      });
+    }
+  </script></div><div id="gc-wrapper"itemscope itemtype="http://schema.org/Article"><input class="google-analytics-id-json" type="hidden" value="{&quot;dimensions&quot;: {&quot;dimension6&quot;: &quot;en&quot;, &quot;dimension4&quot;: &quot;Protocol Buffers&quot;, &quot;dimension5&quot;: &quot;en&quot;, &quot;dimension3&quot;: false, &quot;dimension1&quot;: &quot;Signed out&quot;, &quot;dimension8&quot;: null}, &quot;gaid&quot;: &quot;UA-24532603-1&quot;}"><input class="google-analytics-id-json" type="hidden" value="{&quot;dimensions&quot;: {&quot;dimension6&quot;: &quot;en&quot;, &quot;dimension4&quot;: &quot;Protocol Buffers&quot;, &quot;dimension5&quot;: &quot;en&quot;, &quot;dimension3&quot;: false, &quot;dimension1&quot;: &quot;Signed out&quot;, &quot;dimension8&quot;: null}, &quot;gaid&quot;: &quot;UA-49880327-1&quot;}"><script>
+      var dataLayer = [{"freeTrialEligibleUser": "False", "userCountry": "DE", "language": {"requested": "en", "served": "en"}, "projectName": "Protocol Buffers", "scriptsafe": null, "signedIn": "False", "internalUser": "False"}];
+    </script>
+
+      
+        <div class="devsite-site-mask"></div>
+        
+  
+
+<nav class="devsite-nav-responsive devsite-nav nocontent" tabindex="0">
+  
+  <div class="devsite-nav-responsive-tabs-panel">
+    
+      
+
+
+
+<nav class="devsite-nav-responsive-tabs devsite-nav">
+  <ul class="devsite-nav-list">
+  
+    <li class="devsite-nav-item devsite-nav-item-heading">
+    
+      <a 
+           href="https://developers.google.com/protocol-buffers/"
+         
+         class="devsite-nav-responsive-tab devsite-nav-title gc-analytics-event
+                "
+         data-category="Site-Wide Custom Events" data-label="Responsive Tab: Home">
+        Home
+      </a>
+      
+    
+    </li>
+  
+    <li class="devsite-nav-item devsite-nav-item-heading">
+    
+      <span class="devsite-nav-responsive-forward devsite-nav-responsive-tab devsite-nav-title
+                   devsite-nav-active gc-analytics-event"
+            data-category="Site-Wide Custom Events" data-label="Responsive Tab: Guides"
+            tabindex="0">
+        Guides
+      </span>
+    
+    </li>
+  
+    <li class="devsite-nav-item devsite-nav-item-heading">
+    
+      <a 
+           href="https://developers.google.com/protocol-buffers/docs/reference/overview?nav=true"
+         
+         class="devsite-nav-responsive-tab devsite-nav-title gc-analytics-event
+                "
+         data-category="Site-Wide Custom Events" data-label="Responsive Tab: Reference">
+        Reference
+      </a>
+      
+    
+    </li>
+  
+    <li class="devsite-nav-item devsite-nav-item-heading">
+    
+      <a 
+           href="https://developers.google.com/protocol-buffers/docs/faq?nav=true"
+         
+         class="devsite-nav-responsive-tab devsite-nav-title gc-analytics-event
+                "
+         data-category="Site-Wide Custom Events" data-label="Responsive Tab: Support">
+        Support
+      </a>
+      
+    
+    </li>
+  
+  
+    <li class="devsite-nav-item devsite-nav-item-heading">
+      <a href="https://developers.google.com/products/"
+         class="devsite-nav-responsive-tab devsite-nav-title gc-analytics-event"
+         data-category="Site-Wide Custom Events"
+         data-label="Responsive Tab: all_products">
+        All Products
+      </a>
+    </li>
+  
+  </ul>
+</nav>
+
+    
+  </div>
+  
+  
+  <div class="devsite-nav-responsive-sidebar-panel">
+    
+    <div class="devsite-nav-responsive-back" tabindex="0"></div>
+    
+    <nav class="devsite-nav-responsive-sidebar">
+      <ul class="devsite-nav-list"><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/overview" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="0" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Overview</a></li><li class="devsite-nav-item devsite-nav-item-heading"><span class="devsite-nav-title devsite-nav-title-no-path" track-type="leftNav" track-name="expandNavSectionNoLink" track-metadata-position="0">Developer Guide</span><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/proto" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Language Guide (proto2)</a></li><li class="devsite-nav-item devsite-nav-active"><a href="https://developers.google.com/protocol-buffers/docs/proto3" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Language Guide (proto3)</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/style" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Style Guide</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/encoding" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Encoding</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/techniques" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Techniques</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/addons" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Add-ons</a></li></li><li class="devsite-nav-item devsite-nav-item-heading"><span class="devsite-nav-title devsite-nav-title-no-path" track-type="leftNav" track-name="expandNavSectionNoLink" track-metadata-position="0">Tutorials</span><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/tutorials" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Tutorials Overview</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/cpptutorial" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Basics: C++</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/csharptutorial" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Basics: C#</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/gotutorial" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Basics: Go</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/javatutorial" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Basics: Java</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/pythontutorial" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Basics: Python</a></li></li><li class="devsite-nav-item devsite-nav-item-heading"><span class="devsite-nav-title devsite-nav-title-no-path" track-type="leftNav" track-name="expandNavSectionNoLink" track-metadata-position="0">Related Guides</span><li class="devsite-nav-item devsite-nav-external devsite-nav-has-status"><a href="http://www.grpc.io/docs/" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click"><span class="devsite-nav-text">gRPC</span><span class="devsite-nav-icon-wrapper"><span class="devsite-nav-icon material-icons" title="External"></span></span></a></li></li></ul>
+    </nav>
+  </div>
+  
+</nav>
+
+
+        <div class="devsite-main-content clearfix">
+
+        
+        
+
+        
+  
+  
+    
+    
+      
+  <nav class="devsite-section-nav devsite-nav nocontent">
+    <ul class="devsite-nav-list"><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/overview" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="0" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Overview</a></li><li class="devsite-nav-item devsite-nav-item-heading"><span class="devsite-nav-title devsite-nav-title-no-path" track-type="leftNav" track-name="expandNavSectionNoLink" track-metadata-position="0">Developer Guide</span><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/proto" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Language Guide (proto2)</a></li><li class="devsite-nav-item devsite-nav-active"><a href="https://developers.google.com/protocol-buffers/docs/proto3" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Language Guide (proto3)</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/style" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Style Guide</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/encoding" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Encoding</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/techniques" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Techniques</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/addons" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Add-ons</a></li></li><li class="devsite-nav-item devsite-nav-item-heading"><span class="devsite-nav-title devsite-nav-title-no-path" track-type="leftNav" track-name="expandNavSectionNoLink" track-metadata-position="0">Tutorials</span><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/tutorials" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Tutorials Overview</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/cpptutorial" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Basics: C++</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/csharptutorial" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Basics: C#</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/gotutorial" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Basics: Go</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/javatutorial" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Basics: Java</a></li><li class="devsite-nav-item"><a href="https://developers.google.com/protocol-buffers/docs/pythontutorial" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click">Basics: Python</a></li></li><li class="devsite-nav-item devsite-nav-item-heading"><span class="devsite-nav-title devsite-nav-title-no-path" track-type="leftNav" track-name="expandNavSectionNoLink" track-metadata-position="0">Related Guides</span><li class="devsite-nav-item devsite-nav-external devsite-nav-has-status"><a href="http://www.grpc.io/docs/" class="devsite-nav-title gc-analytics-event" track-type="leftNav" track-name="titleLink" track-metadata-position="1" data-category="Site-Wide Custom Events" data-label="Left nav" data-action="click"><span class="devsite-nav-text">gRPC</span><span class="devsite-nav-icon-wrapper"><span class="devsite-nav-icon material-icons" title="External"></span></span></a></li></li></ul>
+  </nav>
+
+    
+
+    
+  <nav class="devsite-page-nav devsite-nav"></nav>
+
+
+      <article class="devsite-article">
+        <article class="devsite-article-inner">
+  
+          
+  
+
+
+
+  
+  <nav class="devsite-breadcrumb-nav devsite-nav">
+    
+
+
+<ul class="devsite-breadcrumb-list">
+  
+  <li class="devsite-breadcrumb-item">
+    
+    
+    <a href="https://developers.google.com/products/" class="devsite-breadcrumb-link gc-analytics-event"
+       data-category="Site-Wide Custom Events" data-label="Breadcrumbs"
+       data-value="1">
+    
+    
+      Products
+    
+    
+    </a>
+    
+  </li>
+  
+  <li class="devsite-breadcrumb-item">
+    
+    
+    <div class="devsite-breadcrumb-guillemet material-icons"></div>
+    
+    
+    <a href="https://developers.google.com/protocol-buffers/" class="devsite-breadcrumb-link gc-analytics-event"
+       data-category="Site-Wide Custom Events" data-label="Breadcrumbs"
+       data-value="2">
+    
+    
+      Protocol Buffers
+    
+    
+    </a>
+    
+  </li>
+  
+  <li class="devsite-breadcrumb-item">
+    
+    
+    <div class="devsite-breadcrumb-guillemet material-icons"></div>
+    
+    
+    <a href="https://developers.google.com/protocol-buffers/docs/overview" class="devsite-breadcrumb-link gc-analytics-event"
+       data-category="Site-Wide Custom Events" data-label="Breadcrumbs"
+       data-value="3">
+    
+    
+      Guides
+    
+    
+    </a>
+    
+  </li>
+  
+</ul>
+
+  </nav>
+  
+  
+  <h1 itemprop="name" class="devsite-page-title">
+    Language Guide (proto3)
+  </h1>
+  
+  
+  <nav class="devsite-page-nav-embedded devsite-nav"></nav>
+  
+  <div class="devsite-article-body clearfix
+            "
+       itemprop="articleBody">
+    
+
+
+<ul style="list-style-type: none"><li><a href="#simple">Defining A Message Type</a>
+<li><a href="#scalar">Scalar Value Types</a>
+<li><a href="#default">Default Values</a>
+<li><a href="#enum">Enumerations</a>
+<li><a href="#other">Using Other Message Types</a>
+<li><a href="#nested">Nested Types</a>
+<li><a href="#updating">Updating A Message Type</a>
+<li><a href="#unknowns">Unknown Fields</a>
+<li><a href="#any">Any</a>
+<li><a href="#oneof">Oneof</a>
+<li><a href="#maps">Maps</a>
+<li><a href="#packages">Packages</a>
+<li><a href="#services">Defining Services</a>
+<li><a href="#json">JSON Mapping</a>
+<li><a href="#options">Options</a>
+<li><a href="#generating">Generating Your Classes</a></ul>
+<p>This guide describes how to use the protocol buffer language to structure your protocol buffer data, including <code>.proto</code> file syntax and how to generate data access classes from your <code>.proto</code> files. It covers the <strong>proto3</strong> version of the protocol buffers language: for information on the older <strong>proto2</strong> syntax, see the <a href="https://developers.google.com/protocol-buffers/docs/proto">Proto2 Language Guide</a>.
+<p>This is a reference guide &#8211; for a step by step example that uses many of the features described in this document, see the <a href="https://developers.google.com/protocol-buffers/docs/tutorials">tutorial</a> for your chosen language (currently proto2 only; more proto3 documentation is coming soon).
+
+<!--=========================================================================-->
+<h2 id="simple">Defining A Message Type</h2>
+<p>First let's look at a very simple example. Let's say you want to define a search request message format, where each search request has a query string, the particular page of results you are interested in, and a number of results per page. Here's the <code>.proto</code> file you use to define the message type.
+<pre>syntax = "proto3";
+
+message SearchRequest {
+  string query = 1;
+  int32 page_number = 2;
+  int32 result_per_page = 3;
+}</pre>
+<ul><li>The first line of the file specifies that you're using <code>proto3</code> syntax: if you don't do this the protocol buffer compiler will assume you are using <a href="https://developers.google.com/protocol-buffers/docs/proto">proto2</a>. This must be the first non-empty, non-comment line of the file.
+<li>The <code>SearchRequest</code> message definition specifies three fields (name/value pairs), one for each piece of data that you want to include in this type of message. Each field has a name and a type.
+</ul>
+<h3>Specifying Field Types</h3>
+<p>In the above example, all the fields are <a href="#scalar">scalar types</a>: two integers (<code>page_number</code> and <code>result_per_page</code>) and a string (<code>query</code>).  However, you can also specify composite types for your fields, including <a href="#enum">enumerations</a> and other message types.
+<h3>Assigning Tags</h3>
+<p>As you can see, each field in the message definition has a <strong>unique numbered tag</strong>. These tags are used to identify your fields in the <a href="https://developers.google.com/protocol-buffers/docs/encoding">message binary format</a>, and should not be changed once your message type is in use. Note that tags with values in the range 1 through 15 take one byte to encode, including the identifying number and the field's type (you can find out more about this in <a href="https://developers.google.com/protocol-buffers/docs/encoding.html#structure">Protocol Buffer Encoding</a>). Tags in the range 16 through 2047 take two bytes. So you should reserve the tags 1 through 15 for very frequently occurring message elements. Remember to leave some room for frequently occurring elements that might be added in the future.
+<p>The smallest tag number you can specify is 1, and the largest is 2<sup>29</sup> - 1, or 536,870,911.  You also cannot use the numbers 19000 through 19999 (<code>FieldDescriptor::kFirstReservedNumber</code> through <code>FieldDescriptor::kLastReservedNumber</code>), as they are reserved for the Protocol Buffers implementation - the protocol buffer compiler will complain if you use one of these reserved numbers in your <code>.proto</code>. Similarly, you cannot use any previously <a href="#reserved">reserved</a> tags.
+<h3>Specifying Field Rules</h3>
+<p>Message fields can be one of the following:<ul><li>singular: a well-formed message can have zero or one of this field (but not more than one).<li><code>repeated</code>: this field can be repeated any number of times (including zero) in a well-formed message. The order of the repeated values will be preserved.</ul>
+<p>In proto3, <code>repeated</code> fields of scalar numeric types
+use <code>packed</code> encoding by default.
+<p>You can find out more about <code>packed</code> encoding in <a href="https://developers.google.com/protocol-buffers/docs/encoding.html#packed">Protocol Buffer Encoding</a>.
+<h3>Adding More Message Types</h3>
+<p>Multiple message types can be defined in a single <code>.proto</code> file. This is useful if you are defining multiple related messages &#8211; so, for example, if you wanted to define the reply message format that corresponds to your <code>SearchResponse</code> message type, you could add it to the same <code>.proto</code>:
+<pre>message SearchRequest {
+  string query = 1;
+  int32 page_number = 2;
+  int32 result_per_page = 3;
+}
+
+message SearchResponse {
+ ...
+}</pre>
+<h3>Adding Comments</h3>
+<p>To add comments to your <code>.proto</code> files, use C/C++-style <code>//</code> syntax.
+<pre>message SearchRequest {
+  string query = 1;
+  int32 page_number = 2;  // Which page number do we want?
+  int32 result_per_page = 3;  // Number of results to return per page.
+}</pre>
+
+<h3 id="reserved">Reserved Fields</h3>
+<p>If you <a href="#updating">update</a> a message type by entirely removing a field, or commenting it out, future users can reuse the tag number when making their own updates to the type. This can cause severe issues if they later load old versions of the same <code>.proto</code>, including data corruption, privacy bugs, and so on. One way to make sure this doesn't happen is to specify that the field tags (and/or names, which can also cause issues for JSON serialization) of your deleted fields are <code>reserved</code>. The protocol buffer compiler will complain if any future users try to use these field identifiers.
+<pre>message Foo {
+  reserved 2, 15, 9 to 11;
+  reserved "foo", "bar";
+}</pre>
+<p>Note that you can't mix field names and tag numbers in the same <code>reserved</code> statement.
+
+<h3>What's Generated From Your <code>.proto</code>?</h3>
+<p>When you run the <a href="#generating">protocol buffer compiler</a> on a <code>.proto</code>, the compiler generates the code in your chosen language you'll need to work with the message types you've described in the file, including getting and setting field values, serializing your messages to an output stream, and parsing your messages from an input stream.
+<ul><li>For <strong>C++</strong>, the compiler generates a <code>.h</code> and <code>.cc</code> file from each <code>.proto</code>, with a class for each message type described in your file.
+<li>For <strong>Java</strong>, the compiler generates a <code>.java</code> file with a class for each message type, as well as a special <code>Builder</code> classes for creating message class instances.
+<li><strong>Python</strong> is a little different &#8211; the Python compiler generates a module with a static descriptor of each message type in your <code>.proto</code>, which is then used with a <em>metaclass</em> to create the necessary Python data access class at runtime.
+<li>For <strong>Go</strong>, the compiler generates a <code>.pb.go</code> file with a type for each message type in your file.
+<li>For <strong>Ruby</strong>, the compiler generates a <code>.rb</code> file with a Ruby module containing your message types.
+<li>For <strong>JavaNano</strong>, the compiler output is similar to Java but there are no <code>Builder</code> classes.
+<li>For <strong>Objective-C</strong>, the compiler generates a <code>pbobjc.h</code> and <code>pbobjc.m</code> file from each <code>.proto</code>, with a class for each message type described in your file.
+<li>For <strong>C#</strong>, the compiler generates a <code>.cs</code> file from each <code>.proto</code>, with a class for each message type described in your file.
+</ul>
+<p>You can find out more about using the APIs for each language by following the tutorial for your chosen language (proto3 versions coming soon). For even more API details, see the relevant <a href="https://developers.google.com/protocol-buffers/docs/reference/overview">API reference</a> (proto3 versions also coming soon).
+
+<!--=========================================================================-->
+<h2 id="scalar">Scalar Value Types</h2>
+<p>A scalar message field can have one of the
+following types &#8211; the table shows the type specified in
+the <code>.proto</code> file, and the corresponding type in the
+automatically generated class:
+<table width="50%" border=1>
+<tr><th>.proto Type</th><th>Notes</th><th>C++ Type</th><th>Java Type</th><th>Python Type<sup>[2]</sup></th><th>Go Type</th><th>Ruby Type</th><th>C# Type</th><th>PHP Type</th></tr>
+<tr><td>double</td><td></td><td>double</td><td>double</td><td>float</td><td>float64</td><td>Float</td><td>double</td><td>float</td></tr>
+<tr><td>float</td><td></td><td>float</td><td>float</td><td>float</td><td>float32</td><td>Float</td><td>float</td><td>float</td></tr>
+<tr><td>int32</td><td>Uses variable-length encoding. Inefficient for encoding negative numbers &#8211; if your field is likely to have negative values, use sint32 instead.</td><td>int32</td><td>int</td><td>int</td><td>int32</td><td>Fixnum or Bignum (as required)</td><td>int</td><td>integer</td></tr>
+<tr><td>int64</td><td>Uses variable-length encoding. Inefficient for encoding negative numbers &#8211; if your field is likely to have negative values, use sint64 instead.</td><td>int64</td><td>long</td><td>int/long<sup>[3]</sup></td><td>int64</td><td>Bignum</td><td>long</td><td>integer/string<sup>[5]</sup></td></tr>
+<tr><td>uint32</td><td>Uses variable-length encoding.</td><td>uint32</td><td>int<sup>[1]</sup></td><td>int/long<sup>[3]</sup></td><td>uint32</td><td>Fixnum or Bignum (as required)</td><td>uint</td><td>integer</td></tr>
+<tr><td>uint64</td><td>Uses variable-length encoding.</td><td>uint64</td><td>long<sup>[1]</sup></td><td>int/long<sup>[3]</sup></td><td>uint64</td><td>Bignum</td><td>ulong</td><td>integer/string<sup>[5]</sup></td></tr>
+<tr><td>sint32</td><td>Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int32s.</td><td>int32</td><td>int</td><td>int</td><td>int32</td><td>Fixnum or Bignum (as required)</td><td>int</td><td>integer</td></tr>
+<tr><td>sint64</td><td>Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int64s.</td><td>int64</td><td>long</td><td>int/long<sup>[3]</sup></td><td>int64</td><td>Bignum</td><td>long</td><td>integer/string<sup>[5]</sup></td></tr>
+<tr><td>fixed32</td><td>Always four bytes. More efficient than uint32 if values are often greater than 2<sup>28</sup>.</td><td>uint32</td><td>int<sup>[1]</sup></td><td>int</td><td>uint32</td><td>Fixnum or Bignum (as required)</td><td>uint</td><td>integer</td></tr>
+<tr><td>fixed64</td><td>Always eight bytes. More efficient than uint64 if values are often greater than 2<sup>56</sup>.</td><td>uint64</td><td>long<sup>[1]</sup></td><td>int/long<sup>[3]</sup></td><td>uint64</td><td>Bignum</td><td>ulong</td><td>integer/string<sup>[5]</sup></td></tr>
+<tr><td>sfixed32</td><td>Always four bytes.</td><td>int32</td><td>int</td><td>int</td><td>int32</td><td>Fixnum or Bignum (as required)</td><td>int</td><td>integer</td></tr>
+<tr><td>sfixed64</td><td>Always eight bytes.</td><td>int64</td><td>long</td><td>int/long<sup>[3]</sup></td><td>int64</td><td>Bignum</td><td>long</td><td>integer/string<sup>[5]</sup></td></tr>
+<tr><td>bool</td><td></td><td>bool</td><td>boolean</td><td>bool</td><td>bool</td><td>TrueClass/FalseClass</td><td>bool</td><td>boolean</td></tr>
+<tr><td>string</td><td>A string must always contain UTF-8 encoded or 7-bit ASCII text.</td><td>string</td><td>String</td><td>str/unicode<sup>[4]</sup></td><td>string</td><td>String (UTF-8)</td><td>string</td><td>string</td></tr>
+<tr><td>bytes</td><td>May contain any arbitrary sequence of bytes.</td><td>string</td><td>ByteString</td><td>str</td><td>[]byte</td><td>String (ASCII-8BIT)</td><td>ByteString</td><td>string</td></tr>
+</table>
+<p>You can find out more about how these types are encoded when you serialize your message in <a href="https://developers.google.com/protocol-buffers/docs/encoding">Protocol Buffer Encoding</a>.
+<p><sup>[1]</sup> In Java, unsigned 32-bit and 64-bit integers are represented using their signed counterparts, with the top bit simply being stored in the sign bit.</p>
+<p><sup>[2]</sup> In all cases, setting values to a field will perform type checking to make sure it is valid.</p>
+<p><sup>[3]</sup> 64-bit or unsigned 32-bit integers are always represented as long when decoded, but can be an int if an int is given when setting the field. In all cases, the value must fit in the type represented when set. See [2].</p>
+<p><sup>[4]</sup> Python strings are represented as unicode on decode but can be str if an ASCII string is given (this is subject to change).</p>
+<p><sup>[5]</sup> Integer is used on 64-bit machines and string is used on 32-bit machines.</p>
+
+<!--=========================================================================-->
+<h2 id="default">Default Values</h2>
+<p>When a message is parsed, if the encoded message does not contain a particular singular element, the corresponding field in the parsed object is set to the default value for that field. These defaults are type-specific:
+<ul><li>For strings, the default value is the empty string.
+<li>For bytes, the default value is empty bytes.
+<li>For bools, the default value is false.
+<li>For numeric types, the default value is zero.
+<li>For <a href="#enum">enums</a>, the default value is the <strong>first defined enum value</strong>, which must be 0.
+<li>For message fields, the field is not set. Its exact value is language-dependent. See the <a href="https://developers.google.com/protocol-buffers/docs/reference/overview">generated code guide</a> for details.
+</ul>
+<p>The default value for repeated fields is empty (generally an empty list in the appropriate language).
+<p>Note that for scalar message fields, once a message is parsed there's no way of telling whether a field was explicitly set to the default value (for example whether a boolean was set to <code>false</code>) or just not set at all: you should bear this in mind when defining your message types. For example, don't have a boolean that switches on some behaviour when set to <code>false</code> if you don't want that behaviour to also happen by default. Also note that if a scalar message field <strong>is</strong> set to its default, the value will not be serialized on the wire.
+<p>See the <a href="https://developers.google.com/protocol-buffers/docs/reference/overview">generated code guide</a> for your chosen language for more details about how defaults work in generated code.
+
+<!--=========================================================================-->
+<h2 id="enum">Enumerations</h2>
+<p>When you're defining a message type, you might want one of its fields to only have one of a
+pre-defined list of values.  For example, let's say you want to add a
+<code>corpus</code> field for each <code>SearchRequest</code>, where the corpus can be
+<code>UNIVERSAL</code>, <code>WEB</code>, <code>IMAGES</code>, <code>LOCAL</code>, <code>NEWS</code>, <code>PRODUCTS</code> or <code>VIDEO</code>.  You can do this very simply by adding an <code>enum</code> to your message definition with a constant for each possible value.
+
+<p>In the following example we've added an <code>enum</code> called <code>Corpus</code> with all the possible values, and a field of type <code>Corpus</code>:
+<pre>message SearchRequest {
+  string query = 1;
+  int32 page_number = 2;
+  int32 result_per_page = 3;
+  enum Corpus {
+    UNIVERSAL = 0;
+    WEB = 1;
+    IMAGES = 2;
+    LOCAL = 3;
+    NEWS = 4;
+    PRODUCTS = 5;
+    VIDEO = 6;
+  }
+  Corpus corpus = 4;
+}
+</pre>
+<p>As you can see, the <code>Corpus</code> enum's first constant maps to zero: every enum definition <strong>must</strong> contain a constant that maps to zero as its first element. This is because:
+<ul><li>There must be a zero value, so that we can use 0 as a numeric <a href="#default">default value</a>.
+<li>The zero value needs to be the first element, for compatibility with the <a href="https://developers.google.com/protocol-buffers/docs/proto">proto2</a> semantics where the first enum value is always the default.
+</ul>
+<p>You can define aliases by assigning the same value to different enum constants. To do this you need to set the <code>allow_alias</code> option to <code>true</code>, otherwise the protocol compiler will generate an error message when aliases are found.
+<pre>enum EnumAllowingAlias {
+  option allow_alias = true;
+  UNKNOWN = 0;
+  STARTED = 1;
+  RUNNING = 1;
+}
+enum EnumNotAllowingAlias {
+  UNKNOWN = 0;
+  STARTED = 1;
+  // RUNNING = 1;  // Uncommenting this line will cause a compile error inside Google and a warning message outside.
+}
+</pre>
+<p>Enumerator constants must be in the range of a 32-bit integer. Since <code>enum</code> values use <a href="https://developers.google.com/protocol-buffers/docs/encoding">varint encoding</a> on the wire, negative values are inefficient and thus not recommended.  You can define <code>enum</code>s within a message definition, as in the above example, or outside &#8211; these <code>enum</code>s can be reused in any message definition in your <code>.proto</code> file. You can also use an <code>enum</code> type declared in one message as the type of a field in a different message, using the syntax <code><em>MessageType</em>.<em>EnumType</em></code>.
+<p>When you run the protocol buffer compiler on a <code>.proto</code> that uses an <code>enum</code>, the generated code will have a corresponding <code>enum</code> for Java or C++, a special <code>EnumDescriptor</code> class for Python that's used to create a set of symbolic constants with integer values in the runtime-generated class.
+<p>During deserialization, unrecognized enum values will be preserved in the message, though how this is represented when the message is deserialized is language-dependent. In languages that support open enum types with values outside the range of specified symbols, such as C++ and Go, the unknown enum value is simply stored as its underlying integer representation. In languages with closed enum types such as Java, a case in the enum is used to represent an unrecognized value, and the underlying integer can be accessed with special accessors. In either case, if the message is serialized the unrecognized value will still be serialized with the message.
+<p>For more information about how to work with message <code>enum</code>s in your applications, see the <a href="https://developers.google.com/protocol-buffers/docs/reference/overview">generated code guide</a> for your chosen language.
+
+<!--=========================================================================-->
+<h2 id="other">Using Other Message Types</h2>
+<p>You can use other message types as field types. For example, let's say you wanted to include <code>Result</code> messages in each <code>SearchResponse</code> message &#8211; to do this, you can define a <code>Result</code> message type in the same <code>.proto</code> and then specify a field of type <code>Result</code> in <code>SearchResponse</code>:
+<pre>message SearchResponse {
+  repeated Result results = 1;
+}
+
+message Result {
+  string url = 1;
+  string title = 2;
+  repeated string snippets = 3;
+}</pre>
+<h3>Importing Definitions</h3>
+<p>In the above example, the <code>Result</code> message type is defined in the same file as <code>SearchResponse</code> &#8211; what if the message type you want to use as a field type is already defined in another <code>.proto</code> file?
+<p>You can use definitions from other <code>.proto</code> files by <em>importing</em> them.  To import another <code>.proto</code>'s definitions, you add an import statement to the top of your file:
+<pre>import "myproject/other_protos.proto";</pre>
+<p>By default you can only use definitions from directly imported <code>.proto</code> files. However, sometimes you may need to move a <code>.proto</code> file to a new location. Instead of moving the <code>.proto</code> file directly and updating all the call sites in a single change, now you can put a dummy <code>.proto</code> file in the old location to forward all the imports to the new location using the <code>import public</code> notion. <code>import public</code> dependencies can be transitively relied upon by anyone importing the proto containing the <code>import public</code> statement. For example:
+<pre>// new.proto
+// All definitions are moved here</pre>
+<pre>// old.proto
+// This is the proto that all clients are importing.
+import public "new.proto";
+import "other.proto";</pre>
+<pre>// client.proto
+import "old.proto";
+// You use definitions from old.proto and new.proto, but not other.proto</pre>
+<p>The protocol compiler searches for imported files in a set of directories
+specified on the protocol compiler command line using the
+<code>-I</code>/<code>--proto_path</code> flag. If no flag was given, it looks
+in the directory in which the compiler was invoked. In general you should set
+the <code>--proto_path</code> flag to the root of your project and use fully
+qualified names for all imports.</p>
+
+<h3>Using proto2 Message Types</h3>
+<p>It's possible to import <a href="https://developers.google.com/protocol-buffers/docs/proto">proto2</a> message types and use them in your proto3 messages, and vice versa. However, proto2 enums cannot be used directly in proto3 syntax (it's okay if an imported proto2 message uses them).
+
+<!--=========================================================================-->
+<h2 id="nested">Nested Types</h2>
+<p>You can define and use message types inside other message types, as in the following example &#8211; here the <code>Result</code> message is defined inside the <code>SearchResponse</code> message:
+<pre>message SearchResponse {
+  message Result {
+    string url = 1;
+    string title = 2;
+    repeated string snippets = 3;
+  }
+  repeated Result results = 1;
+}</pre>
+<p>If you want to reuse this message type outside its parent message type, you refer to it as <code><em>Parent</em>.<em>Type</em></code>:
+<pre>message SomeOtherMessage {
+  SearchResponse.Result result = 1;
+}</pre>
+<p>You can nest messages as deeply as you like:
+<pre>
+message Outer {                  // Level 0
+  message MiddleAA {  // Level 1
+    message Inner {   // Level 2
+      int64 ival = 1;
+      bool  booly = 2;
+    }
+  }
+  message MiddleBB {  // Level 1
+    message Inner {   // Level 2
+      int32 ival = 1;
+      bool  booly = 2;
+    }
+  }
+}
+</pre>
+
+<!--=========================================================================-->
+<h2 id="updating">Updating A Message Type</h2>
+<p>If an existing message type no longer meets all your needs &#8211; for example, you'd like the message format to have an extra field &#8211; but you'd still like to use code created with the old format, don't worry!  It's very simple to update message types without breaking any of your existing code. Just remember the following rules:
+<ul><li>Don't change the numeric tags for any existing fields.
+<li>If you add new fields, any messages serialized by code using your "old" message format can still be parsed by your new generated code.  You should keep in mind the <a href="#default">default values</a> for these elements so that new code can properly interact with messages generated by old code. Similarly, messages created by your new code can be parsed by your old code: old binaries simply ignore the new field when parsing. See the <a href="#unknowns">Unknown Fields</a> section for details.
+<li>Fields can be removed, as long as the tag number is not used again in your updated message type. You may want to rename the field instead, perhaps adding the prefix "OBSOLETE_", or make the tag <a href="#reserved">reserved</a>, so that future users of your <code>.proto</code> can't accidentally reuse the number.
+<li><code>int32</code>, <code>uint32</code>, <code>int64</code>, <code>uint64</code>, and <code>bool</code> are all compatible &#8211; this means you can change a field from one of these types to another without breaking forwards- or backwards-compatibility.  If a number is parsed from the wire which doesn't fit in the corresponding type, you will get the same effect as if you had cast the number to that type in C++ (e.g. if a 64-bit number is read as an int32, it will be truncated to 32 bits).
+<li><code>sint32</code> and <code>sint64</code> are compatible with each other but are <i>not</i> compatible with the other integer types.
+<li><code>string</code> and <code>bytes</code> are compatible as long as the bytes are valid UTF-8.
+<li>Embedded messages are compatible with <code>bytes</code> if the bytes contain an encoded version of the message.
+<li><code>fixed32</code> is compatible with <code>sfixed32</code>, and <code>fixed64</code> with <code>sfixed64</code>.
+<li><code>enum</code> is compatible with <code>int32</code>, <code>uint32</code>, <code>int64</code>, and <code>uint64</code> in terms of wire format (note that values will be truncated if they don't fit). However be aware that client code may treat them differently when the message is deserialized: for example, unrecognized proto3 <code>enum</code> types will be preserved in the message, but how this is represented when the message is deserialized is language-dependent. Int fields always just preserve their value.
+</ul>
+
+<!--=========================================================================-->
+<h2 id="unknowns">Unknown Fields</h2>
+<p>Unknowns fields are well-formed protocol buffers serialized data representing fields that the parser does not recognize. For example, when an old binary parses data sent by a new binary with new fields, those new fields become unknown fields in the old binary.
+
+<p>Proto3 implementations can parse messages with unknown fields successfully, however, implementations may or may not support preserving those unknown fields. You should not rely on unknown fields being preserved or dropped. For most Google protocol buffers implementations, unknown fields are not accessible in proto3 via the corresponding proto runtimes, and are dropped and forgotten at deserialization time. This is different behaviour to <a href="https://developers.google.com/protocol-buffers/docs/proto">proto2</a>, where unknown fields are always preserved and serialized along with the message.
+
+<!--=========================================================================-->
+<h2 id="any">Any</h2>
+
+<p>The <code>Any</code> message type lets you use messages as embedded types without having their .proto definition. An <code>Any</code> contains an arbitrary serialized message as <code>bytes</code>, along with a URL that acts as a globally unique identifier for and resolves to that message's type. To use the <code>Any</code> type, you need to <a href="#other">import</a> <code>google/protobuf/any.proto</code>.
+<pre class="prettyprint">import "google/protobuf/any.proto";
+
+message ErrorStatus {
+  string message = 1;
+  repeated google.protobuf.Any details = 2;
+}</pre>
+<p>The default type URL for a given message type is <code>type.googleapis.com/<em>packagename</em>.<em>messagename</em></code>.
+<p>Different language implementations will support runtime library helpers to pack and unpack Any values in a typesafe manner &#8211; for example, in Java, the Any type will have special <code>pack()</code> and <code>unpack()</code> accessors, while in C++ there are <code>PackFrom()</code> and <code>UnpackTo()</code> methods:
+<pre class="prettyprint">
+// Storing an arbitrary message type in Any.
+NetworkErrorDetails details = ...;
+ErrorStatus status;
+status.add_details()-&gt;PackFrom(details);
+
+// Reading an arbitrary message from Any.
+ErrorStatus status = ...;
+for (const Any& detail : status.details()) {
+  if (detail.Is&lt;NetworkErrorDetails&gt;()) {
+    NetworkErrorDetails network_error;
+    detail.UnpackTo(&network_error);
+    ... processing network_error ...
+  }
+}
+</pre>
+<p><strong>Currently the runtime libraries for working with Any types are under development</strong>.
+<p>If you are already familiar with <a href="https://developers.google.com/protocol-buffers/docs/proto">proto2 syntax</a>, the Any type replaces <a href="https://developers.google.com/protocol-buffers/docs/proto#extensions">extensions</a>.
+
+
+<!--TODO: Add section on other Well Known Types when available-->
+
+
+<!--=========================================================================-->
+<h2 id="oneof">Oneof</h2>
+<p>If you have a message with many fields and where at most one field will be set at the same time, you can enforce this behavior and save memory by using the oneof feature.
+<p>Oneof fields are like regular fields except all the fields in a oneof share memory, and at most one field can be set at the same time. Setting any member of the oneof automatically clears all the other members. You can check which value in a oneof is set (if any) using a special <code>case()</code> or <code>WhichOneof()</code> method, depending on your chosen language.
+<h3>Using Oneof</h3>
+<p>To define a oneof in your <code>.proto</code> you use the <code>oneof</code> keyword followed by your oneof name, in this case <code>test_oneof</code>:
+<pre class="prettyprint">message SampleMessage {
+  oneof test_oneof {
+    string name = 4;
+    SubMessage sub_message = 9;
+  }
+}</pre>
+<p>You then add your oneof fields to the oneof definition. You can add fields of any type, but cannot use <code>repeated</code> fields.
+<p>In your generated code, oneof fields have the same getters and setters as regular fields. You also get a special method for checking which value (if any) in the oneof is set. You can find out more about the oneof API for your chosen language in the relevant <a href="https://developers.google.com/protocol-buffers/docs/reference/overview">API reference</a>.
+<h3>Oneof Features</h3>
+<ul><li>Setting a oneof field will automatically clear all other members of the oneof. So if you set several oneof fields, only the <em>last</em> field you set will still have a value.
+<pre class="prettyprint">SampleMessage message;
+message.set_name("name");
+CHECK(message.has_name());
+message.mutable_sub_message();   // Will clear name field.
+CHECK(!message.has_name());</pre>
+<li>If the parser encounters multiple members of the same oneof on the wire, only the last member seen is used in the parsed message.
+<li>A oneof cannot be <code>repeated</code>.
+<li>Reflection APIs work for oneof fields.
+<li>If you're using C++, make sure your code doesn't cause memory crashes. The following sample code will crash because <code>sub_message</code> was already deleted by calling the <code>set_name()</code> method.
+<pre class="prettyprint">SampleMessage message;
+SubMessage* sub_message = message.mutable_sub_message();
+message.set_name("name");      // Will delete sub_message
+sub_message->set_...            // Crashes here</pre>
+<li>Again in C++, if you <code>Swap()</code> two messages with oneofs, each message will end up with the other’s oneof case: in the example below, <code>msg1</code> will have a <code>sub_message</code> and <code>msg2</code> will have a <code>name</code>.
+<pre class="prettyprint">SampleMessage msg1;
+msg1.set_name("name");
+SampleMessage msg2;
+msg2.mutable_sub_message();
+msg1.swap(&msg2);
+CHECK(msg1.has_sub_message());
+CHECK(msg2.has_name());</pre>
+</ul>
+<h3>Backwards-compatibility issues</h3>
+<p>Be careful when adding or removing oneof fields. If checking the value of a oneof returns <code>None</code>/<code>NOT_SET</code>, it could mean that the oneof has not been set or it has been set to a field in a different version of the oneof. There is no way to tell the difference, since there's no way to know if an unknown field on the wire is a member of the oneof.
+<h4>Tag Reuse Issues</h4>
+<ul><li><strong>Move fields into or out of a oneof</strong>: You may lose some of your information (some fields will be cleared) after the message is serialized and parsed.
+<li><strong>Delete a oneof field and add it back</strong>: This may clear your currently set oneof field after the message is serialized and parsed.
+<li><strong>Split or merge oneof</strong>: This has similar issues to moving regular fields.
+</ul>
+
+<!--=========================================================================-->
+<h2 id="maps">Maps</h2>
+<p>If you want to create an associative map as part of your data definition, protocol buffers provides a handy shortcut syntax:
+<pre class="prettyprint">
+map&lt;key_type, value_type&gt; map_field = N;
+</pre>
+<p>...where the <code>key_type</code> can be any integral or string type (so, any <A href="#scalar">scalar</a> type except for floating point types and <code>bytes</code>). The <code>value_type</code> can be any type except another map.
+<p>So, for example, if you wanted to create a map of projects where each <code>Project</code> message is associated with a string key, you could define it like this:
+<pre class="prettyprint">map&lt;string, Project&gt; projects = 3;
+</pre>
+<ul>
+<li>Map fields cannot be <code>repeated</code>.
+<li>Wire format ordering and map iteration ordering of map values is undefined, so you cannot rely on your map items being in a particular order.
+<li>When generating text format for a <code>.proto</code>, maps are sorted by key. Numeric keys are sorted numerically.
+<li>When parsing from the wire or when merging, if there are duplicate map keys the last key seen is used. When parsing a map from text format, parsing may fail if there are duplicate keys.
+</ul>
+<p>The generated map API is currently available for all proto3 supported languages. You can find out more about the map API for your chosen language in the relevant <a href="https://developers.google.com/protocol-buffers/docs/reference/overview">API reference</a>.
+<h3>Backwards compatibility</h3>
+<p>The map syntax is equivalent to the following on the wire, so protocol buffers implementations that do not support maps can still handle your data:
+<pre class="prettyprint">
+message MapFieldEntry {
+  key_type key = 1;
+  value_type value = 2;
+}
+
+repeated MapFieldEntry map_field = N;
+</pre>
+
+<!--=========================================================================-->
+<h2 id="packages">Packages</h2>
+<p>You can add an optional <code>package</code> specifier to a <code>.proto</code> file to prevent name clashes between protocol message types.
+<pre>package foo.bar;
+message Open { ... }</pre>
+<p>You can then use the package specifier when defining fields of your message type:
+<pre>message Foo {
+  ...
+  foo.bar.Open open = 1;
+  ...
+}</pre>
+<p>The way a package specifier affects the generated code depends on your chosen language:<ul>
+<li>In <strong>C++</strong> the generated classes are wrapped inside a C++ namespace.  For example, <code>Open</code> would be in the namespace <code>foo::bar</code>.
+<li>In <strong>Java</strong>, the package is used as the Java package, unless you explicitly provide an <code>option java_package</code> in your <code>.proto</code> file.
+<li>In <strong>Python</strong>, the package directive is ignored, since Python modules are organized according to their location in the file system.
+<li>In <strong>Go</strong>, the package is used as the Go package name, unless you explicitly provide an <code>option go_package</code> in your <code>.proto</code> file.
+<li>In <strong>Ruby</strong>, the generated classes are wrapped inside nested Ruby namespaces, converted to the required Ruby capitalization style (first letter capitalized; if the first character is not a letter, <code>PB_</code> is prepended). For example, <code>Open</code> would be in the namespace <code>Foo::Bar</code>.
+<li>In <strong>JavaNano</strong> the package is used as the Java package, unless you explicitly provide an <code>option java_package</code> in your <code>.proto</code> file.
+<li>In <strong>C#</strong> the package is used as the namespace after converting to PascalCase, unless you explicitly provide an <code>option csharp_namespace</code> in your <code>.proto</code> file. For example, <code>Open</code> would be in the namespace <code>Foo.Bar</code>.
+</ul>
+<h3>Packages and Name Resolution</h3>
+<p>Type name resolution in the protocol buffer language works like C++: first the innermost scope is searched, then the next-innermost, and so on, with each package considered to be "inner" to its parent package.  A leading '.' (for example, <code>.foo.bar.Baz</code>) means to start from the outermost scope instead.
+<p>The protocol buffer compiler resolves all type names by parsing the imported <code>.proto</code> files.  The code generator for each language knows how to refer to each type in that language, even if it has different scoping rules.
+
+<!--=========================================================================-->
+<h2 id="services">Defining Services</h2>
+<p>If you want to use your message types with an RPC (Remote Procedure Call) system, you can define an RPC service interface in a <code>.proto</code> file and the protocol buffer compiler will generate service interface code and stubs in your chosen language.  So, for example, if you want to define an RPC service with a method that takes your <code>SearchRequest</code> and returns a <code>SearchResponse</code>, you can define it in your <code>.proto</code> file as follows:
+<pre>service SearchService {
+  rpc Search (SearchRequest) returns (SearchResponse);
+}</pre>
+<p>The most straightforward RPC system to use with protocol buffers is <a href="https://github.com/grpc/grpc-common">gRPC</a>: a language- and platform-neutral open source RPC system developed at Google.  gRPC works particularly well with protocol buffers and lets you generate the relevant RPC code directly from your <code>.proto</code> files using a special protocol buffer compiler plugin.
+<p>If you don't want to use gRPC, it's also possible to use protocol buffers with your own RPC implementation. You can find out more about this in the <a href="https://developers.google.com/protocol-buffers/docs/proto#services">Proto2 Language Guide</a>.
+<p>There are also a number of ongoing third-party projects to develop RPC implementations for Protocol Buffers.  For a list of links to projects we know about, see the <A href="https://github.com/google/protobuf/blob/master/docs/third_party.md">third-party add-ons wiki page</a>.
+
+<!--=========================================================================-->
+<h2 id="json">JSON Mapping</h2>
+
+<!--Need more info here about what's actually available in generated runtime code terms for which languages, also probably a more detailed example. Also this is basically just the text from the design doc (minus the not available yet well known types), is there anything else that should go in to the table?-->
+
+<p>Proto3 supports a canonical encoding in JSON, making it easier to share data between systems. The encoding is described on a type-by-type basis in the table below.
+
+<p>If a value is missing in the JSON-encoded data or if its value is <code>null</code>, it will be interpreted as the appropriate <a href="#default">default value</a> when parsed into a protocol buffer.
+If a field has the default value in the protocol buffer, it will be omitted in the JSON-encoded data by default to save space.
+An implementation may provide options to emit fields with default values in the JSON-encoded output.
+</p>
+
+<table border=1>
+<tr><th>proto3</th><th>JSON</th><th width="25%">JSON example</th><th>Notes</th></tr>
+<tr><td>message</td><td>object</td><td><code>{"fBar": v,
+ "g": null,
+ …}</code>
+</td><td>Generates JSON objects. Message field names are mapped to lowerCamelCase and become JSON object keys. <code>null</code> is accepted and treated as the default value of the corresponding field type.</td></tr>
+<tr><td>enum</td><td>string</td><td><code>"FOO_BAR"</code></td><td>The name of the enum value as specified in proto is used.</td></tr>
+<tr><td>map&lt;K,V&gt;</td><td>object</td><td><code>{"k": v, …}</code></td><td>All keys are converted to strings.</td></tr>
+<tr><td>repeated V</td><td>array</td><td><code>[v, …]</code></td><td><code>null</code> is accepted as the empty list [].</td></tr>
+<tr><td>bool</td><td>true, false</td><td><code>true, false</code></td><td></td></tr>
+<tr><td>string</td><td>string</td><td><code>"Hello World!"</code></td><td></td></tr>
+<tr><td>bytes</td><td>base64 string</td><td><code>"YWJjMTIzIT8kKiYoKSctPUB+"</code></td><td>JSON value will be the data encoded as a string using standard base64 encoding with paddings. Either standard or URL-safe base64 encoding with/without paddings are accepted.</td></tr>
+<tr><td>int32, fixed32, uint32</td><td>number</td><td><code>1, -10, 0</code></td><td>JSON value will be a decimal number. Either numbers or strings are accepted.</td></tr>
+<tr><td>int64, fixed64, uint64</td><td>string</td><td><code>"1", "-10"</code></td><td>JSON value will be a decimal string. Either numbers or strings are accepted.</td></tr>
+<tr><td>float, double</td><td>number</td><td><code>1.1, -10.0, 0, "NaN", "Infinity"</code></td><td>JSON value will be a number or one of the special string values "NaN", "Infinity", and "-Infinity". Either numbers or strings are accepted. Exponent notation is also accepted. </td></tr>
+<tr><td>Any</td><td><code>object</code></td><td><code>{"@type": "url", "f": v, … }</code></td><td>If the Any contains a value that has a special JSON mapping, it will be converted as follows: <code>{"@type": xxx, "value": yyy}</code>. Otherwise, the value will be converted into a JSON object, and the <code>"@type"</code> field will be inserted to indicate the actual data type.</td></tr>
+<tr><td>Timestamp</td><td>string</td><td><code>"1972-01-01T10:00:20.021Z"</code></td><td>Uses RFC 3339, where generated output will always be Z-normalized and uses 0, 3, 6 or 9 fractional digits.</td></tr>
+<tr><td>Duration</td><td>string</td><td><code>"1.000340012s", "1s"</code></td><td>Generated output always contains 0, 3, 6, or 9 fractional digits, depending on required precision. Accepted are any fractional digits (also none) as long as they fit into nano-seconds precision.</td></tr>
+<tr><td>Struct</td><td><code>object</code></td><td><code>{ … }</code></td><td>Any JSON object. See <code>struct.proto</code>.</td></tr><!--TODO: add link once we've figured out where we're putting doc for provided proto types-->
+<tr><td>Wrapper types</td><td>various types</td><td><code>2, "2", "foo", true, "true", null, 0, …</code></td><td>Wrappers use the same representation in JSON as the wrapped primitive type, except that <code>null</code> is allowed and preserved during data conversion and transfer.</td></tr>
+<tr><td>FieldMask</td><td>string</td><td><code>"f.fooBar,h"</code></td><td>See <code>fieldmask.proto</code>.</td></tr><!--TODO: add link once we've figured out where we're putting doc for provided proto types-->
+<tr><td>ListValue</td><td>array</td><td><code>[foo, bar, …]</code></td></td><td></td></tr>
+<tr><td>Value</td><td>value</td><td></td><td>Any JSON value</td></tr>
+<tr><td>NullValue</td><td>null</td><td></td><td>JSON null</td></tr>
+</table>
+
+<!--=========================================================================-->
+<h2 id="options">Options</h2>
+<p>Individual declarations in a <code>.proto</code> file can be annotated with a number of <em>options</em>.  Options do not change the overall meaning of a declaration, but may affect the way it is handled in a particular context.  The complete list of available options is defined in <code>google/protobuf/descriptor.proto</code>.
+
+<p>Some options are file-level options, meaning they should be written at the top-level scope, not inside any message, enum, or service definition.  Some options are message-level options, meaning they should be written inside message definitions.  Some options are field-level options, meaning they should be written inside field definitions.  Options can also be written on enum types, enum values, service types, and service methods; however, no useful options currently exist for any of these.
+
+<p>Here are a few of the most commonly used options:
+
+<ul>
+  <li><code>java_package</code> (file option): The package you want to use for your generated Java classes. If no explicit <code>java_package</code> option is given in the <code>.proto</code> file, then by default the proto package (specified using the "package" keyword in the <code>.proto</code> file) will be used.  However, proto packages generally do not make good Java packages since proto packages are not expected to start with reverse domain names.  If not generating Java code, this option has no effect.
+    <pre>option java_package = "com.example.foo";</pre>
+
+  <li><code>java_multiple_files</code> (file option): Causes top-level messages, enums, and services to be defined at the package level, rather than inside an outer class named after the .proto file.</li>
+    <pre>option java_multiple_files = true;</pre>
+
+  <li><code>java_outer_classname</code> (file option): The class name for the outermost Java class (and hence the file name) you want to generate. If no explicit <code>java_outer_classname</code> is specified in the <code>.proto</code> file, the class name will be constructed by converting the <code>.proto</code> file name to camel-case (so <code>foo_bar.proto</code> becomes <code>FooBar.java</code>).  If not generating Java code, this option has no effect.
+    <pre>option java_outer_classname = "Ponycopter";</pre>
+
+  <li><code>optimize_for</code> (file option): Can be set to <code>SPEED</code>, <code>CODE_SIZE</code>, or <code>LITE_RUNTIME</code>.  This affects the C++ and Java code generators (and possibly third-party generators) in the following ways:
+    <ul>
+      <li><code>SPEED</code> (default):  The protocol buffer compiler will generate code for serializing, parsing, and performing other common operations on your message types.  This code is highly optimized.</li>
+      <li><code>CODE_SIZE</code>:  The protocol buffer compiler will generate minimal classes and will rely on shared, reflection-based code to implement serialialization, parsing, and various other operations.  The generated code will thus be much smaller than with <code>SPEED</code>, but operations will be slower.  Classes will still implement exactly the same public API as they do in <code>SPEED</code> mode.  This mode is most useful in apps that contain a very large number <code>.proto</code> files and do not need all of them to be blindingly fast.</li>
+      <li><code>LITE_RUNTIME</code>:  The protocol buffer compiler will generate classes that depend only on the "lite" runtime library (<code>libprotobuf-lite</code> instead of <code>libprotobuf</code>).  The lite runtime is much smaller than the full library (around an order of magnitude smaller) but omits certain features like descriptors and reflection.  This is particularly useful for apps running on constrained platforms like mobile phones.  The compiler will still generate fast implementations of all methods as it does in <code>SPEED</code> mode.  Generated classes will only implement the <code>MessageLite</code> interface in each language, which provides only a subset of the methods of the full <code>Message</code> interface.</li>
+    </ul>
+    <pre>option optimize_for = CODE_SIZE;</pre>
+<li><code>cc_enable_arenas</code> (file option): Enables <a href="https://developers.google.com/protocol-buffers/docs/reference/arenas">arena allocation</a> for C++ generated code.
+  <li><code>objc_class_prefix</code> (file option): Sets the Objective-C class prefix which is prepended to all Objective-C generated classes and enums from this .proto. There is no default. You should use prefixes that are between 3-5 uppercase characters as <a href="https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/Conventions/Conventions.html#//apple_ref/doc/uid/TP40011210-CH10-SW4">recommended by Apple</a>. Note that all 2 letter prefixes are reserved by Apple.
+  <li><code>deprecated</code> (field option):  If set to <code>true</code>, indicates that the field is deprecated and should not be used by new code. In most languages this has no actual effect. In Java, this becomes a <code>@Deprecated</code> annotation. In the future, other language-specific code generators may generate deprecation annotations on the field's accessors, which will in turn cause a warning to be emitted when compiling code which attempts to use the field. If the field is not used by anyone and you want to prevent new users from using it, consider replacing the field declaration with a <a href="#reserved">reserved</a> statement.
+    <pre>int32 old_field = 6 [deprecated=true];</pre>
+</ul>
+
+<h3 id="custom_options">Custom Options</h3>
+
+<p>Protocol Buffers also allows you to define and use your own options. This is an <b>advanced feature</b> which most people don't need. If you do think you need to create your own options, see the <a href="https://developers.google.com/protocol-buffers/docs/proto.html#customoptions">Proto2 Language Guide</a> for details. Note that creating custom options uses <a href="https://developers.google.com/protocol-buffers/docs/proto.html#extensions">extensions</a>, which are permitted only for custom options in proto3.
+
+<h2 id="generating">Generating Your Classes</h2>
+<p>To generate the Java, Python, C++, Go, Ruby, JavaNano, Objective-C, or C# code you need to work with the message types defined in a <code>.proto</code> file, you need to run the protocol buffer compiler <code>protoc</code> on the <code>.proto</code>. If you haven't installed the compiler, <a href="https://developers.google.com/protocol-buffers/docs/downloads.html">download the package</a> and follow the instructions in the README. For Go, you also need to install a special code generator plugin for the compiler: you can find this and installation instructions in the <a href="https://github.com/golang/protobuf/">golang/protobuf</a> repository on GitHub.
+<p>The Protocol Compiler is invoked as follows:
+<pre>protoc --proto_path=<em>IMPORT_PATH</em> --cpp_out=<em>DST_DIR</em> --java_out=<em>DST_DIR</em> --python_out=<em>DST_DIR</em> --go_out=<em>DST_DIR</em> --ruby_out=<em>DST_DIR</em> --javanano_out=<em>DST_DIR</em> --objc_out=<em>DST_DIR</em> --csharp_out=<em>DST_DIR</em> <em>path/to/file</em>.proto</pre>
+
+<ul>
+  <li><code>IMPORT_PATH</code> specifies a directory in which to look for <code>.proto</code> files when resolving <code>import</code> directives.  If omitted, the current directory is used.  Multiple import directories can be specified by passing the <code>--proto_path</code> option multiple times; they will be searched in order.  <code>-I=<em>IMPORT_PATH</em></code> can be used as a short form of <code>--proto_path</code>.
+  <li>You can provide one or more <em>output directives</em>:
+    <ul>
+      <li><code>--cpp_out</code> generates C++ code in <code>DST_DIR</code>.  See the <a href="https://developers.google.com/protocol-buffers/docs/reference/cpp-generated">C++ generated code reference</a> for more.
+      <li><code>--java_out</code> generates Java code in <code>DST_DIR</code>.  See the <a href="https://developers.google.com/protocol-buffers/docs/reference/java-generated">Java generated code reference</a> for more.
+      <li><code>--python_out</code> generates Python code in <code>DST_DIR</code>.  See the <a href="https://developers.google.com/protocol-buffers/docs/reference/python-generated">Python generated code reference</a> for more.
+      <li><code>--go_out</code> generates Go code in <code>DST_DIR</code>. See the <a href="https://developers.google.com/protocol-buffers/docs/reference/go-generated">Go generated code reference</a> for more.
+      <li><code>--ruby_out</code> generates Ruby code in <code>DST_DIR</code>. Ruby generated code reference is coming soon!
+      <li><code>--javanano_out</code> generates JavaNano code in <code>DST_DIR</code>. The JavaNano code generator has a number of options you can use to customize the generator output: you can find out more about these in the generator <a href="https://github.com/google/protobuf/tree/master/javanano">README</a>. JavaNano generated code reference is coming soon!
+      <li><code>--objc_out</code> generates Objective-C code in <code>DST_DIR</code>. See the <a href="https://developers.google.com/protocol-buffers/docs/reference/objective-c-generated">Objective-C generated code reference</a> for more.
+      <li><code>--csharp_out</code> generates C# code in <code>DST_DIR</code>. See the <a href="https://developers.google.com/protocol-buffers/docs/reference/csharp-generated">C# generated code reference</a> for more.
+      <li><code>--php_out</code> generates PHP code in <code>DST_DIR</code>. See the <a href="https://developers.google.com/protocol-buffers/docs/reference/php-generated">PHP generated code reference</a> for more.
+    </ul>
+    As an extra convenience, if the <code>DST_DIR</code> ends in <code>.zip</code>
+    or <code>.jar</code>, the compiler will write the output to a single
+    ZIP-format archive file with the given name.  <code>.jar</code> outputs will
+    also be given a manifest file as required by the Java JAR specification.
+    Note that if the output archive already exists, it will be overwritten; the
+    compiler is not smart enough to add files to an existing archive.
+  <li>You must provide one or more <code>.proto</code> files as input. Multiple <code>.proto</code> files can be specified at once.  Although the files are named relative to the current directory, each file must reside in one of the <code>IMPORT_PATH</code>s so that the compiler can determine its canonical name.
+</ul>
+  
+  </div>
+  
+
+  
+        
+  
+
+
+
+
+
+
+
+        
+<div class="devsite-content-footer nocontent">
+  
+  
+    <p>Except as otherwise noted, the content of this page is licensed under the <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 License</a>, and code samples are licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 License</a>. For details, see our <a href="https://developers.google.com/terms/site-policies">Site Policies</a>. Java is a registered trademark of Oracle and/or its affiliates.</p>
+  
+
+  
+    
+    <p class="devsite-content-footer-date" itemprop="datePublished"
+       content="2017-05-04T20:11:22.175430">
+      
+      Last updated May 4, 2017.
+    </p>
+  
+
+</div>
+
+        </article>
+      </article>
+  
+
+        </div>
+      
+
+<footer class="devsite-footer-promos nocontent"><nav class="devsite-full-site-width"><ul class="devsite-footer-promos-list"><li class="devsite-footer-promo"><a href="https://developers.google.com/protocol-buffers/docs/downloads"
+           class="devsite-footer-promo-title gc-analytics-event"
+           data-category="Site-Wide Custom Events" data-label="Content Page Footer Promo"><div class="devsite-footer-promo-icon material-icons">file_download</div>
+          
+          
+            Downloads
+          
+        </a><div class="devsite-footer-promo-description">Protocol buffers downloads and instructions</div></li><li class="devsite-footer-promo"><a href="https://github.com/google/protobuf/releases"
+           class="devsite-footer-promo-title gc-analytics-event"
+           data-category="Site-Wide Custom Events" data-label="Content Page Footer Promo"><img class="devsite-footer-promo-icon" src="https://developers.google.com/site-assets/logo-github.svg">
+          
+          
+            GitHub
+          
+        </a><div class="devsite-footer-promo-description">The latest protocol buffers code and releases</div></li></ul></nav></footer><footer class="devsite-footer-linkboxes nocontent
+               devsite-footer-linkboxes-all-backup
+               devsite-footer-linkboxes-with-sites"><nav class="devsite-full-site-width"><ul class="devsite-footer-linkboxes-list"><li class="devsite-footer-linkbox devsite-footer-linkbox-backup"><h3 class="devsite-footer-linkbox-heading">Connect</h3><ul class="devsite-footer-linkbox-list"><li class="devsite-footer-linkbox-item"><a href="//googledevelopers.blogspot.com" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Blog Link">
+                Blog
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//www.facebook.com/Google-Developers-967415219957038/" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Facebook Link">
+                Facebook
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//plus.google.com/+GoogleDevelopers" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer G+ Link">
+                Google+
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//medium.com/google-developers" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Medium Link">
+                Medium
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//twitter.com/googledevs" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Twitter Link">
+                Twitter
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//www.youtube.com/user/GoogleDevelopers" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer YouTube Link">
+                YouTube
+            </a></li></ul></li><li class="devsite-footer-linkbox devsite-footer-linkbox-backup"><h3 class="devsite-footer-linkbox-heading">Programs</h3><ul class="devsite-footer-linkbox-list"><li class="devsite-footer-linkbox-item"><a href="//www.womentechmakers.com" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Women Techmakers">
+                Women Techmakers
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//developers.google.com/agency/" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Agency">
+                Agency Program
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//developers.google.com/groups/" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Groups">
+                GDG
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//developers.google.com/experts/" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Experts">
+                Google Developer Experts
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//developers.google.com/startups/" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Startups">
+                Startup Launchpad
+            </a></li></ul></li><li class="devsite-footer-linkbox devsite-footer-linkbox-backup"><h3 class="devsite-footer-linkbox-heading">Developer Consoles</h3><ul class="devsite-footer-linkbox-list"><li class="devsite-footer-linkbox-item"><a href="//console.developers.google.com" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Google Developers Console">
+                Google API Console
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//console.cloud.google.com" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Google Cloud Platform Console">
+                Google Cloud Platform Console
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//play.google.com/apps/publish/" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Google Play Console">
+                Google Play Console
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//console.firebase.google.com" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Firebase Console">
+                Firebase Console
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//cast.google.com/publish/" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Cast SDK Developer Console">
+                Cast SDK Developer Console
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//chrome.google.com/webstore/developer/dashboard" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Chrome Web Store Developer Dashboard">
+                Chrome Web Store Dashboard
+            </a></li></ul></li><li class="devsite-footer-linkbox devsite-footer-linkbox-sites"><a href="https://developers.google.com/"
+           class="gc-analytics-event devsite-footer-linkbox-logo-link"
+           data-category="Site-Wide Custom Events" data-label="Footer Google Developers Link"><img class="devsite-footer-linkbox-logo"
+               src="https://developers.google.com/_static/19991010dc/images/redesign-14/lockup-color-knockout.png"></a><ul class="devsite-footer-linkbox-list"><li class="devsite-footer-linkbox-item"><a href="//developer.android.com/index.html" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Android Link">
+                Android
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//developer.chrome.com/home" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Chrome Link">
+                Chrome
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//firebase.google.com" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Firebase Link">
+                Firebase
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//cloud.google.com" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Cloud Link">
+                Google Cloud Platform
+            </a></li><li class="devsite-footer-linkbox-item"><a href="//developers.google.com/products/" class="gc-analytics-event"
+               data-category="Site-Wide Custom Events"
+               data-label="Footer Products Link">
+                All Products
+            </a></li></ul></li></ul></nav></footer><footer class="devsite-utility-footer"><nav class="devsite-utility-footer-nav devsite-nav devsite-full-site-width"><div class="devsite-utility-footer-nav-left"><form class="devsite-utility-footer-language" action="/i18n/setlang/" method="post"><input type="hidden" name="xsrf_token" value="B8743CqmRrZirHxfHEir5rywi6pFc09MBns7qcIoxWE6MTUwMTMzMTI0ODAzMTQzMA" /><input type="hidden" name="next" value="/protocol-buffers/docs/proto3"><select class="devsite-utility-footer-language-select kd-select" name="language"
+                track-type="languageSelector" track-name="click"><option value="id"
+                
+                track-type="languageSelector" track-name="changed"
+                track-metadata-original-language="en"
+                track-metadata-selected-language="id">
+            Bahasa Indonesia
+          </option><option value="de"
+                
+                track-type="languageSelector" track-name="changed"
+                track-metadata-original-language="en"
+                track-metadata-selected-language="de">
+            Deutsch
+          </option><option value="en"
+                 selected="selected" 
+                track-type="languageSelector" track-name="changed"
+                track-metadata-original-language="en"
+                track-metadata-selected-language="en">
+            English
+          </option><option value="es"
+                
+                track-type="languageSelector" track-name="changed"
+                track-metadata-original-language="en"
+                track-metadata-selected-language="es">
+            español
+          </option><option value="fr"
+                
+                track-type="languageSelector" track-name="changed"
+                track-metadata-original-language="en"
+                track-metadata-selected-language="fr">
+            français
+          </option><option value="pt-br"
+                
+                track-type="languageSelector" track-name="changed"
+                track-metadata-original-language="en"
+                track-metadata-selected-language="pt-br">
+            Português Brasileiro
+          </option><option value="ru"
+                
+                track-type="languageSelector" track-name="changed"
+                track-metadata-original-language="en"
+                track-metadata-selected-language="ru">
+            Русский
+          </option><option value="ja"
+                
+                track-type="languageSelector" track-name="changed"
+                track-metadata-original-language="en"
+                track-metadata-selected-language="ja">
+            日本語
+          </option><option value="zh-cn"
+                
+                track-type="languageSelector" track-name="changed"
+                track-metadata-original-language="en"
+                track-metadata-selected-language="zh-cn">
+            简体中文
+          </option><option value="ko"
+                
+                track-type="languageSelector" track-name="changed"
+                track-metadata-original-language="en"
+                track-metadata-selected-language="ko">
+            한국어
+          </option></select></form><span class="devsite-utility-footer-links"><a class="devsite-utility-footer-link gc-analytics-event"
+           href="https://developers.google.com/terms/site-terms"
+           data-category="Site-Wide Custom Events"
+           data-label="Footer terms link">Terms
+         </a><a class="devsite-utility-footer-link gc-analytics-event"
+           href="https://www.google.com/policies/privacy/"
+           data-category="Site-Wide Custom Events"
+           data-label="Footer privacy link">Privacy
+         </a></span></div><div class="devsite-utility-footer-nav-right"><div class="devsite-utility-footer-newsletter-signup-text">
+        Sign up for the Google Developers newsletter
+      </div><a class="button button-primary devsite-utility-footer-newsletter-signup-button"
+         href="https://services.google.com/fb/forms/googledevelopersnewsletter/?utm_medium=referral&amp;utm_source=google-products&amp;utm_team=googledevs&amp;utm_campaign=201611-newsletter-launch">
+        
+        Subscribe
+      </a></div></nav></footer></div><script async defer src="//www.gstatic.com/feedback/api.js"></script><script src="https://developers.google.com/_static/19991010dc/js/jquery_ui-bundle.js"></script><script src="https://developers.google.com/_static2/19991010dc/jsi18n/"></script><script src="https://developers.google.com/_static/19991010dc/js/script_foot_closure.js"></script><script src="https://developers.google.com/_static/19991010dc/js/script_foot.js"></script><script>
+        (function($) {
+          
+          devsite.devsite.Init($, {'FULL_SITE_SEARCH_ENABLED': 1, 'ENABLE_BLOCKED_VIDEO_PLACEHOLDER': 0, 'VERSION_HASH': '19991010dc', 'SITE_NAME': 'devsite', 'HISTORY_ENABLED': 1, 'SUBPATH': '', 'ENABLE_BLOCKED_LINK_TOOLTIP': 0, 'ALLOWED_HOSTS': ['.android.com', '.api.ai', '.apigee.com', '.appspot.com', '.gonglchuangl.net', '.google.cn', '.google.com', '.googleplex.com', '.nest.com', '.openthread.io', '.tensorflow.org'], 'BLOCK_RSS_FEEDS': 0, 'SCRIPTSAFE_DOMAIN': 'google-developers.appspot.com'},
+                               '[]','en',
+                               true, '',
+                               {"039e5d84b87fd75807ffb37b7f1bbf2c": true, "098dafe57affddc137df300142652cfd": false, "cb025a64a50094835616312f4774a53d": true, "51470233c56fc1fde50f00b73c52b216": false, "752953480de00a336d911a46966cc16d": false, "700def1a83e356c06c0925afb05de4b0": false, "6749dcb526ce9bde6993550c7d928d24": true}, '/protocol-buffers/',
+                               'https://developers.google.com/');
+        })(jQuery);
+
+        
+        devsite.localInit = function() {
+          
+        };
+
+      </script><script>
+      $('.devsite-utility-footer-language-select').each(function() {
+        $(this).change(function(){$('.devsite-utility-footer-language').submit();});
+      });
+      </script></div><span id="devsite-request-elapsed" data-request-elapsed="252.95996666"></span></body></html>

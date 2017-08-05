@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>PBF Format - OpenStreetMap Wiki</title>
+<script>document.documentElement.className = document.documentElement.className.replace( /(^|\s)client-nojs(\s|$)/, "$1client-js$2" );</script>
+<script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"PBF_Format","wgTitle":"PBF Format","wgCurRevisionId":1412049,"wgRevisionId":1412049,"wgArticleId":64695,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Pages unavailable in Czech","Pages unavailable in French","Pages unavailable in Italian","File format"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"PBF_Format","wgRelevantArticleId":64695,"wgRequestId":"5039efa188d9bbe57c4ec0a2","wgIsProbablyEditable":false,"wgRestrictionEdit":[],"wgRestrictionMove":[],"wgPreferredVariant":"en","wgMFDisplayWikibaseDescriptions":{"search":false,"nearby":false,"watchlist":false,"tagline":false},"wgVisualEditor":{"pageLanguageCode":"en","pageLanguageDir":"ltr","usePageImages":false,"usePageDescriptions":false},"wgULSAcceptLanguageList":["en","*"],"wgULSCurrentAutonym":"English","wgWikiEditorEnabledModules":{"toolbar":false,"dialogs":false,"preview":false,"publish":false},"wgVisualEditorToolbarScrollOffset":0,"wgEditSubmitButtonLabelPublish":false});mw.loader.state({"site.styles":"ready","noscript":"ready","user.styles":"ready","user.cssprefs":"ready","user":"ready","user.options":"loading","user.tokens":"loading","ext.pygments":"ready","ext.visualEditor.desktopArticleTarget.noscript":"ready","ext.uls.pt":"ready","mediawiki.legacy.shared":"ready","mediawiki.legacy.commonPrint":"ready","mediawiki.sectionAnchor":"ready","mediawiki.skinning.interface":"ready","skins.vector.styles":"ready"});mw.loader.implement("user.options@0j3lz3q",function($,jQuery,require,module){mw.user.options.set({"variant":"en"});});mw.loader.implement("user.tokens@0mdnd62",function ( $, jQuery, require, module ) {
+mw.user.tokens.set({"editToken":"+\\","patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});/*@nomin*/;
+
+});mw.loader.load(["mediawiki.page.startup","ext.visualEditor.desktopArticleTarget.init","ext.uls.interface","skins.vector.js"]);});</script>
+<link rel="stylesheet" href="/w/load.php?debug=false&amp;lang=en&amp;modules=ext.pygments%7Cext.uls.pt%7Cext.visualEditor.desktopArticleTarget.noscript%7Cmediawiki.legacy.commonPrint%2Cshared%7Cmediawiki.sectionAnchor%7Cmediawiki.skinning.interface%7Cskins.vector.styles&amp;only=styles&amp;skin=vector"/>
+<script async="" src="/w/load.php?debug=false&amp;lang=en&amp;modules=startup&amp;only=scripts&amp;skin=vector"></script>
+<meta name="ResourceLoaderDynamicStyles" content=""/>
+<link rel="stylesheet" href="/w/load.php?debug=false&amp;lang=en&amp;modules=site.styles&amp;only=styles&amp;skin=vector"/>
+<meta name="generator" content="MediaWiki 1.28.2"/>
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link rel="search" type="application/opensearchdescription+xml" href="/w/opensearch_desc.php" title="OpenStreetMap Wiki (en)"/>
+<link rel="EditURI" type="application/rsd+xml" href="//wiki.openstreetmap.org/w/api.php?action=rsd"/>
+<link rel="copyright" href="/wiki/Wiki_content_license"/>
+<link rel="alternate" type="application/atom+xml" title="OpenStreetMap Wiki Atom feed" href="/w/index.php?title=Special:RecentChanges&amp;feed=atom"/>
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-PBF_Format rootpage-PBF_Format skin-vector action-view feature-footer-v2">		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<div id="content" class="mw-body" role="main">
+			<a id="top"></a>
+
+						<div class="mw-indicators">
+</div>
+			<h1 id="firstHeading" class="firstHeading" lang="en">PBF Format</h1>
+									<div id="bodyContent" class="mw-body-content">
+									<div id="siteSub">From OpenStreetMap Wiki</div>
+								<div id="contentSub"></div>
+												<div id="jump-to-nav" class="mw-jump">
+					Jump to:					<a href="#mw-head">navigation</a>, 					<a href="#p-search">search</a>
+				</div>
+				<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="languages" style="clear:both;font-size:95%;line-height:normal;margin:2px 0;border:1px solid #AAA" dir="ltr">
+<div style="background:#EEE;padding:1px">
+<div style="float:right;margin-left:.25em;font-weight:normal;font-size:x-small"><bdi class="noprint plainlinks purgelink"><a rel="nofollow" class="external text" href="//wiki.openstreetmap.org/w/index.php?title=PBF_Format&amp;action=purge"><span title="Purge this page"><span style="margin:0 2px"><img alt="Octicons-sync.svg" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Octicons-sync.svg/10px-Octicons-sync.svg.png" width="10" height="13" srcset="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Octicons-sync.svg/15px-Octicons-sync.svg.png 1.5x, https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Octicons-sync.svg/20px-Octicons-sync.svg.png 2x" /></span>purge</span></a></bdi>&#160;<b>·</b> <a href="/wiki/Wiki_Translation" title="Wiki Translation">Help</a></div>
+<div style="font-weight:bold;max-height:10000000px;text-align:center">Available languages — <bdi style="font-style:italic">PBF Format</bdi></div>
+</div>
+<div id="Languages" class="LanguageBar" style="max-height:10000000px;padding:0 .25em"> <span style="white-space:nowrap"><a href="/w/index.php?title=Af:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Af:PBF Format (page does not exist)"><b>·</b> <bdi lang="af" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Afrikaans</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Gsw:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Gsw:PBF Format (page does not exist)"><b>·</b> <bdi lang="gsw" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Alemannisch</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=An:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="An:PBF Format (page does not exist)"><b>·</b> <bdi lang="an" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">aragonés</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Ast:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Ast:PBF Format (page does not exist)"><b>·</b> <bdi lang="ast" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">asturianu</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Az:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Az:PBF Format (page does not exist)"><b>·</b> <bdi lang="az" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">azərbaycanca</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Id:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Id:PBF Format (page does not exist)"><b>·</b> <bdi lang="id" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Bahasa Indonesia</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Ms:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Ms:PBF Format (page does not exist)"><b>·</b> <bdi lang="ms" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Bahasa Melayu</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Nan:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Nan:PBF Format (page does not exist)"><b>·</b> <bdi lang="nan" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Bân-lâm-gú</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Jv:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Jv:PBF Format (page does not exist)"><b>·</b> <bdi lang="jv" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Basa Jawa</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Su:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Su:PBF Format (page does not exist)"><b>·</b> <bdi lang="su" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Basa Sunda</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Min:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Min:PBF Format (page does not exist)"><b>·</b> <bdi lang="min" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Baso Minangkabau</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Bs:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Bs:PBF Format (page does not exist)"><b>·</b> <bdi lang="bs" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">bosanski</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Br:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Br:PBF Format (page does not exist)"><b>·</b> <bdi lang="br" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">brezhoneg</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Ca:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Ca:PBF Format (page does not exist)"><b>·</b> <bdi lang="ca" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">català</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Cs:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Cs:PBF Format (page does not exist)"><b>·</b> <bdi lang="cs" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">čeština</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Co:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Co:PBF Format (page does not exist)"><b>·</b> <bdi lang="co" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">corsu</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Da:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Da:PBF Format (page does not exist)"><b>·</b> <bdi lang="da" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">dansk</bdi></a></span> <span style="white-space:nowrap"><a href="/wiki/DE:PBF_Format" title="DE:PBF Format"><b>·</b> <bdi lang="de" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Deutsch</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Et:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Et:PBF Format (page does not exist)"><b>·</b> <bdi lang="et" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">eesti</bdi></a></span> <span style="white-space:nowrap"><b>·</b> <bdi lang="en" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate"><b>English</b></bdi></span> <span style="white-space:nowrap"><a href="/w/index.php?title=ES:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="ES:PBF Format (page does not exist)"><b>·</b> <bdi lang="es" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">español</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Eo:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Eo:PBF Format (page does not exist)"><b>·</b> <bdi lang="eo" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Esperanto</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Ext:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Ext:PBF Format (page does not exist)"><b>·</b> <bdi lang="ext" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">estremeñu</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Eu:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Eu:PBF Format (page does not exist)"><b>·</b> <bdi lang="eu" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">euskara</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=FR:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="FR:PBF Format (page does not exist)"><b>·</b> <bdi lang="fr" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">français</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Fy:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Fy:PBF Format (page does not exist)"><b>·</b> <bdi lang="fy" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Frysk</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Ga:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Ga:PBF Format (page does not exist)"><b>·</b> <bdi lang="ga" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Gaeilge</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Gd:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Gd:PBF Format (page does not exist)"><b>·</b> <bdi lang="gd" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Gàidhlig</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Gl:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Gl:PBF Format (page does not exist)"><b>·</b> <bdi lang="gl" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">galego</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Ha:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Ha:PBF Format (page does not exist)"><b>·</b> <bdi lang="ha" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Hausa</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Hr:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Hr:PBF Format (page does not exist)"><b>·</b> <bdi lang="hr" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">hrvatski</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Ig:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Ig:PBF Format (page does not exist)"><b>·</b> <bdi lang="ig" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Igbo</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Ia:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Ia:PBF Format (page does not exist)"><b>·</b> <bdi lang="ia" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">interlingua</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Ie:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Ie:PBF Format (page does not exist)"><b>·</b> <bdi lang="ie" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Interlingue</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Xh:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Xh:PBF Format (page does not exist)"><b>·</b> <bdi lang="xh" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">isiXhosa</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Zu:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Zu:PBF Format (page does not exist)"><b>·</b> <bdi lang="zu" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">isiZulu</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Is:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Is:PBF Format (page does not exist)"><b>·</b> <bdi lang="is" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">íslenska</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=IT:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="IT:PBF Format (page does not exist)"><b>·</b> <bdi lang="it" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">italiano</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Sw:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Sw:PBF Format (page does not exist)"><b>·</b> <bdi lang="sw" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Kiswahili</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Ht:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Ht:PBF Format (page does not exist)"><b>·</b> <bdi lang="ht" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Kreyòl ayisyen</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Gcf:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Gcf:PBF Format (page does not exist)"><b>·</b> <bdi lang="gcf" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">kréyòl gwadloupéyen</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Ku:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Ku:PBF Format (page does not exist)"><b>·</b> <bdi lang="ku" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Kurdî</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Lv:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Lv:PBF Format (page does not exist)"><b>·</b> <bdi lang="lv" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">latviešu</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Lb:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Lb:PBF Format (page does not exist)"><b>·</b> <bdi lang="lb" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Lëtzebuergesch</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Lt:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Lt:PBF Format (page does not exist)"><b>·</b> <bdi lang="lt" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">lietuvių</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Hu:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Hu:PBF Format (page does not exist)"><b>·</b> <bdi lang="hu" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">magyar</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Mg:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Mg:PBF Format (page does not exist)"><b>·</b> <bdi lang="mg" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Malagasy</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Mt:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Mt:PBF Format (page does not exist)"><b>·</b> <bdi lang="mt" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Malti</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=NL:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="NL:PBF Format (page does not exist)"><b>·</b> <bdi lang="nl" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Nederlands</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Nds-nl:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Nds-nl:PBF Format (page does not exist)"><b>·</b> <bdi lang="nds-nl" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Nedersaksies</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=No:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="No:PBF Format (page does not exist)"><b>·</b> <bdi lang="no" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">norsk bokmål</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Nn:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Nn:PBF Format (page does not exist)"><b>·</b> <bdi lang="nn" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">norsk nynorsk</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Oc:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Oc:PBF Format (page does not exist)"><b>·</b> <bdi lang="oc" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">occitan</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Om:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Om:PBF Format (page does not exist)"><b>·</b> <bdi lang="om" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Oromoo</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Uz:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Uz:PBF Format (page does not exist)"><b>·</b> <bdi lang="uz" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">oʻzbekcha/ўзбекча</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Nds:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Nds:PBF Format (page does not exist)"><b>·</b> <bdi lang="nds" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Plattdüütsch</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Pl:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Pl:PBF Format (page does not exist)"><b>·</b> <bdi lang="pl" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">polski</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Pt:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Pt:PBF Format (page does not exist)"><b>·</b> <bdi lang="pt" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">português</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Ro:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Ro:PBF Format (page does not exist)"><b>·</b> <bdi lang="ro" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">română</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Sq:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Sq:PBF Format (page does not exist)"><b>·</b> <bdi lang="sq" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">shqip</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Sk:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Sk:PBF Format (page does not exist)"><b>·</b> <bdi lang="sk" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">slovenčina</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Sl:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Sl:PBF Format (page does not exist)"><b>·</b> <bdi lang="sl" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">slovenščina</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=So:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="So:PBF Format (page does not exist)"><b>·</b> <bdi lang="so" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Soomaaliga</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Fi:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Fi:PBF Format (page does not exist)"><b>·</b> <bdi lang="fi" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">suomi</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Sv:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Sv:PBF Format (page does not exist)"><b>·</b> <bdi lang="sv" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">svenska</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Tl:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Tl:PBF Format (page does not exist)"><b>·</b> <bdi lang="tl" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Tagalog</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Vi:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Vi:PBF Format (page does not exist)"><b>·</b> <bdi lang="vi" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Tiếng Việt</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Tr:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Tr:PBF Format (page does not exist)"><b>·</b> <bdi lang="tr" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Türkçe</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Za:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Za:PBF Format (page does not exist)"><b>·</b> <bdi lang="za" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Vahcuengh</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Vec:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Vec:PBF Format (page does not exist)"><b>·</b> <bdi lang="vec" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">vèneto</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Wo:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Wo:PBF Format (page does not exist)"><b>·</b> <bdi lang="wo" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Wolof</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Yo:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Yo:PBF Format (page does not exist)"><b>·</b> <bdi lang="yo" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Yorùbá</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Diq:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Diq:PBF Format (page does not exist)"><b>·</b> <bdi lang="diq" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Zazaki</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Sr:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Sr:PBF Format (page does not exist)"><b>·</b> <bdi lang="sr" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">српски / srpski</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Be:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Be:PBF Format (page does not exist)"><b>·</b> <bdi lang="be" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">беларуская</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Bg:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Bg:PBF Format (page does not exist)"><b>·</b> <bdi lang="bg" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">български</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Kk:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Kk:PBF Format (page does not exist)"><b>·</b> <bdi lang="kk" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">қазақша</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Mk:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Mk:PBF Format (page does not exist)"><b>·</b> <bdi lang="mk" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">македонски</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Mn:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Mn:PBF Format (page does not exist)"><b>·</b> <bdi lang="mn" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">монгол</bdi></a></span>  <span style="white-space:nowrap"><a href="/wiki/RU:PBF_Format" title="RU:PBF Format"><b>·</b> <bdi lang="ru" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">русский</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Tg:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Tg:PBF Format (page does not exist)"><b>·</b> <bdi lang="tg" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">тоҷикӣ</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Uk:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Uk:PBF Format (page does not exist)"><b>·</b> <bdi lang="uk" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">українська</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=El:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="El:PBF Format (page does not exist)"><b>·</b> <bdi lang="el" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Ελληνικά</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Hy:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Hy:PBF Format (page does not exist)"><b>·</b> <bdi lang="hy" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">Հայերեն</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Ka:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Ka:PBF Format (page does not exist)"><b>·</b> <bdi lang="ka" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">ქართული</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Ne:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Ne:PBF Format (page does not exist)"><b>·</b> <bdi lang="ne" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">नेपाली</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Mr:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Mr:PBF Format (page does not exist)"><b>·</b> <bdi lang="mr" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">मराठी</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Hi:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Hi:PBF Format (page does not exist)"><b>·</b> <bdi lang="hi" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">हिन्दी</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Bh:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Bh:PBF Format (page does not exist)"><b>·</b> <bdi lang="bh" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">भोजपुरी</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=As:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="As:PBF Format (page does not exist)"><b>·</b> <bdi lang="as" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">অসমীয়া</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Bn:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Bn:PBF Format (page does not exist)"><b>·</b> <bdi lang="bn" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">বাংলা</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Pa:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Pa:PBF Format (page does not exist)"><b>·</b> <bdi lang="pa" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">ਪੰਜਾਬੀ</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Gu:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Gu:PBF Format (page does not exist)"><b>·</b> <bdi lang="gu" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">ગુજરાતી</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Or:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Or:PBF Format (page does not exist)"><b>·</b> <bdi lang="or" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">ଓଡ଼ିଆ</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Ta:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Ta:PBF Format (page does not exist)"><b>·</b> <bdi lang="ta" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">தமிழ்</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Te:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Te:PBF Format (page does not exist)"><b>·</b> <bdi lang="te" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">తెలుగు</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Kn:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Kn:PBF Format (page does not exist)"><b>·</b> <bdi lang="kn" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">ಕನ್ನಡ</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Ml:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Ml:PBF Format (page does not exist)"><b>·</b> <bdi lang="ml" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">മലയാളം</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Si:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Si:PBF Format (page does not exist)"><b>·</b> <bdi lang="si" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">සිංහල</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Bo:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Bo:PBF Format (page does not exist)"><b>·</b> <bdi lang="bo" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">བོད་ཡིག</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Th:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Th:PBF Format (page does not exist)"><b>·</b> <bdi lang="th" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">ไทย</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=My:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="My:PBF Format (page does not exist)"><b>·</b> <bdi lang="my" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">မြန်မာဘာသာ</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Lo:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Lo:PBF Format (page does not exist)"><b>·</b> <bdi lang="lo" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">ລາວ</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Km:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Km:PBF Format (page does not exist)"><b>·</b> <bdi lang="km" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">ភាសាខ្មែរ</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Tzm:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Tzm:PBF Format (page does not exist)"><b>·</b> <bdi lang="tzm" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">ⵜⴰⵎⴰⵣⵉⵖⵜ ⵜⴰⵏⴰⵡⴰⵢⵜ‎</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Am:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Am:PBF Format (page does not exist)"><b>·</b> <bdi lang="am" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">አማርኛ</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Ko:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Ko:PBF Format (page does not exist)"><b>·</b> <bdi lang="ko" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">한국어</bdi></a></span> <span style="white-space:nowrap"><a href="/wiki/JA:PBF_Format" class="mw-redirect" title="JA:PBF Format"><b>·</b> <bdi lang="ja" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">日本語</bdi></a></span>  <span style="white-space:nowrap"><a href="/wiki/Zh-hans:PBF_Format" title="Zh-hans:PBF Format"><b>·</b> <bdi lang="zh-hans" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">中文（简体）‎</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Zh-hant:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Zh-hant:PBF Format (page does not exist)"><b>·</b> <bdi lang="zh-hant" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">中文（繁體）‎</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Wuu:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Wuu:PBF Format (page does not exist)"><b>·</b> <bdi lang="wuu" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">吴语</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Yue:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Yue:PBF Format (page does not exist)"><b>·</b> <bdi lang="yue" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">粵語</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Yi:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Yi:PBF Format (page does not exist)"><b>·</b> <bdi lang="yi" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">ייִדיש</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=He:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="He:PBF Format (page does not exist)"><b>·</b> <bdi lang="he" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">עברית</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Ur:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Ur:PBF Format (page does not exist)"><b>·</b> <bdi lang="ur" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">اردو</bdi></a></span> <span style="white-space:nowrap"><a href="/w/index.php?title=Ar:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Ar:PBF Format (page does not exist)"><b>·</b> <bdi lang="ar" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">العربية</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Ps:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Ps:PBF Format (page does not exist)"><b>·</b> <bdi lang="ps" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">پښتو</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Sd:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Sd:PBF Format (page does not exist)"><b>·</b> <bdi lang="sd" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">سنڌي</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Fa:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Fa:PBF Format (page does not exist)"><b>·</b> <bdi lang="fa" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">فارسی</bdi></a></span>  <span style="white-space:nowrap"><a href="/w/index.php?title=Dv:PBF_Format&amp;action=edit&amp;redlink=1" class="new" title="Dv:PBF Format (page does not exist)"><b>·</b> <bdi lang="dv" style="unicode-bidi:embed;unicode-bidi:-webkit-isolate;unicode-bidi:isolate">ދިވެހިބަސް</bdi></a></span> </div>
+<div class="nomobile" style="background:#EEE;padding:1px">
+<div style="font-weight:bold;max-height:10000000px;text-align:center"><span lang="en" class="plainlinks" id="ExpandLanguages"><a rel="nofollow" class="external text" href="//wiki.openstreetmap.org/wiki/PBF_Format">Other languages</a> — Help us <a href="/wiki/Wiki_Translation" title="Wiki Translation">translate this wiki</a></span></div>
+</div>
+</div>
+<p><b>PBF Format</b> ("Protocolbuffer Binary Format") is primarily intended as an alternative to the <a href="/wiki/OSM_XML" title="OSM XML">XML format</a>. It is about half of the size of a gzipped planet and about 30% smaller than a bzipped planet. It is also about 5x faster to write than a gzipped planet and 6x faster to read than a gzipped planet. The format was designed to support future extensibility and flexibility.
+</p><p>The underlying file format is chosen to support random access at the 'fileblock' granularity. Each file-block is independently decodable
+and contains ~8k OSM entities in the default configuration. There is no tag hardcoding used; <b>all keys and values are stored in full as opaque strings.</b> For future scalability, 64-bit node/way/relation IDs are assumed. The current serializer (<a href="/wiki/Osmosis" title="Osmosis">Osmosis</a>) preserves the order of OSM
+entities, and tags on OSM entities. To flexibly handle multiple resolutions, the granularity, or resolution used for representing locations and timestamps is adjustable in multiples of 1 millisecond and 1 nanodegree. The default scaling factor is 1000 milliseconds and 100 nanodegrees, corresponding to about ~1&#160;cm at the equator. These are the current resolution of the OSM database.
+</p><p>Files have extension <tt>*.osm.pbf</tt>.
+</p><p>At present, the reference implementation of PBF is the <a href="/wiki/Osmosis" title="Osmosis">Osmosis</a> implementation, split into two parts, the osmosis-specific part, contained in the Osmosis repository at <a rel="nofollow" class="external autonumber" href="https://github.com/openstreetmap/osmosis/tree/master/pbf">[1]</a>, and an application-generic part at <a rel="nofollow" class="external autonumber" href="https://github.com/scrosby/OSM-binary">[2]</a>. This application-generic part is used to build the <tt>osmpbf.jar</tt> (as used in osmosis and other Java-based PBF readers) and also contains the master definition of the PBF protocol buffer definitions (<tt>*.proto</tt> files).
+</p>
+<div id="toc" class="toc"><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Software_support_for_PBF"><span class="tocnumber">1</span> <span class="toctext">Software support for PBF</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#Design"><span class="tocnumber">2</span> <span class="toctext">Design</span></a>
+<ul>
+<li class="toclevel-2 tocsection-3"><a href="#Low_level_encoding"><span class="tocnumber">2.1</span> <span class="toctext">Low level encoding</span></a></li>
+<li class="toclevel-2 tocsection-4"><a href="#File_format"><span class="tocnumber">2.2</span> <span class="toctext">File format</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-5"><a href="#Encoding_OSM_entities_into_fileblocks"><span class="tocnumber">3</span> <span class="toctext">Encoding OSM entities into fileblocks</span></a>
+<ul>
+<li class="toclevel-2 tocsection-6"><a href="#Definition_of_the_OSMHeader_fileblock"><span class="tocnumber">3.1</span> <span class="toctext">Definition of the OSMHeader fileblock</span></a>
+<ul>
+<li class="toclevel-3 tocsection-7"><a href="#What_are_the_replication_fields_for.3F"><span class="tocnumber">3.1.1</span> <span class="toctext">What are the replication fields for?</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2 tocsection-8"><a href="#Definition_of_OSMData_fileblock"><span class="tocnumber">3.2</span> <span class="toctext">Definition of OSMData fileblock</span></a>
+<ul>
+<li class="toclevel-3 tocsection-9"><a href="#Ways_and_Relations"><span class="tocnumber">3.2.1</span> <span class="toctext">Ways and Relations</span></a></li>
+<li class="toclevel-3 tocsection-10"><a href="#Nodes"><span class="tocnumber">3.2.2</span> <span class="toctext">Nodes</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-11"><a href="#Format_example"><span class="tocnumber">4</span> <span class="toctext">Format example</span></a></li>
+<li class="toclevel-1 tocsection-12"><a href="#The_code"><span class="tocnumber">5</span> <span class="toctext">The code</span></a></li>
+<li class="toclevel-1 tocsection-13"><a href="#Miscellaneous_notes"><span class="tocnumber">6</span> <span class="toctext">Miscellaneous notes</span></a>
+<ul>
+<li class="toclevel-2 tocsection-14"><a href="#Downloads"><span class="tocnumber">6.1</span> <span class="toctext">Downloads</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-15"><a href="#See_also"><span class="tocnumber">7</span> <span class="toctext">See also</span></a></li>
+</ul>
+</div>
+
+<h2><span class="mw-headline" id="Software_support_for_PBF">Software support for PBF</span></h2>
+<p>A lot of software used in the OSM project already supports PBF in addition to the original XML format, plus there are several tools to convert from PBF to OSM XML and vice versa.
+</p><p>See <a href="/wiki/PBF/Software_Compliance" title="PBF/Software Compliance">PBF/Software Compliance</a> for details about which kinds of PBF files are supported by the various programs.
+</p>
+<h2><span class="mw-headline" id="Design">Design</span></h2>
+<h3><span class="mw-headline" id="Low_level_encoding">Low level encoding</span></h3>
+<p><a rel="nofollow" class="external text" href="http://code.google.com/p/protobuf/">Google Protocol Buffers</a> is used for the low-level store. Given a specification file of one or more messages, the protocol buffer compiler writes low-level serialization code. Messages may contain other messages, forming hierarchical structures. Protocol buffers also support extensibility; new fields can be added to a message and old clients can read those messages without recompiling. For more details, please see <a rel="nofollow" class="external free" href="http://code.google.com/p/protobuf/">http://code.google.com/p/protobuf/</a> or read <a rel="nofollow" class="external text" href="http://google-opensource.blogspot.com/2008/07/protocol-buffers-googles-data.html">the respective article</a> on Google's Opensource Blog. Google officially supports C++, Java, and Python, but compilers exist for other languages. An example message specification is:
+</p>
+<div class="mw-highlight mw-content-ltr" dir="ltr"><pre><span class="n">message</span> <span class="n">Node</span> <span class="p">{</span>
+  <span class="n">required</span> <span class="n">sint64</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="c1">// Parallel arrays.</span>
+  <span class="n">repeated</span> <span class="n">uint32</span> <span class="n">keys</span> <span class="o">=</span> <span class="mi">2</span> <span class="p">[</span><span class="n">packed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">];</span> <span class="c1">// String IDs.</span>
+  <span class="n">repeated</span> <span class="n">uint32</span> <span class="n">vals</span> <span class="o">=</span> <span class="mi">3</span> <span class="p">[</span><span class="n">packed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">];</span> <span class="c1">// String IDs.</span>
+  <span class="n">optional</span> <span class="n">Info</span> <span class="n">info</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">// May be omitted in omitmeta</span>
+  <span class="n">required</span> <span class="n">sint64</span> <span class="n">lat</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span>
+  <span class="n">required</span> <span class="n">sint64</span> <span class="n">lon</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>Protocol Buffers use a variable-bit encoding for integers. An integer
+is encoded at 7 bits per byte, where the high bit indicates whether or
+not the next byte is to be read. When messages contain small integers,
+the filesize is minimized. Two encodings exist, one intended for
+mostly positive integers, and one for signed integers. In the standard
+encoding, integers [0,127] require one byte, [128,16383] require two
+bytes, etc. In the signed number encoding, the sign bit is placed in
+the least significant position; numbers [-64,63] require one byte,
+[-8192,8191] require two bytes, and so forth. For further details of
+the serialized format of protocol buffer messages, please see their
+website.
+</p><p>The generated files use a Java package of <tt>crosby.binary</tt>. In other languages, the generated files are in package OSMPBF.
+</p>
+<h3><span class="mw-headline" id="File_format">File format</span></h3>
+<p>A file contains a header followed by a sequence of fileblocks. The
+design is intended to allow future random-access to the contents of
+the file and skipping past not-understood or unwanted data.
+</p><p>The format is a repeating sequence of:
+</p>
+<ul><li> int4: length of the BlobHeader message in network byte order</li>
+<li> serialized BlobHeader message</li>
+<li> serialized Blob message (size is given in the header)  </li></ul>
+<p>A BlobHeader is currently defined as:
+</p>
+ <div class="mw-highlight mw-content-ltr" dir="ltr"><pre><span></span> <span class="n">message</span> <span class="n">BlobHeader</span> <span class="p">{</span>
+   <span class="n">required</span> <span class="n">string</span> <span class="n">type</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+   <span class="n">optional</span> <span class="n">bytes</span> <span class="n">indexdata</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+   <span class="n">required</span> <span class="n">int32</span> <span class="n">datasize</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+ <span class="p">}</span>
+</pre></div>
+<ul><li> <b>type</b> contains the type of data in this block message.</li>
+<li> <b>indexdata</b> is some arbitrary blob that may include metadata about the following blob, (e.g., for OSM data, it might contain a bounding box.) This is a stub intended to enable the future design of indexed *.osm.pbf files.</li>
+<li> <b>datasize</b> contains the serialized size of the subsequent Blob message.</li></ul>
+<p><i>(Please note that BlobHeader used to be called BlockHeader. It was renamed in v1.1 to avoid confusion with HeaderBlock, below)</i>
+</p><p>Blob is currently used to store an arbitrary blob of data, either uncompressed or in zlib/deflate compressed format.
+</p>
+ <div class="mw-highlight mw-content-ltr" dir="ltr"><pre><span></span><span class="n">message</span> <span class="n">Blob</span> <span class="p">{</span>
+  <span class="n">optional</span> <span class="n">bytes</span> <span class="n">raw</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">// No compression</span>
+  <span class="n">optional</span> <span class="n">int32</span> <span class="n">raw_size</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">// When compressed, the uncompressed size</span>
+
+  <span class="c1">// Possible compressed versions of the data.</span>
+  <span class="n">optional</span> <span class="n">bytes</span> <span class="n">zlib_data</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+
+  <span class="c1">// PROPOSED feature for LZMA compressed data. SUPPORT IS NOT REQUIRED.</span>
+  <span class="n">optional</span> <span class="n">bytes</span> <span class="n">lzma_data</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+
+  <span class="c1">// Formerly used for bzip2 compressed data. Depreciated in 2010.</span>
+  <span class="n">optional</span> <span class="n">bytes</span> <span class="n">OBSOLETE_bzip2_data</span> <span class="o">=</span> <span class="mi">5</span> <span class="p">[</span><span class="n">deprecated</span><span class="o">=</span><span class="nb">true</span><span class="p">];</span> <span class="c1">// Don&#39;t reuse this tag number.</span>
+<span class="p">}</span>
+</pre></div>
+<p><i>NOTE (12/2010): No encoder currently supports lzma or bzip2. To simplify decoder implementations, bzip2 has been deprecated and LZMA has become relegated to a proposed extension.</i>
+
+</p><p>In order to robustly detect illegal or corrupt files, I limit the maximum size of BlobHeader and Blob messages. The length of the BlobHeader <b>should</b> be less than 32 <a rel="nofollow" class="external text" href="http://en.wikipedia.org/wiki/Kibibyte">KiB</a> (32*1024 bytes) and <b>must</b> be less than 64 KiB. The uncompressed length of a Blob <b>should</b> be less than 16 <a rel="nofollow" class="external text" href="http://en.wikipedia.org/wiki/Mebibyte">MiB</a> (16*1024*1024 bytes) and <b>must</b> be less than 32 MiB.
+</p>
+<h2><span class="mw-headline" id="Encoding_OSM_entities_into_fileblocks">Encoding OSM entities into fileblocks</span></h2>
+<p>There are currently two fileblock types for OSM data. These textual type strings are stored in the type field in the BlobHeader:
+</p>
+<ul><li> <tt>OSMHeader</tt>: The Blob Contains a serialized <tt>HeaderBlock</tt> message (See <tt>osmformat.proto</tt>). Every fileblock must have one of these blocks before the first 'OSMData' block.</li>
+<li> <tt>OSMData</tt>: Contains a serialized <tt>PrimitiveBlock</tt> message. (See <tt>osmformat.proto</tt>). These contain the entities.</li></ul>
+<p>This design lets other software extend the format to include fileblocks of additional types for their own purposes. Parsers should ignore and skip fileblock types that they do not recognize.
+</p>
+<h3><span class="mw-headline" id="Definition_of_the_OSMHeader_fileblock">Definition of the OSMHeader fileblock</span></h3>
+<div class="mw-highlight mw-content-ltr" dir="ltr"><pre><span></span><span class="n">message</span> <span class="n">HeaderBlock</span> <span class="p">{</span>
+  <span class="n">optional</span> <span class="n">HeaderBBox</span> <span class="n">bbox</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="cm">/* Additional tags to aid in parsing this dataset */</span>
+  <span class="n">repeated</span> <span class="n">string</span> <span class="n">required_features</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+  <span class="n">repeated</span> <span class="n">string</span> <span class="n">optional_features</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+
+  <span class="n">optional</span> <span class="n">string</span> <span class="n">writingprogram</span> <span class="o">=</span> <span class="mi">16</span><span class="p">;</span>
+  <span class="n">optional</span> <span class="n">string</span> <span class="n">source</span> <span class="o">=</span> <span class="mi">17</span><span class="p">;</span> <span class="c1">// From the bbox field.</span>
+
+  <span class="cm">/* Tags that allow continuing an Osmosis replication */</span>
+
+  <span class="c1">// replication timestamp, expressed in seconds since the epoch,</span>
+  <span class="c1">// otherwise the same value as in the &quot;timestamp=...&quot; field</span>
+  <span class="c1">// in the state.txt file used by Osmosis</span>
+  <span class="n">optional</span> <span class="n">int64</span> <span class="n">osmosis_replication_timestamp</span> <span class="o">=</span> <span class="mi">32</span><span class="p">;</span>
+
+  <span class="c1">// replication sequence number (sequenceNumber in state.txt)</span>
+  <span class="n">optional</span> <span class="n">int64</span> <span class="n">osmosis_replication_sequence_number</span> <span class="o">=</span> <span class="mi">33</span><span class="p">;</span>
+
+  <span class="c1">// replication base URL (from Osmosis&#39; configuration.txt file)</span>
+  <span class="n">optional</span> <span class="n">string</span> <span class="n">osmosis_replication_base_url</span> <span class="o">=</span> <span class="mi">34</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>To offer forward and backward compatibility, a parser needs to know if
+it is able to parse a file. This is done by required features. If a
+file contains a required feature that a parser does NOT understand, it
+must reject the file with an error, and report which required features
+it does not support.
+</p><p>Currently the following features are defined:
+</p>
+<ul><li> "OsmSchema-V0.6"&#160;— File contains data with the OSM v0.6 schema.</li>
+<li> "DenseNodes"&#160;— File contains dense nodes and dense info.</li>
+<li> "HistoricalInformation"&#160;— File contains historical OSM data.</li></ul>
+<p>In addition, a file may have optional properties that a parser can
+exploit. For instance, the file may be pre-sorted, and not need
+sorting before being used. Or, the ways in the file may have bounding
+boxes precomputed. If a program encounters an optional feature it does
+not know, it can still safely read the file. If a program expects an
+optional feature that is not there, it can error out. The following features have been proposed:
+</p>
+<ul><li> "Has_Metadata" – The file contains author and timestamp metadata.</li>
+<li> "Sort.Type_then_ID" – Entities are sorted by type then ID.</li>
+<li> "Sort.Geographic" – Entities are in some form of geometric sort. (presently unused)</li>
+<li> "timestamp=2011-10-16T15:45:00Z" – Interim solution for storing a file timestamp. Please use <tt>osmosis_replication_timestamp</tt> instead.</li></ul>
+<h4><span class="mw-headline" id="What_are_the_replication_fields_for.3F">What are the replication fields for?</span></h4>
+<p>The osmosis_replication_* fields are intended to allow the consumer of a PBF file to append data from an Osmosis-managed update server in order to keep the file current. <a href="/wiki/Osmosis" title="Osmosis">Osmosis</a> is the software used to produce the daily, hourly, and minutely diffs on the planet.openstreetmap.org site. To append updates to a PBF file, one has to know which replication state the file represents so that the right synchronisation point can be found.
+</p>
+<ul><li> osmosis_replication_timestamp - the replication timestamp (as Unix epoch value), taken from the state.txt file written by Osmosis (where it is contained not as Unix epoch value but as an ISO time string). Technically this is the internal database timestamp of the last transaction fully contained in the file; it does not necessarily mean that every object with a timestamp smaller than or equal to this timestamp is contained in the file.</li>
+<li> osmosis_replication_sequence_number - the sequence number of the last database transaction contained in the file. This usually matches the timestamp - if you know one you can find out the other, however it makes things easier for the consumer to know both.</li>
+<li> osmosis_replication_base_url - the base URL for replication diffs, e.g. <a rel="nofollow" class="external free" href="https://planet.openstreetmap.org/replication/minute/">https://planet.openstreetmap.org/replication/minute/</a>, so that the consumer knows which server (and therefore, which database) the given IDs relate to.</li></ul>
+<p>When processing a PBF file, you would usually keep these fields intact (i.e. copy them from input to output) just like you would copy the bbox block, unless the particular kind of processing that you apply makes it impossible or useless to want to apply updates to the file later.
+</p>
+<h3><span class="mw-headline" id="Definition_of_OSMData_fileblock">Definition of OSMData fileblock</span></h3>
+<p>To encode OSM entities into protocol buffers, I collect 8k entities to
+form a PrimitiveBlock, which is serialized into the Blob portion of an
+'OsmData' fileblock. 
+</p>
+<div class="mw-highlight mw-content-ltr" dir="ltr"><pre><span class="n">message</span> <span class="n">PrimitiveBlock</span> <span class="p">{</span>
+  <span class="n">required</span> <span class="n">StringTable</span> <span class="n">stringtable</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="n">repeated</span> <span class="n">PrimitiveGroup</span> <span class="n">primitivegroup</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+
+  <span class="c1">// Granularity, units of nanodegrees, used to store coordinates in this block</span>
+  <span class="n">optional</span> <span class="n">int32</span> <span class="n">granularity</span> <span class="o">=</span> <span class="mi">17</span> <span class="p">[</span><span class="k">default</span><span class="o">=</span><span class="mi">100</span><span class="p">];</span> 
+
+  <span class="c1">// Offset value between the output coordinates coordinates and the granularity grid, in units of nanodegrees.</span>
+  <span class="n">optional</span> <span class="n">int64</span> <span class="n">lat_offset</span> <span class="o">=</span> <span class="mi">19</span> <span class="p">[</span><span class="k">default</span><span class="o">=</span><span class="mi">0</span><span class="p">];</span>
+  <span class="n">optional</span> <span class="n">int64</span> <span class="n">lon_offset</span> <span class="o">=</span> <span class="mi">20</span> <span class="p">[</span><span class="k">default</span><span class="o">=</span><span class="mi">0</span><span class="p">];</span> 
+
+  <span class="c1">// Granularity of dates, normally represented in units of milliseconds since the 1970 epoch.</span>
+  <span class="n">optional</span> <span class="n">int32</span> <span class="n">date_granularity</span> <span class="o">=</span> <span class="mi">18</span> <span class="p">[</span><span class="k">default</span><span class="o">=</span><span class="mi">1000</span><span class="p">];</span> 
+
+
+  <span class="c1">// Proposed extension:</span>
+  <span class="c1">//optional BBox bbox = XX;</span>
+<span class="p">}</span>
+</pre></div>
+<p>When creating a PBF file, you need to extract all strings (key, value, role, user) into
+a separate string table. Thereafter, strings are referred to by their
+index into this table, except that index=0 is used as a delimiter when
+encoding DenseNodes. This means that you cannot safely store a useful
+string in that slot. Therefore an empty string is stored at index=0
+and that slot is never used. It is not necessary but might have positive effect on the performance
+if you sort the string table that way that frequently used strings have
+small indexes. You also might improve deflate compressibility of the stringtable if you
+sort strings that have the same frequency lexicographically.
+</p><p>Each PrimitiveBlock is independently decompressable, containing <i>all</i>
+of the information to decompress the entities it contains. It contains
+a string table, it also encodes the granularity for both position and
+timestamps.
+</p><p>A block may contain any number of entities, as long as the size limits for a block are obeyed.
+It will result in small file sizes if you pack as much entities as possible into each block. However, for simplicity, certain programs (e.g. osmosis 0.38) limit the number of entities in each block to 8000 when writing PBF format.
+</p><p>In addition to granularity, the primitive block also encodes a latitude
+and longitude offset value. These values, measured in units of nanodegrees, 
+<b>must</b> be added to each coordinate.
+</p>
+<pre>latitude = .000000001 * (lat_offset + (granularity * lat))
+longitude = .000000001 * (lon_offset + (granularity * lon))
+</pre>
+<p>Where <b>latitude</b> is the latitude in degrees, <b>granularity</b> is the granularity given in the PrimitiveBlock,  <b>lat_offset</b> is the offset given in the PrimitiveBlock, and <b>lat</b>/<b>lon</b> is encoded in a Node or delta-encoded in a DenseNode. The explanation of the equation for longitude is analogous.
+</p><p>The reason that lat_offset and lon_offset exist is for concisely representing isohypsis data (contour lines) or other data that occurs in a regular grid. Say we wished to represent such data that was at a 100 microdegree grid. We would like to use a granularity of 100000 nanodegrees for the highest compression, except that that could only represent points of the form (.0001*x,.0001*y), when the real gridded data may be of the form (.00003345+.0001*x, .00008634+.0001*y). By using lat_offset=3345 and lon_offset=8634, we can represent this 100 microdegree grid exactly.
+</p><p>For datestamps,
+</p>
+<pre>millisec_stamp = timestamp*date_granularity.
+</pre>
+<p>Where <b>timestamp</b> is the timestamp encoded in an Info or delta encoded in a DenseInfo, <b>date_granularity</b> is given in the PrimitiveBlock, and <b>millisec_stamp</b> is the date of the entity, measured in number of milliseconds since the 1970 epoch. To get the date measured in seconds since the 1970 epoch, divide millisec_stamp by 1000.
+</p><p>Within each primitiveblock, I then divide entities into groups that
+contain consecutive messages all of the same type (node/way/relation).
+</p>
+<div class="mw-highlight mw-content-ltr" dir="ltr"><pre><span></span><span class="n">message</span> <span class="n">PrimitiveGroup</span> <span class="p">{</span>
+  <span class="n">repeated</span> <span class="n">Node</span>     <span class="n">nodes</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="n">optional</span> <span class="n">DenseNodes</span> <span class="n">dense</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+  <span class="n">repeated</span> <span class="n">Way</span>      <span class="n">ways</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+  <span class="n">repeated</span> <span class="n">Relation</span> <span class="n">relations</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+  <span class="n">repeated</span> <span class="n">ChangeSet</span> <span class="n">changesets</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>A PrimitiveGroup MUST NEVER contain different types of objects. So either it contains many Node messages, or a DenseNode message, or many Way messages, or many Relation messages, or many ChangeSet messages. But it can never contain any mixture of those. The reason is the way Protocol Buffer encoding works it would be impossible to get the objects out in the same order they have been written into the file. This could be rather confusing to users.
+</p><p>After being serialized into a string, each primitiveblock is optionally
+gzip/deflate compressed individually when stored in the Blob fileblock.
+</p>
+<h4><span class="mw-headline" id="Ways_and_Relations">Ways and Relations</span></h4>
+<p>For ways and relations, which contain the ID's of other nodes in the field <i>refs</i>, I
+exploit the tendency of consecutive nodes in a way or relation to have
+nearby node ID's by using delta compression, resulting in small
+integers. (I.E., instead of encoding x_1, x_2, x_3, I encode x_1,
+x_2-x_1, x_3-x_2, ...). Except for that, ways and relations are mostly
+encoded in the way one would expect. Tags are encoded as two parallel
+arrays, one array of string-id's of the keys, and the other of
+string-id's of the values.
+</p><p><br />
+</p>
+<div class="mw-highlight mw-content-ltr" dir="ltr"><pre><span></span><span class="n">message</span> <span class="n">Way</span> <span class="p">{</span>
+   <span class="n">required</span> <span class="n">int64</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+   <span class="c1">// Parallel arrays.</span>
+   <span class="n">repeated</span> <span class="n">uint32</span> <span class="n">keys</span> <span class="o">=</span> <span class="mi">2</span> <span class="p">[</span><span class="n">packed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">];</span>
+   <span class="n">repeated</span> <span class="n">uint32</span> <span class="n">vals</span> <span class="o">=</span> <span class="mi">3</span> <span class="p">[</span><span class="n">packed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">];</span>
+
+   <span class="n">optional</span> <span class="n">Info</span> <span class="n">info</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+
+   <span class="n">repeated</span> <span class="n">sint64</span> <span class="n">refs</span> <span class="o">=</span> <span class="mi">8</span> <span class="p">[</span><span class="n">packed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">];</span>  <span class="c1">// DELTA coded</span>
+<span class="p">}</span>
+</pre></div>
+<p>Relations use an enum to represent member types.
+</p>
+<div class="mw-highlight mw-content-ltr" dir="ltr"><pre><span class="n">message</span> <span class="n">Relation</span> <span class="p">{</span>
+  <span class="k">enum</span> <span class="n">MemberType</span> <span class="p">{</span>
+    <span class="n">NODE</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">WAY</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">RELATION</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+  <span class="p">}</span> 
+   <span class="n">required</span> <span class="n">int64</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+   <span class="c1">// Parallel arrays.</span>
+   <span class="n">repeated</span> <span class="n">uint32</span> <span class="n">keys</span> <span class="o">=</span> <span class="mi">2</span> <span class="p">[</span><span class="n">packed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">];</span>
+   <span class="n">repeated</span> <span class="n">uint32</span> <span class="n">vals</span> <span class="o">=</span> <span class="mi">3</span> <span class="p">[</span><span class="n">packed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">];</span>
+
+   <span class="n">optional</span> <span class="n">Info</span> <span class="n">info</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+
+   <span class="c1">// Parallel arrays</span>
+   <span class="n">repeated</span> <span class="n">int32</span> <span class="n">roles_sid</span> <span class="o">=</span> <span class="mi">8</span> <span class="p">[</span><span class="n">packed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">];</span>
+   <span class="n">repeated</span> <span class="n">sint64</span> <span class="n">memids</span> <span class="o">=</span> <span class="mi">9</span> <span class="p">[</span><span class="n">packed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">];</span> <span class="c1">// DELTA encoded</span>
+   <span class="n">repeated</span> <span class="n">MemberType</span> <span class="n">types</span> <span class="o">=</span> <span class="mi">10</span> <span class="p">[</span><span class="n">packed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div>
+<p>Metadata includes non-geographic information about an object, such as:
+</p>
+<div class="mw-highlight mw-content-ltr" dir="ltr"><pre><span></span><span class="n">message</span> <span class="n">Info</span> <span class="p">{</span>
+   <span class="n">optional</span> <span class="n">int32</span> <span class="n">version</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">[</span><span class="k">default</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+   <span class="n">optional</span> <span class="n">int32</span> <span class="n">timestamp</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+   <span class="n">optional</span> <span class="n">int64</span> <span class="n">changeset</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+   <span class="n">optional</span> <span class="n">int32</span> <span class="n">uid</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+   <span class="n">optional</span> <span class="n">int32</span> <span class="n">user_sid</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">// String IDs</span>
+
+   <span class="c1">// The visible flag is used to store history information. It indicates that</span>
+   <span class="c1">// the current object version has been created by a delete operation on the</span>
+   <span class="c1">// OSM API.</span>
+   <span class="c1">// When a writer sets this flag, it MUST add a required_features tag with</span>
+   <span class="c1">// value &quot;HistoricalInformation&quot; to the HeaderBlock.</span>
+   <span class="c1">// If this flag is not available for some object it MUST be assumed to be</span>
+   <span class="c1">// true if the file has the required_features tag &quot;HistoricalInformation&quot;</span>
+   <span class="c1">// set.</span>
+   <span class="n">optional</span> <span class="kt">bool</span> <span class="n">visible</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<h4><span class="mw-headline" id="Nodes">Nodes</span></h4>
+<p>Nodes can be encoded one of two ways, as a Node
+(defined above) and a special dense format. In the dense format, I
+store the group 'columnwise', as an array of ID's, array of latitudes,
+and array of longitudes. Each column is delta-encoded. This reduces
+header overheads and allows delta-coding to work very effectively.
+</p><p>Keys and values for all nodes are encoded as a single array of
+stringid's. Each node's tags are encoded in alternating <b>&lt;keyid&gt;</b>
+<b>&lt;valid&gt;</b>. We use a single stringid of <b>0</b> to delimit when the
+tags of a node ends and the tags of the next node begin. 
+The storage pattern is:  <b> ((&lt;keyid&gt; &lt;valid&gt;)* '0' )* </b>
+As an exception, if no node in the current block has any key/value pairs, this array does not contain any delimiters, but is simply empty.
+</p>
+<div class="mw-highlight mw-content-ltr" dir="ltr"><pre><span class="n">message</span> <span class="n">DenseNodes</span> <span class="p">{</span>
+   <span class="n">repeated</span> <span class="n">sint64</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">[</span><span class="n">packed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">];</span> <span class="c1">// DELTA coded</span>
+
+   <span class="c1">//repeated Info info = 4;</span>
+   <span class="n">optional</span> <span class="n">DenseInfo</span> <span class="n">denseinfo</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+
+   <span class="n">repeated</span> <span class="n">sint64</span> <span class="n">lat</span> <span class="o">=</span> <span class="mi">8</span> <span class="p">[</span><span class="n">packed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">];</span> <span class="c1">// DELTA coded</span>
+   <span class="n">repeated</span> <span class="n">sint64</span> <span class="n">lon</span> <span class="o">=</span> <span class="mi">9</span> <span class="p">[</span><span class="n">packed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">];</span> <span class="c1">// DELTA coded</span>
+
+   <span class="c1">// Special packing of keys and vals into one array. May be empty if all nodes in this block are tagless.</span>
+   <span class="n">repeated</span> <span class="n">int32</span> <span class="n">keys_vals</span> <span class="o">=</span> <span class="mi">10</span> <span class="p">[</span><span class="n">packed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">];</span> 
+<span class="p">}</span>
+</pre></div>
+<p>DenseInfo does a similar delta coding on metadata.
+</p>
+<div class="mw-highlight mw-content-ltr" dir="ltr"><pre><span></span><span class="n">message</span> <span class="n">DenseInfo</span> <span class="p">{</span>
+   <span class="n">repeated</span> <span class="n">int32</span> <span class="n">version</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">[</span><span class="n">packed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">];</span> 
+   <span class="n">repeated</span> <span class="n">sint64</span> <span class="n">timestamp</span> <span class="o">=</span> <span class="mi">2</span> <span class="p">[</span><span class="n">packed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">];</span> <span class="c1">// DELTA coded</span>
+   <span class="n">repeated</span> <span class="n">sint64</span> <span class="n">changeset</span> <span class="o">=</span> <span class="mi">3</span> <span class="p">[</span><span class="n">packed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">];</span> <span class="c1">// DELTA coded</span>
+   <span class="n">repeated</span> <span class="n">sint32</span> <span class="n">uid</span> <span class="o">=</span> <span class="mi">4</span> <span class="p">[</span><span class="n">packed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">];</span> <span class="c1">// DELTA coded</span>
+   <span class="n">repeated</span> <span class="n">sint32</span> <span class="n">user_sid</span> <span class="o">=</span> <span class="mi">5</span> <span class="p">[</span><span class="n">packed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">];</span> <span class="c1">// String IDs for usernames. DELTA coded</span>
+
+   <span class="c1">// The visible flag is used to store history information. It indicates that</span>
+   <span class="c1">// the current object version has been created by a delete operation on the</span>
+   <span class="c1">// OSM API.</span>
+   <span class="c1">// When a writer sets this flag, it MUST add a required_features tag with</span>
+   <span class="c1">// value &quot;HistoricalInformation&quot; to the HeaderBlock.</span>
+   <span class="c1">// If this flag is not available for some object it MUST be assumed to be</span>
+   <span class="c1">// true if the file has the required_features tag &quot;HistoricalInformation&quot;</span>
+   <span class="c1">// set.</span>
+   <span class="n">repeated</span> <span class="kt">bool</span> <span class="n">visible</span> <span class="o">=</span> <span class="mi">6</span> <span class="p">[</span><span class="n">packed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div>
+<h2><span class="mw-headline" id="Format_example">Format example</span></h2>
+<p>In the following, we will have a look into the bytes of an OSM PBF file. The small regional extract <i>bremen.osm.pbf</i> (<a rel="nofollow" class="external text" href="http://download.geofabrik.de/osm/europe/germany/">geofabrik.de</a>, 2011-01-13) is used as an example.
+</p><p>Every data is preceded by a variable identifier. This identifier consists of type and id; the bits 0 through 2 stand for the type, bits 3 and above for the id. These types may be used:
+</p>
+<ul><li>0: <b>V</b> (Varint) int32, int64, uint32, uint64, sint32, sint64, bool, enum</li>
+<li>1: <b>D</b> (64-bit) fixed64, sfixed64, double</li>
+<li>2: <b>S</b> (Length-delimited) string, bytes, embedded messages, packed repeated fields</li>
+<li>5: <b>I</b> (32-bit) fixed32, sfixed32, float</li></ul>
+<pre>
+00000000  00 00 00 0d - length in bytes of the BlobHeader in network-byte order
+00000000  __ __ __ __ 0a - S 1 'type'
+00000000  __ __ __ __ __ 09 - length 9 bytes
+00000000  __ __ __ __ __ __ 4f 53  4d 48 65 61 64 65 72 - "OSMHeader"
+00000000  __ __ __ __ __ __ __ __  __ __ __ __ __ __ __ 18 - V 3 'datasize'
+00000010  7c - 124 bytes long
+00000010  __ 10 - V 2 'raw_size'
+00000010  __ __ 71 - 113 bytes long
+00000010  __ __ __ 1a - S 3 'zlib_data'
+00000010  __ __ __ __ 78 - length 120 bytes
+
+--- compressed section:
+00000010  __ __ __ __ __ 78 9c e3  92 e2 b8 70 eb da 0c 7b  ||.q.xx.....p...{|
+00000020  81 0b 7b 7a ff 39 49 34  3c 5c bb bd 9f 59 a1 61  |..{z.9I4&lt;\...Y.a|
+00000030  ce a2 df 5d cc 4a 7c fe  c5 b9 c1 c9 19 a9 b9 89  |...].J|.........|
+00000040  ba 61 06 7a 66 4a 5c 2e  a9 79 c5 a9 7e f9 29 a9  |.a.zfJ\..y..~.).|
+00000050  c5 4d 8c fc c1 7e 8e 01  c1 1e fe 21 ba 45 46 26  |.M...~.....!.EF&amp;|
+00000060  96 16 26 5d 8c 2a 19 25  25 05 56 fa fa e5 e5 e5  |..&amp;].*.%%.V.....|
+00000070  7a f9 05 40 a5 25 45 a9  a9 25 b9 89 05 7a f9 45  |z..@.%E..%...z.E|
+00000080  e9 fa 89 05 99 fa 40 43  00 c0 94 29 0c
+--- decompressed ---&gt;
+00000000  0a - S 1 'bbox'
+00000000  __ 1a - length 26 bytes
+00000000  __ __ 08 d0 da d6 98 3f  10 d0 bc 8d fe 42 18 80
+00000010  e1 ad b7 8f 03 20 80 9c  a2 fb 8a 03 - BBOX (4*Varint)
+00000010  __ __ __ __ __ __ __ __  __ __ __ __ 22 - S 4 'required_features'
+00000010  __ __ __ __ __ __ __ __  __ __ __ __ __ 0e - length 14 bytes
+00000010  __ __ __ __ __ __ __ __  __ __ __ __ __ __ 4f 73
+00000020  6d 53 63 68 65 6d 61 2d  56 30 2e 36 - "OsmSchema-V0.6"
+00000020  __ __ __ __ __ __ __ __  __ __ __ __ 22 - S 4 'required_features'
+00000020  __ __ __ __ __ __ __ __  __ __ __ __ __ 0a - length 10 bytes
+00000020  __ __ __ __ __ __ __ __  __ __ __ __ __ __ 44 65
+00000030  6e 73 65 4e 6f 64 65 73 - "DenseNodes"
+00000030  __ __ __ __ __ __ __ __  82 01 - S 16 'writingprogram'
+00000030  __ __ __ __ __ __ __ __  __ __ 0f - length 15 bytes
+00000030  __ __ __ __ __ __ __ __  __ __ __ 53 4e 41 50 53
+00000040  48 4f 54 2d 72 32 34 39  38 34 - "SNAPSHOT-r24984"
+00000040  __ __ __ __ __ __ __ __  __ __ 8a 01 - S 17 'source'
+00000040  __ __ __ __ __ __ __ __  __ __ __ __ 24 - length 36 bytes
+00000040  __ __ __ __ __ __ __ __  __ __ __ __ __ 68 74 74
+00000050  70 3a 2f 2f 77 77 77 2e  6f 70 65 6e 73 74 72 65
+00000060  65 74 6d 61 70 2e 6f 72  67 2f 61 70 69 2f 30 2e
+00000070  36 - "http://www.openstreetmap.org/api/0.6"
+&lt;--- decompressed ---
+
+00000080  __ __ __ __ __ __ __ __  __ __ __ __ __ 00 00 00
+00000090  0d - length in bytes of the BlobHeader in network-byte order
+00000090  __ 0a - S 1 'type'
+00000090  __ __ 07 - length 7 bytes
+00000090  __ __ __ 4f 53 4d 44 61  74 61 "OSMData"
+00000090  __ __ __ __ __ __ __ __  __ __ 18 - V 3 'datasize'
+00000090  __ __ __ __ __ __ __ __  __ __ __ 90 af 05 - 87952 bytes long
+00000090  __ __ __ __ __ __ __ __  __ __ __ __ __ __ 10 - V 2 'raw_size'
+00000090  __ __ __ __ __ __ __ __  __ __ __ __ __ __ __ 8f
+000000a0  84 08 - 131599 bytes long
+000000a0  __ __ 1a - S 3 'zlib_data'
+000000a0  __ __ __ 88 af 05 - length 87944 bytes
+
+--- compressed section:
+000000a0  __ __ __ __ __ __ 78 9c  b4 bc 09 5c 14 57 ba 28  |......x....\.W.(|
+000000b0  5e 75 aa ba ba ba ba 69  16 11 d1 b8 90 b8 1b 41  |^u.....i.......A|
+000000c0  10 11 97 98 c4 2d 31 1a  27 b9 9a 49 ee 64 ee 8c  |.....-1.'..I.d..|
+000000d0  69 a0 95 8e 40 9b 06 62  32 f7 dd f7 5c 00 01 11  |i...@..b2...\...|
+000000e0  11 05 11 11 71 43 45 44  40 05 44 54 14 17 44 44  |....qCED@.DT..DD|
+000000f0  40 16 15 dc 00 37 50 44  05 c4 05 7d df 39 55 dd  |@....7PD...}.9U.|
+etc.
+--- decompressed ---&gt;
+00000000  0a - S 1 'stringtable'
+00000000  __ d4 2e - length 5972 bytes
+00000000  __ __ __ 0a - S 1
+00000000  __ __ __ __ 00 length 0 bytes
+00000000  __ __ __ __ __ 0a - S 1
+00000000  __ __ __ __ __ __ 07 length 7 bytes
+00000000  __ __ __ __ __ __ __ 44  65 65 6c 6b 61 72 - "Deelkar"
+00000000  __ __ __ __ __ __ __ __  __ __ __ __ __ __ 0a 0a  |.......Deelkar..|
+00000010  63 72 65 61 74 65 64 5f  62 79 0a 04 4a 4f 53 4d  |created_by..JOSM|
+00000020  0a 0b 45 74 72 69 63 43  65 6c 69 6e 65 0a 04 4b  |..EtricCeline..K|
+00000030  6f 77 61 0a 05 55 53 63  68 61 0a 0d 4b 61 72 74  |owa..UScha..Kart|
+00000040  6f 47 72 61 70 48 69 74  69 0a 05 4d 75 65 63 6b  |oGrapHiti..Mueck|
+etc.
+--- decompressed part form offset 5975 ---&gt;
+00000000  12 - S 2 'primitivegroup'
+00000000  __ ad d5 07 - length 125613 bytes
+00000000  __ __ __ __ 12 - S 2 -- Tag #2 in a 'PrimitiveGroup', containing a serialized DenseNodes.
+00000000  __ __ __ __ __ a9 d5 07 - of length 125609 bytes
+00000000  __ __ __ __ __ __ __ __  0a - S 1 - Tag #1 in a DenseNodes, which is an array of packed varints. 
+00000000  __ __ __ __ __ __ __ __  __ df 42 - of length 8543 bytes
+00000000  __ __ __ __ __ __ __ __  __ __ __ ce ad 0f 02 02  |..........B.....|
+00000010  02 02 04 02 02 02 02 02  02 02 02 02 02 02 02 02  |................|
+00000020  02 02 02 c6 8b ef 13 02  02 02 02 02 02 02 02 f0  |................|
+00000030  ea 01 02 02 02 02 02 02  02 02 02 02 02 02 02 02  |................|
+
+    Each varint is stored consecutively. 
+    We process until we have read 8543 bytes worth, then resume parsing the DenseNodes. 
+    The varints are delta-encoded node id numbers.
+
+00000040  02 02 02 04 02 04 02 02  04 02 02 02 02 02 02 02  |................|
+00000050  02 02 02 02 02 02 02 02  02 02 02 02 02 02 02 02  |................|
+00000060  02 02 02 02 02 02 02 02  02 02 02 02 02 02 02 04  |................|
+00000070  02 02 06 44 02 02 02 02  02 02 02 02 02 02 02 02  |...D............|
+00000080  68 02 02 02 02 02 02 02  02 02 02 02 04 02 02 06  |h...............|
+00000090  02 02 0c 02 02 02 0a 02  02 02 02 06 0c 06 02 04  |................|
+000000a0  02 06 02 02 02 02 02 02  02 02 02 02 02 02 02 02  |................|
+000000b0  02 02 02 02 02 02 02 02  04 04 02 06 04 04 10 02  |................|
+000000c0  04 02 04 18 0a 02 02 02  02 02 02 02 02 02 02 02  |................|
+000000d0  04 06 02 02 04 02 02 02  02 04 02 02 02 02 08 02  |................|
+000000e0  02 02 02 02 02 02 02 02  02 02 02 cc 06 02 02 02  |................|
+000000f0  02 02 02 02 02 02 02 02  04 02 02 02 02 02 02 02  |................|
+00000100  02 02 02 02 02 02 02 02  02 02 02 02 02 02 02 02  |................|
+00000110  02 02 02 02 02 02 02 02  36 02 02 04 04 04 02 02  |........6.......|
+00000120  02 02 02 02 02 02 02 02  02 02 02 02 02 02 02 02  |................|
+etc.
+&lt;--- decompressed ---
+</pre>
+<p>Of course, the protocol buffer library handles all of these low-level encoding details.
+</p>
+<h2><span class="mw-headline" id="The_code">The code</span></h2>
+<p>The codebase is split into two pieces. Common code that is application-independent exists on github. This includes the protocol buffer definitions, and Java code that operates at the fileblock level. <a rel="nofollow" class="external free" href="http://github.com/scrosby/OSM-binary">http://github.com/scrosby/OSM-binary</a>
+</p><p>Unfortunately, osmosis, mkgmap, and the splitter each use a different internal representation for OSM entities. This means that I have to reimplement the entity serialization and parsing code for each program and there is less common code between the implementations than I would like. The serializer and deserializer for osmosis are in trunk. 
+</p><p>A deserializer for an older version of the mkgmap splitter (circa 5/2010) is available on github at: <a rel="nofollow" class="external free" href="http://github.com/scrosby/OSM-splitter">http://github.com/scrosby/OSM-splitter</a>
+</p>
+<h2><span class="mw-headline" id="Miscellaneous_notes">Miscellaneous notes</span></h2>
+<h3><span class="mw-headline" id="Downloads">Downloads</span></h3>
+<p>The complete (current state, no history) osm planet in pbf format is available here: <b><a rel="nofollow" class="external free" href="https://planet.openstreetmap.org/pbf/">https://planet.openstreetmap.org/pbf/</a></b>.
+</p><p>Other places to download OSM extracts in PBF format&#160;: <a href="/wiki/Planet.osm" title="Planet.osm">Planet.osm</a>
+</p>
+<h2><span class="mw-headline" id="See_also">See also</span></h2>
+<ul><li><a href="/wiki/PBF_Perl_Parser" title="PBF Perl Parser">PBF Perl Parser</a></li>
+<li><a rel="nofollow" class="external text" href="https://github.com/larroy/osmcompiler">OSMCompiler</a></li>
+<li>Tutorial how to parse PBF using Python <a rel="nofollow" class="external autonumber" href="http://blog.lifeeth.in/2011/02/extract-pois-from-osm-pbf.html">[3]</a></li>
+<li><a href="http://en.wikipedia.org/wiki/en:Protocol_Buffers" class="extiw" title="wikipedia:en:Protocol Buffers">Protocol Buffers</a> at Wikipedia</li>
+<li><a href="/wiki/Osmium" title="Osmium">Osmium</a> C++/Javascript framework for working with OSM files </li>
+<li><a rel="nofollow" class="external text" href="http://imposm.org/docs/imposm.parser/latest/">Imposm</a> Python library that parses OpenStreetMap data in XML and PBF format</li>
+<li><a rel="nofollow" class="external text" href="https://github.com/CanalTP/libosmpbfreader">libosmpbfreader</a> A simple C++ library to read OpenStreetMap binary files</li>
+<li><a rel="nofollow" class="external text" href="https://npmjs.org/package/osm-read">osm-read</a> node.js library for parsing OpenStreetMap data in XML and PBF format</li>
+<li><a rel="nofollow" class="external text" href="https://github.com/planas/pbf_parser">pbf_parser</a> A Ruby gem for parsing PBF files easily</li>
+<li><a rel="nofollow" class="external text" href="https://code.google.com/p/osmpbf2sqlite/">osmpbf2sqlite</a> Convert osm pbf to sqlite database.</li>
+<li><a rel="nofollow" class="external text" href="https://github.com/angelcervera/osm4scala">osm4scala</a> High performance scala library to iterate over osm element from a pbf file.</li></ul>
+
+<!-- 
+NewPP limit report
+Cached time: 20170805135542
+Cache expiry: 86400
+Dynamic content: false
+CPU time usage: 1.472 seconds
+Real time usage: 1.657 seconds
+Preprocessor visited node count: 11833/1000000
+Preprocessor generated node count: 16084/1000000
+Post‐expand include size: 141712/2097152 bytes
+Template argument size: 4936/2097152 bytes
+Highest expansion depth: 18/40
+Expensive parser function count: 5/100
+-->
+
+<!-- 
+Transclusion expansion time report (%,ms,calls,template)
+100.00% 1540.990      1 - Template:Languages
+100.00% 1540.990      1 - -total
+ 99.81% 1538.035      1 - Template:Languages/div
+ 96.75% 1490.835    120 - Template:LanguageLink
+ 79.75% 1228.904    120 - Template:Languagename
+  7.55%  116.347    129 - Template:Langcode
+  0.82%   12.667      5 - Template:LangSwitch
+  0.57%    8.721      1 - Template:Purge
+  0.42%    6.460      1 - Template:Missing_languages
+  0.36%    5.542      1 - Template:LL
+-->
+
+<!-- Saved in parser cache with key wiki:pcache:idhash:64695-0!*!0!!en!5!* and timestamp 20170805135541 and revision id 1412049
+ -->
+</div>					<div class="printfooter">
+						Retrieved from "<a dir="ltr" href="http://wiki.openstreetmap.org/w/index.php?title=PBF_Format&amp;oldid=1412049">http://wiki.openstreetmap.org/w/index.php?title=PBF_Format&amp;oldid=1412049</a>"					</div>
+				<div id="catlinks" class="catlinks" data-mw="interface"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="/wiki/Special:Categories" title="Special:Categories">Category</a>: <ul><li><a href="/wiki/Category:File_format" title="Category:File format">File format</a></li></ul></div><div id="mw-hidden-catlinks" class="mw-hidden-catlinks mw-hidden-cats-hidden">Hidden categories: <ul><li><a href="/wiki/Category:Pages_unavailable_in_Czech" title="Category:Pages unavailable in Czech">Pages unavailable in Czech</a></li><li><a href="/wiki/Category:Pages_unavailable_in_French" title="Category:Pages unavailable in French">Pages unavailable in French</a></li><li><a href="/wiki/Category:Pages_unavailable_in_Italian" title="Category:Pages unavailable in Italian">Pages unavailable in Italian</a></li></ul></div></div>				<div class="visualClear"></div>
+							</div>
+		</div>
+		<div id="mw-navigation">
+			<h2>Navigation menu</h2>
+
+			<div id="mw-head">
+									<div id="p-personal" role="navigation" class="" aria-labelledby="p-personal-label">
+						<h3 id="p-personal-label">Personal tools</h3>
+						<ul>
+							<li id="pt-uls" class="active"><a href="#" class="uls-trigger autonym">English</a></li><li id="pt-createaccount"><a href="/w/index.php?title=Special:CreateAccount&amp;returnto=PBF+Format" title="You are encouraged to create an account and log in; however, it is not mandatory">Create account</a></li><li id="pt-login"><a href="/w/index.php?title=Special:UserLogin&amp;returnto=PBF+Format" title="You are encouraged to log in; however, it is not mandatory [o]" accesskey="o">Log in</a></li>						</ul>
+					</div>
+									<div id="left-navigation">
+										<div id="p-namespaces" role="navigation" class="vectorTabs" aria-labelledby="p-namespaces-label">
+						<h3 id="p-namespaces-label">Namespaces</h3>
+						<ul>
+															<li  id="ca-nstab-main" class="selected"><span><a href="/wiki/PBF_Format"  title="View the content page [c]" accesskey="c">Page</a></span></li>
+															<li  id="ca-talk"><span><a href="/wiki/Talk:PBF_Format"  title="Discussion about the content page [t]" accesskey="t" rel="discussion">Discussion</a></span></li>
+													</ul>
+					</div>
+										<div id="p-variants" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-variants-label">
+												<h3 id="p-variants-label">
+							<span>Variants</span><a href="#"></a>
+						</h3>
+
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+									</div>
+				<div id="right-navigation">
+										<div id="p-views" role="navigation" class="vectorTabs" aria-labelledby="p-views-label">
+						<h3 id="p-views-label">Views</h3>
+						<ul>
+															<li id="ca-view" class="selected"><span><a href="/wiki/PBF_Format" >Read</a></span></li>
+															<li id="ca-viewsource"><span><a href="/w/index.php?title=PBF_Format&amp;action=edit"  title="This page is protected.&#10;You can view its source [e]" accesskey="e">View source</a></span></li>
+															<li id="ca-history" class="collapsible"><span><a href="/w/index.php?title=PBF_Format&amp;action=history"  title="Past revisions of this page [h]" accesskey="h">View history</a></span></li>
+													</ul>
+					</div>
+										<div id="p-cactions" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-cactions-label">
+						<h3 id="p-cactions-label"><span>More</span><a href="#"></a></h3>
+
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+										<div id="p-search" role="search">
+						<h3>
+							<label for="searchInput">Search</label>
+						</h3>
+
+						<form action="/w/index.php" id="searchform">
+							<div id="simpleSearch">
+							<input type="search" name="search" placeholder="Search OpenStreetMap Wiki" title="Search OpenStreetMap Wiki [f]" accesskey="f" id="searchInput"/><input type="hidden" value="Special:Search" name="title"/><input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton mw-fallbackSearchButton"/><input type="submit" name="go" value="Go" title="Go to a page with this exact name if it exists" id="searchButton" class="searchButton"/>							</div>
+						</form>
+					</div>
+									</div>
+			</div>
+			<div id="mw-panel">
+				<div id="p-logo" role="banner"><a class="mw-wiki-logo" href="/wiki/Main_Page"  title="Visit the main page"></a></div>
+						<div class="portal" role="navigation" id='p-site' aria-labelledby='p-site-label'>
+			<h3 id='p-site-label'>site</h3>
+
+			<div class="body">
+									<ul>
+						<li id="n-mainpage"><a href="/wiki/Main_Page" title="Visit the main page [z]" accesskey="z">Main Page</a></li><li id="n-map"><a href="//www.openstreetmap.org/">The map</a></li><li id="n-mapfeatures"><a href="/wiki/Map_Features">Map Features</a></li><li id="n-contributors"><a href="/wiki/Contributors">Contributors</a></li><li id="n-help"><a href="/wiki/Help:Contents" title="The place to find out">Help</a></li><li id="n-blogs"><a href="/wiki/OSM_Blogs">Blogs</a></li><li id="n-Shop"><a href="/wiki/Merchandise">Shop</a></li><li id="n-sitesupport"><a href="/wiki/Donations">Donations</a></li><li id="n-recentchanges"><a href="/wiki/Special:RecentChanges" title="A list of recent changes in the wiki [r]" accesskey="r">Recent changes</a></li>					</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id='p-tb' aria-labelledby='p-tb-label'>
+			<h3 id='p-tb-label'>Tools</h3>
+
+			<div class="body">
+									<ul>
+						<li id="t-whatlinkshere"><a href="/wiki/Special:WhatLinksHere/PBF_Format" title="A list of all wiki pages that link here [j]" accesskey="j">What links here</a></li><li id="t-recentchangeslinked"><a href="/wiki/Special:RecentChangesLinked/PBF_Format" rel="nofollow" title="Recent changes in pages linked from this page [k]" accesskey="k">Related changes</a></li><li id="t-specialpages"><a href="/wiki/Special:SpecialPages" title="A list of all special pages [q]" accesskey="q">Special pages</a></li><li id="t-print"><a href="/w/index.php?title=PBF_Format&amp;printable=yes" rel="alternate" title="Printable version of this page [p]" accesskey="p">Printable version</a></li><li id="t-permalink"><a href="/w/index.php?title=PBF_Format&amp;oldid=1412049" title="Permanent link to this revision of the page">Permanent link</a></li><li id="t-info"><a href="/w/index.php?title=PBF_Format&amp;action=info" title="More information about this page">Page information</a></li><li id="t-cite"><a href="/w/index.php?title=Special:CiteThisPage&amp;page=PBF_Format&amp;id=1412049" title="Information on how to cite this page">Cite this page</a></li>					</ul>
+							</div>
+		</div>
+				</div>
+		</div>
+		<div id="footer" role="contentinfo">
+							<ul id="footer-info">
+											<li id="footer-info-lastmod"> This page was last modified on 26 December 2016, at 11:59.</li>
+											<li id="footer-info-copyright">Content is available under <a href="/wiki/Wiki_content_license" title="Wiki content license">Creative Commons Attribution-ShareAlike 2.0 license</a> unless otherwise noted.</li>
+									</ul>
+							<ul id="footer-places">
+											<li id="footer-places-privacy"><a href="/wiki/Privacy_Policy" title="Privacy Policy">Privacy policy</a></li>
+											<li id="footer-places-about"><a href="/wiki/About" class="mw-redirect" title="About">About OpenStreetMap Wiki</a></li>
+											<li id="footer-places-disclaimer"><a href="/wiki/OpenStreetMap:General_disclaimer" class="mw-redirect" title="OpenStreetMap:General disclaimer">Disclaimers</a></li>
+											<li id="footer-places-mobileview"><a href="//wiki.openstreetmap.org/w/index.php?title=PBF_Format&amp;mobileaction=toggle_view_mobile" class="noprint stopMobileRedirectToggle">Mobile view</a></li>
+									</ul>
+										<ul id="footer-icons" class="noprint">
+											<li id="footer-copyrightico">
+							<a href="http://creativecommons.org/licenses/by-sa/2.0/"><img src="/cc-wiki.png" alt="Creative Commons Attribution-ShareAlike 2.0 license" width="88" height="31"/></a>						</li>
+											<li id="footer-poweredbyico">
+							<a href="//www.mediawiki.org/"><img src="/w/resources/assets/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" srcset="/w/resources/assets/poweredby_mediawiki_132x47.png 1.5x, /w/resources/assets/poweredby_mediawiki_176x62.png 2x" width="88" height="31"/></a>						</li>
+									</ul>
+						<div style="clear:both"></div>
+		</div>
+		<script>(window.RLQ=window.RLQ||[]).push(function(){mw.loader.load(["mediawiki.toc","mediawiki.action.view.postEdit","site","mediawiki.user","mediawiki.hidpi","mediawiki.page.ready","mediawiki.searchSuggest","ext.visualEditor.targetLoader","ext.uls.init","ext.uls.geoclient"]);});</script><script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgBackendResponseTime":57});});</script>
+	</body>
+</html>

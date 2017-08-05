@@ -2,6 +2,7 @@
 *.dll
 *.o
 *.pyc
+*.osm.pbf
 /src/lex.yy.c
 /src/protozosm.tab.c
 /src/protozosm.tab.h

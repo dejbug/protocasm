@@ -1,7 +1,7 @@
 %option noyywrap
 
 %{
-#include "protozosm.tab.h"
+#include "protozasm.tab.h"
 %}
 
 %%

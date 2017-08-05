@@ -1,0 +1,9 @@
+READ fixed32 AS blobheader_length
+FLIP BYTES blobheader_length
+MARK RESET
+MATCH 0A
+READ string
+MATCH 18
+READ int32 AS datasize
+MARK EQ blobheader_length ELSE FAIL
+READ [datasize] AS blob

@@ -1,0 +1,7 @@
+*.exe
+*.dll
+*.o
+*.pyc
+/src/lex.yy.c
+/src/protozosm.tab.c
+/src/protozosm.tab.h

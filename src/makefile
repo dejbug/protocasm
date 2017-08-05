@@ -1,12 +1,9 @@
 SHELL := cmd.exe
 
-flex := c:\Programme\3\win_flex_bison-latest\win_flex.exe
-bison := c:\Programme\3\win_flex_bison-latest\win_bison.exe
-
 protozasm.exe: lex.yy.c protozasm.tab.c ; g++ -o $@ $^
-protozasm.tab.c: protozasm.y ; $(bison) -d $<
-protozasm.tab.h: protozasm.y ; $(bison) -d $<
-lex.yy.c: protozasm.l ; $(flex) --wincompat $<
+protozasm.tab.c: protozasm.y ; bison -d $<
+protozasm.tab.h: protozasm.y ; bison -d $<
+lex.yy.c: protozasm.l ; flex --wincompat $<
 
 .PHONY: clean
 clean:

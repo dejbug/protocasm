@@ -6,13 +6,19 @@ file_extensions:
   - protozasm
 scope: source.protozasm
 variables:
-  operator: '[]\[#]'
+  operator: '[]\[#]|EQ|NE|RESET'
   number: '\b[0-9A-Z]+\b'
   identifier: '\b[_a-z][_a-z0-9]*\b'
-  keyword: 'AS|EQ|NEQ|IN|ELSE|MARK|READ|FAIL|WARN|FLIP|MATCH|BYTES|RESET'
+  keyword: '\b(AS|IN|ELSE|MARK|READ|MATCH)\b'
+  signal: '\b(FAIL|WARN)\b'
   type: '\b(fixed32|int32|string)\b'
+  storage_class: '\bBigEndian|LittleEndian\b'
 contexts:
   main:
+    - match: '{{signal}}'
+      scope: constant.language.protozasm
+    - match: '{{storage_class}}'
+      scope: storage.modifier.protozasm
     - match: ^(#)(.*)$\n?
       scope: comment.line.protozasm
     - match: '{{operator}}'

@@ -12,7 +12,9 @@
 "]" { return O_RBRACKET; }
 
 "AS" { return K_AS; }
+"IN" { return K_IN; }
 "EQ" { return K_EQ; }
+"NE" { return K_NE; }
 "ELSE" { return K_ELSE; }
 "FAIL" { return K_FAIL; }
 "WARN" { return K_WARN; }
@@ -27,9 +29,13 @@
 "fixed32" { return T_FIXED32; }
 "int32" { return T_INT32; }
 
+"BigEndian" { return S_BE; }
+"LittleEndian" { return S_LE; }
+
 [0-9A-Z]+ { yylval.u64 = strtoul(yytext, NULL, 16); return NUMBER; }
 \n { return EOL; }
 
+#.* { /* ignore comment lines */ }
 [ \t] { /* ignore whitespace */ }
 . { printf("Mystery character %c\n", *yytext); }
 

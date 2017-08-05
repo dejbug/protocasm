@@ -23,7 +23,6 @@
 "MARK" { return K_MARK; }
 "MATCH" { return K_MATCH; }
 "RESET" { return K_RESET; }
-"BYTES" { return K_BYTES; }
 
 "string" { return T_STRING; }
 "fixed32" { return T_FIXED32; }

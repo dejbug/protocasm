@@ -3,8 +3,8 @@
 # See http://www.sublimetext.com/docs/3/syntax.html
 name: Protozasm Script
 file_extensions:
-  - protozasm
-scope: source.protozasm
+  - protocasm
+scope: source.protocasm
 variables:
   operator: '[]\[#]|EQ|NE|RESET'
   number: '\b[0-9A-Z]+\b'
@@ -16,18 +16,18 @@ variables:
 contexts:
   main:
     - match: '{{signal}}'
-      scope: constant.language.protozasm
+      scope: constant.language.protocasm
     - match: '{{storage_class}}'
-      scope: storage.modifier.protozasm
+      scope: storage.modifier.protocasm
     - match: ^(#)(.*)$\n?
-      scope: comment.line.protozasm
+      scope: comment.line.protocasm
     - match: '{{operator}}'
-      scope: operator.protozasm
+      scope: operator.protocasm
     - match: '{{keyword}}'
-      scope: keyword.protozasm
+      scope: keyword.protocasm
     - match: '{{number}}'
-      scope: constant.numeric.protozasm
+      scope: constant.numeric.protocasm
     - match: '{{type}}'
-      scope: support.type.protozasm
+      scope: support.type.protocasm
     - match: '{{identifier}}'
-      scope: variable.protozasm
+      scope: variable.protocasm

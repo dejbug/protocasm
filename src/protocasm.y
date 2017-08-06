@@ -10,6 +10,7 @@ extern int yylineno;
 enum DataType {
 	t_null,
 	t_string,
+	t_bytes,
 	t_fixed32,
 	t_int32,
 };
@@ -31,10 +32,10 @@ enum StorageType {
 /* declare tokens */
 %token <id> IDENTIFIER
 %token <u64> NUMBER
-%token O_COLON O_LBRACKET O_RBRACKET
-%token K_AS K_IN K_EQ K_NE K_ELSE K_FAIL K_WARN K_READ
-%token K_FLIP K_MARK K_MATCH K_RESET K_BYTES
-%token T_STRING T_FIXED32 T_INT32
+%token O_EQ O_LBRACKET O_RBRACKET
+%token K_AS K_IN K_EQ K_NE K_IF K_ELSE K_THEN K_FAIL K_WARN K_READ
+%token K_SKIP K_MARK K_MATCH K_RESET K_BYTES
+%token T_STRING T_BYTES T_FIXED32 T_INT32
 %token S_BE S_LE
 %token EOL
 
@@ -46,24 +47,37 @@ enum StorageType {
 lines: /* nothing -- matches at beginning of input */
 |	lines line EOL { ++yylineno; } /* EOL is end of an expression */
 ;
+
 line: /* nothing -- matches empty lines */
+|	IDENTIFIER O_EQ NUMBER { printf(" %03d  %s = %d\n", yylineno, $1, $3); }
+|	readop
+|	K_IF K_MATCH NUMBER readop
+|	K_IF K_MATCH NUMBER K_SKIP datatype
 |	K_MATCH NUMBER { printf(" %03d  match(#%02x)\n", yylineno, $2); }
-|	K_READ datatype { printf(" %03d  read(%d)\n", yylineno, $2); }
+|	K_MARK NUMBER
+|	K_MARK NUMBER ops IDENTIFIER K_ELSE signal
+;
+
+readop:
+	K_READ datatype { printf(" %03d  read(%d)\n", yylineno, $2); }
 |	K_READ datatype K_AS IDENTIFIER { printf(" %03d  %s = read(%d)\n", yylineno, $4, $2); }
 |	K_READ datatype K_IN stortype K_AS IDENTIFIER { printf(" %03d  %s = *(%d*) read(%d)\n", yylineno, $6, $4, $2); }
-|	K_MARK K_RESET
-|	K_MARK ops IDENTIFIER K_ELSE signal
 ;
+
 datatype:
 	T_STRING { $$ = t_string; }
+|	T_BYTES { $$ = t_bytes; }
 |	T_FIXED32 { $$ = t_fixed32; }
 |	T_INT32 { $$ = t_int32; }
 ;
+
 stortype:
 	S_BE { $$ = s_be; }
 |	S_LE { $$ = s_le; }
 ;
+
 ops: K_EQ | K_NE ;
+
 signal: K_FAIL | K_WARN ;
 
 %%

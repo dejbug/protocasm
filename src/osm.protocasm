@@ -1,11 +1,10 @@
-READ fixed32 IN BigEndian AS blobheader_length
-# FLIP BYTES blobheader_length
-MARK RESET
-MATCH 0A
-READ string
-MATCH 18
-READ int32 AS datasize
-MARK EQ blobheader_length ELSE WARN
-MARK RESET
+match_count = 0
+blobheader_length = READ fixed32 IN BigEndian ELSE FAIL
+mark = MARK
+IF MATCH 0A THEN READ string AS type ELSE FAIL THEN INC match_count THEN YIELD 0A type
+IF MATCH 12 SKIP bytes
+IF MATCH 18 THEN READ int32 AS datasize ELSE FAIL THEN INC match_count THEN YIELD 18 datasize
+IF mark NE blobheader_length THEN WARN
+mark = MARK
 # READ [datasize] BYTES AS blob
-MARK EQ datasize ELSE FAIL
+IF mark NE datasize THEN FAIL

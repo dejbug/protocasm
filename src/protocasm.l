@@ -7,7 +7,7 @@
 %%
 
 
-":" { return O_COLON; }
+"=" { return O_EQ; }
 "[" { return O_LBRACKET; }
 "]" { return O_RBRACKET; }
 
@@ -15,23 +15,27 @@
 "IN" { return K_IN; }
 "EQ" { return K_EQ; }
 "NE" { return K_NE; }
+"IF" { return K_IF; }
 "ELSE" { return K_ELSE; }
+"THEN" { return K_THEN; }
 "FAIL" { return K_FAIL; }
 "WARN" { return K_WARN; }
 "READ" { return K_READ; }
-"FLIP" { return K_FLIP; }
+"SKIP" { return K_SKIP; }
 "MARK" { return K_MARK; }
 "MATCH" { return K_MATCH; }
 "RESET" { return K_RESET; }
 
 "string" { return T_STRING; }
+"bytes" { return T_BYTES; }
 "fixed32" { return T_FIXED32; }
 "int32" { return T_INT32; }
 
 "BigEndian" { return S_BE; }
 "LittleEndian" { return S_LE; }
 
-[0-9A-Z]+ { yylval.u64 = strtoul(yytext, NULL, 16); return NUMBER; }
+"0"[0-9A-F]+ { yylval.u64 = strtoul(yytext, NULL, 16); return NUMBER; }
+"0"|[1-9][0-9]* { yylval.u64 = strtoul(yytext, NULL, 10); return NUMBER; }
 \n { return EOL; }
 
 #.* { /* ignore comment lines */ }

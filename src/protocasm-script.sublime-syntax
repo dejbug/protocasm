@@ -7,11 +7,13 @@ file_extensions:
 scope: source.protocasm
 variables:
   operator: '[]\[#]|EQ|NE|RESET'
-  number: '\b[0-9A-Z]+\b'
+  number10: '\b0|[1-9][0-9]*\b'
+  number16: '\b0[0-9A-F]+\b'
+  number: '{{number16}}|{{number10}}'
   identifier: '\b[_a-z][_a-z0-9]*\b'
-  keyword: '\b(AS|IN|ELSE|MARK|READ|MATCH)\b'
+  keyword: '\b(AS|IN|IF|ELSE|MARK|READ|SKIP|MATCH)\b'
   signal: '\b(FAIL|WARN)\b'
-  type: '\b(fixed32|int32|string)\b'
+  type: '\b(fixed32|int32|string|bytes)\b'
   storage_class: '\bBigEndian|LittleEndian\b'
 contexts:
   main:

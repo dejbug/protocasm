@@ -19,7 +19,6 @@
 "FAIL" { return K_FAIL; }
 "WARN" { return K_WARN; }
 "READ" { return K_READ; }
-"FLIP" { return K_FLIP; }
 "MARK" { return K_MARK; }
 "MATCH" { return K_MATCH; }
 "RESET" { return K_RESET; }
@@ -31,7 +30,8 @@
 "BigEndian" { return S_BE; }
 "LittleEndian" { return S_LE; }
 
-[0-9A-Z]+ { yylval.u64 = strtoul(yytext, NULL, 16); return NUMBER; }
+"0"[0-9A-F]+ { yylval.u64 = strtoul(yytext, NULL, 16); return NUMBER; }
+"0"|[1-9][0-9]* { yylval.u64 = strtoul(yytext, NULL, 10); return NUMBER; }
 \n { return EOL; }
 
 #.* { /* ignore comment lines */ }

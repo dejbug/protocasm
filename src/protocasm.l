@@ -7,7 +7,10 @@
 %%
 
 
-"=" { return O_EQ; }
+"=" { return O_ASSIGN; }
+"+=" { return O_ADDA; }
+"-=" { return O_SUBA; }
+":" { return O_COLON; }
 "[" { return O_LBRACKET; }
 "]" { return O_RBRACKET; }
 

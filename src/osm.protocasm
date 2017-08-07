@@ -1,9 +1,52 @@
+loop1_count = 0
+step1:
+loop1:
+	loop1_count += 1
+	blobheader_length = READ fixed32 IN BigEndian
+	FAIL IF blobheader_length EQ 0
+	blobheader_data = READ blobheader_length
+	YIELD "loop1_count" loop1_count
+#	key = READ byte FROM blobheader_data
+	type_match_count = 0
+	datasize_match_count = 0
+step2:
+loop2:
+	GOTO step3 IF MARK FROM blobheader_data GE blobheader_length
+	IF MATCH 0A FROM blobheader_data
+		type = READ string
+		type_match_count += 1
+		YIELD 1 type
+		GOTO loop2
+	IF MATCH 12 FROM blobheader_data
+		SKIP bytes FROM blobheader_data
+		GOTO loop2
+	IF MATCH 18 FROM blobheader_data
+		datasize = READ int32
+		datasize_match_count += 1
+		YIELD 3 datasize
+	FAIL IF READ EQ 0
+step3:
+	EXIT
+
 match_count = 0
-blobheader_length = READ fixed32 IN BigEndian ELSE FAIL
 mark = MARK
-IF MATCH 0A THEN READ string AS type ELSE FAIL THEN INC match_count THEN YIELD 0A type
-IF MATCH 12 SKIP bytes
-IF MATCH 18 THEN READ int32 AS datasize ELSE FAIL THEN INC match_count THEN YIELD 18 datasize
+
+blobheader_length = READ fixed32 IN BigEndian ELSE FAIL
+blobheader_data = READ blobheader_length ELSE FAIL
+
+IF MATCH 0A
+	type = READ string ELSE FAIL
+	match_count += 1
+	YIELD 0A type
+
+IF MATCH 12
+	SKIP bytes
+
+IF MATCH 18
+	READ int32 AS datasize ELSE FAIL
+	INC match_count
+	YIELD 18 datasize
+
 IF mark NE blobheader_length THEN WARN
 mark = MARK
 # READ [datasize] BYTES AS blob

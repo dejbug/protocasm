@@ -26,6 +26,7 @@
 "FROM" { return K_FROM; }
 "GOTO" { return K_GOTO; }
 "MARK" { return K_MARK; }
+"DUMP" { return K_DUMP; }
 "MATCH" { return K_MATCH; }
 "RESET" { return K_RESET; }
 "YIELD" { return K_YIELD; }

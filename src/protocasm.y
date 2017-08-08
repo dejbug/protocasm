@@ -1,9 +1,12 @@
 %{
 #include <stdio.h>
 #include <string.h>
+#include <stdarg.h>
+#include "machine.h"
 
 int yylex();
 void yyerror(char const *);
+// void emit(char const *, ...);
 
 extern int yylineno;
 
@@ -12,6 +15,9 @@ enum StorageType {
 	s_le,
 	s_be,
 };
+
+std::map<std::string, long long> vars;
+
 %}
 
 %union {
@@ -19,7 +25,7 @@ enum StorageType {
 	unsigned long long u64;
 	int dtyp;
 	int styp;
-	char const * aop;
+	int aop;
 	char text[1024];
 	char text1[1024];
 }
@@ -31,7 +37,7 @@ enum StorageType {
 %token O_ADDA O_SUBA
 %token K_EQ K_NE K_GE
 %token K_AS K_IF K_ELSE K_FAIL K_WARN K_READ K_SKIP K_FROM
-%token K_MARK K_MATCH K_RESET K_BYTES K_YIELD K_GOTO
+%token K_MARK K_MATCH K_RESET K_BYTES K_YIELD K_GOTO K_DUMP
 %token T_KEY T_FIXED32 T_FIXED32_BE T_STRING T_BYTES T_INT32
 %token S_LE S_BE
 %token EOL
@@ -55,7 +61,9 @@ line:
 	/* nothing -- matches empty lines */
 |	expr { printf("! %s", $1); }
 |	expr K_IF condop { printf("? %s", $1); }
-|	IDENTIFIER ':' { printf("[label] %s", $1); }
+|	IDENTIFIER ':' { printf("  [label] %s", $1); }
+|	K_DUMP { printf("  [dump]\n"); machine::dump(); }
+
 |	K_IF K_MATCH NUMBER readop
 |	K_IF K_MATCH NUMBER K_SKIP datatype
 |	K_MATCH NUMBER { printf("match(#%02x)", $2); }
@@ -69,6 +77,8 @@ expr:
 |	yieldexpr { snprintf($$, sizeof($$), "[yield]"); }
 |	assignment { snprintf($$, sizeof($$), "%s", $1); }
 |	signal { snprintf($$, sizeof($$), "[signal]"); }
+|	K_SKIP NUMBER { snprintf($$, sizeof($$), "[skip] %d", $2); }
+|	K_SKIP IDENTIFIER { snprintf($$, sizeof($$), "[skip] %s", $2); }
 ;
 
 yieldexpr:
@@ -89,15 +99,16 @@ condop:
 ;
 
 assignment:
-	IDENTIFIER assignop NUMBER { snprintf($$, sizeof($$), "%s %s %d", $1, $2, $3); }
-|	IDENTIFIER assignop readop { snprintf($$, sizeof($$), "%s %s %s", $1, $2, $3); }
+	IDENTIFIER assignop NUMBER { snprintf($$, sizeof($$), "%s %d %d", $1, $2, $3); machine::assign($1, $2, $3); }
+|	IDENTIFIER assignop IDENTIFIER { snprintf($$, sizeof($$), "%s %d %s", $1, $2, $3); machine::assign($1, $2, $3); }
+|	IDENTIFIER assignop readop { snprintf($$, sizeof($$), "%s %d %s", $1, $2, $3); machine::assign($1, $2, 0LL); }
 ;
 
 assignop:
-	'=' { $$ = "="; }
-|	O_ADDA { $$ = "+="; }
-|	O_SUBA { $$ = "-="; }
-// ...
+	'=' { $$ = '='; }
+|	O_ADDA { $$ = O_ADDA; }
+|	O_SUBA { $$ = O_SUBA; }
+// | ...
 ;
 
 readop:
@@ -132,6 +143,14 @@ ops: K_EQ | K_NE | K_GE ;
 signal: K_FAIL | K_WARN ;
 
 %%
+
+// void emit(char const * s, ...)
+// {
+// 	va_list ap;
+// 	va_start(ap, s);
+// 	vfprintf(stdout, s, ap);
+// 	printf("\n");
+// }
 
 int main(int argc, char **argv)
 {

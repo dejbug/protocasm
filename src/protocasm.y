@@ -18,48 +18,57 @@ enum StorageType {
 	char id[255+1];
 	unsigned long long u64;
 	int dtyp;
+	int styp;
 	char const * aop;
-	char rop[255+1];
+	char text[1024];
+	char text1[1024];
 }
 
 /* declare tokens */
 %token <id> IDENTIFIER
 %token <u64> NUMBER
 %token <id> STRING
-%token O_LBRACKET O_RBRACKET O_COLON O_ASSIGN O_ADDA O_SUBA
+%token O_ADDA O_SUBA
 %token K_EQ K_NE K_GE
-%token K_AS K_IN K_IF K_ELSE K_FAIL K_WARN K_READ K_SKIP K_FROM
+%token K_AS K_IF K_ELSE K_FAIL K_WARN K_READ K_SKIP K_FROM
 %token K_MARK K_MATCH K_RESET K_BYTES K_YIELD K_GOTO
 %token T_KEY T_FIXED32 T_FIXED32_BE T_STRING T_BYTES T_INT32
+%token S_LE S_BE
 %token EOL
 
+%type <text> expr
 %type <dtyp> datatype
+%type <styp> stortype
 %type <aop> assignop
-%type <rop> readop
+%type <text1> readop1
+%type <text> readop
+%type <text> assignment
 
 %%
 
 lines:
-	/* nothing -- matches at beginning of input */ { printf("\n  %03d  ", yylineno); }
-|	lines line EOL { printf("\n  %03d  ", ++yylineno); } /* EOL is end of an expression */
+	/* nothing */ { printf("\n  %03d  ", yylineno /* == 1 */); }
+|	lines line EOL { printf("\n  %03d  ", yylineno/* > 1 */); }
 ;
 
 line:
 	/* nothing -- matches empty lines */
-|	K_GOTO IDENTIFIER { printf("[jump] %s", $2); }
-|	K_GOTO IDENTIFIER K_IF condop { printf("[jump] %s", $2); }
-|	yieldexpr
-|	IDENTIFIER O_COLON { printf("[label] %s", $1); }
-|	IDENTIFIER assignop NUMBER { printf("%s %s %d", $1, $2, $3); }
-|	IDENTIFIER assignop readop { printf("%s %s %s", $1, $2, $3); }
-|	readop
-|	signal K_IF condop
+|	expr { printf("! %s", $1); }
+|	expr K_IF condop { printf("? %s", $1); }
+|	IDENTIFIER ':' { printf("[label] %s", $1); }
 |	K_IF K_MATCH NUMBER readop
 |	K_IF K_MATCH NUMBER K_SKIP datatype
 |	K_MATCH NUMBER { printf("match(#%02x)", $2); }
 |	K_MARK NUMBER
 |	K_MARK NUMBER ops IDENTIFIER K_ELSE signal
 |	K_MATCH NUMBER readop
+;
+
+expr:
+	K_GOTO IDENTIFIER { snprintf($$, sizeof($$), "[jump] %s", $2); }
+|	yieldexpr { snprintf($$, sizeof($$), "[yield]"); }
+|	assignment { snprintf($$, sizeof($$), "%s", $1); }
+|	signal { snprintf($$, sizeof($$), "[signal]"); }
 ;
 
 yieldexpr:
@@ -79,13 +88,24 @@ condop:
 |	K_MARK K_FROM IDENTIFIER ops IDENTIFIER
 ;
 
+assignment:
+	IDENTIFIER assignop NUMBER { snprintf($$, sizeof($$), "%s %s %d", $1, $2, $3); }
+|	IDENTIFIER assignop readop { snprintf($$, sizeof($$), "%s %s %s", $1, $2, $3); }
+;
+
 assignop:
-	O_ASSIGN { $$ = "="; }
+	'=' { $$ = "="; }
 |	O_ADDA { $$ = "+="; }
 |	O_SUBA { $$ = "-="; }
+// ...
 ;
 
 readop:
+	readop1 { strncpy($$, $1, sizeof($$)); }
+|	readop1 K_AS stortype { snprintf($$, sizeof($$), "{%d} %s", $3, $1); }
+;
+
+readop1:
 	K_READ datatype { snprintf($$, sizeof($$), "read(%d)", $2); }
 |	K_READ datatype K_FROM IDENTIFIER { snprintf($$, sizeof($$), "%s.read(%d)", $4, $2); }
 |	K_READ IDENTIFIER { snprintf($$, sizeof($$), "read(%s)", $2); }
@@ -99,6 +119,12 @@ datatype:
 |	T_FIXED32 { $$ = T_FIXED32; }
 |	T_FIXED32_BE { $$ = T_FIXED32_BE; }
 |	T_INT32 { $$ = T_INT32; }
+// ...
+;
+
+stortype:
+	S_LE { $$ = S_LE; }
+|	S_BE { $$ = S_BE; }
 ;
 
 ops: K_EQ | K_NE | K_GE ;
@@ -124,5 +150,5 @@ int main(int argc, char **argv)
 
 void yyerror(char const * s)
 {
-	fprintf(stderr, "! %s\n", s);
+	fprintf(stderr, "<%s>\n", s);
 }

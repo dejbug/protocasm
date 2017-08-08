@@ -1,4 +1,5 @@
 %option noyywrap
+%option nodefault
 
 %{
 #include "protocasm.tab.h"
@@ -7,19 +8,15 @@
 %%
 
 
-"=" { return O_ASSIGN; }
+[=:{}] { return *yytext; }
 "+=" { return O_ADDA; }
 "-=" { return O_SUBA; }
-":" { return O_COLON; }
-"[" { return O_LBRACKET; }
-"]" { return O_RBRACKET; }
 
-"EQ" { return K_EQ; }
-"NE" { return K_NE; }
-"GE" { return K_GE; }
+"=="|EQ|EQU { return K_EQ; }
+"!="|NE|NEQ { return K_NE; }
+">="|GE|GEQ { return K_GE; }
 
 "AS" { return K_AS; }
-"IN" { return K_IN; }
 "IF" { return K_IF; }
 "ELSE" { return K_ELSE; }
 "FAIL" { return K_FAIL; }
@@ -40,9 +37,12 @@
 "FIXED32_BE" { return T_FIXED32_BE; }
 "INT32" { return T_INT32; }
 
+"LittleEndian" { return S_LE; }
+"BigEndian" { return S_BE; }
+
 "0"[0-9A-F]+ { yylval.u64 = strtoul(yytext, NULL, 16); return NUMBER; }
 "0"|[1-9][0-9]* { yylval.u64 = strtoul(yytext, NULL, 10); return NUMBER; }
-\n { return EOL; }
+\n { ++yylineno; return EOL; }
 
 #.* { /* ignore comment lines */ }
 [ \t] { /* ignore whitespace */ }

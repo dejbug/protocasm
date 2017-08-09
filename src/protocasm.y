@@ -5,7 +5,7 @@
 #include "machine.h"
 
 int yylex();
-void yyerror(char const *);
+void yyerror(char const *, ...);
 // void emit(char const *, ...);
 
 extern int yylineno;
@@ -61,8 +61,8 @@ line:
 	/* nothing -- matches empty lines */
 |	expr { printf("! %s", $1); }
 |	expr K_IF condop { printf("? %s", $1); }
-|	IDENTIFIER ':' { printf("  [label] %s", $1); }
-|	K_DUMP { printf("  [dump]\n"); state.vars.dump(); }
+|	IDENTIFIER ':' { state.labels.set($1, yylineno); }
+|	K_DUMP { printf("  [dump]\n"); state.dump(); }
 
 |	K_IF K_MATCH NUMBER readop
 |	K_IF K_MATCH NUMBER K_SKIP datatype
@@ -179,7 +179,12 @@ int main(int argc, char **argv)
 	return 0;
 }
 
-void yyerror(char const * s)
+void yyerror(char const * format, ...)
 {
-	fprintf(stderr, "<%s>\n", s);
+	va_list args;
+	va_start(args, format);
+	__mingw_fprintf(stderr, "<error: ");
+	__mingw_vfprintf(stderr, format, args);
+	__mingw_fprintf(stderr, ">\n");
+	va_end(args);
 }

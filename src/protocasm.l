@@ -4,7 +4,7 @@
 %{
 #include "protocasm.tab.h"
 
-extern void yyerror(char const *);
+extern void yyerror(char const *, ...);
 %}
 
 %x STATE_INSTR

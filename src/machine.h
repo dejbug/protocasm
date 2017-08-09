@@ -59,7 +59,7 @@ struct Vars
 	void dump()
 	{
 		for (auto it = data.cbegin(); it != data.cend(); ++it)
-			__mingw_printf("[var] %s (%lld)\n", it->first.c_str(), it->second);
+			__mingw_printf("[var] %16lld : %s\n", it->second, it->first.c_str());
 	}
 };
 
@@ -76,7 +76,7 @@ struct Labels
 	void dump()
 	{
 		for (auto it = data.cbegin(); it != data.cend(); ++it)
-			__mingw_printf("[label] %s (%d)\n", it->first.c_str(), it->second);
+			__mingw_printf("[label] '%s' at line #%d\n", it->first.c_str(), it->second);
 	}
 };
 
@@ -84,20 +84,30 @@ struct State
 {
 	Vars vars;
 	Labels labels;
+
+	char file_path[260 + 1] = {0};
 	FILE * file = nullptr;
+
+	~State()
+	{
+		if (file) fclose(file);
+	}
 
 	void open(char const * path)
 	{
 		if (file) fclose(file);
-		file = fopen(path, "rb");
-		if (!file) throw make_error("file not found: \"%s\"", path);
-		log("opened file \"%s\" for input", path);
+
+		strncpy(file_path, path, sizeof(file_path)-1);
+		file = fopen(file_path, "rb");
+
+		if (!file) throw make_error("file not found: \"%s\"", file_path);
+		log("opened file \"%s\" for input", file_path);
 	}
 
 	void dump()
 	{
 		__mingw_printf("\n");
-		__mingw_printf("[file] %08x\n", (size_t) file);
+		__mingw_printf("[file] \"%s\" at %08x\n", file_path, (size_t) file);
 		vars.dump();
 		labels.dump();
 	}

@@ -7,10 +7,10 @@ loop1:
 	FAIL IF blobheader_length == 0
 	blobheader_data = READ blobheader_length
 	YIELD "loop1_count" loop1_count
-	DUMP
 	key = READ KEY FROM blobheader_data
 	type_match_count = 0
 	datasize_match_count = 0
+	DUMP
 loop2:
 	GOTO step3 IF MARK FROM blobheader_data >= blobheader_length
 	IF MATCH 0A FROM blobheader_data {

@@ -1,0 +1,29 @@
+# Do not build on tags
+skip_tags: true
+
+# We don't need tests right now.
+test: off
+
+# The standard flow calls msbuild.exe. We need to
+# overwrite this default behavior here.
+build_script:
+  - cmd: call appveyor.bat
+
+artifacts:
+  # Push the entire "build" folder as a zip
+  - path: build
+
+deploy:
+  # Deploy to GitHub Releases
+  - provider: GitHub
+    auth_token:
+      secure: GlPci9QnLJxVkwdcLb6l1v0Std1gZw7kj+9Oyg/emy5H8Npnf8w6B9yXMH/DhNq2
+    artifact: deploy\$(appveyor_project_name)-$(appveyor_repo_tag_name).zip
+    draft: false
+    prerelease: true
+    on:
+      branch: master               # release from master branch only
+      appveyor_repo_tag: true      # deploy on tag push only
+
+before_deploy:
+  - cmd: call appveyor.bat

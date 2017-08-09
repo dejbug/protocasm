@@ -3,6 +3,6 @@
 *.o
 *.pyc
 *.osm.pbf
-/src/lex.yy.c
+/src/*.lex.c
 /src/*.tab.c
 /src/*.tab.h

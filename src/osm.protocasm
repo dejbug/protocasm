@@ -1,11 +1,55 @@
-READ fixed32 IN BigEndian AS blobheader_length
-# FLIP BYTES blobheader_length
-MARK RESET
-MATCH 0A
-READ string
-MATCH 18
-READ int32 AS datasize
-MARK EQ blobheader_length ELSE WARN
-MARK RESET
+OPEN "..\data\Darmstadt.osm.pbf"
+loop1_count = 0
+loop1:
+	loop1_count += 1
+	blobheader_length = READ FIXED32 AS BigEndian
+	SKIP blobheader_length
+	FAIL IF blobheader_length == 0
+	blobheader_data = READ blobheader_length
+	YIELD "loop1_count" loop1_count
+	key = READ KEY FROM blobheader_data
+	type_match_count = 0
+	datasize_match_count = 0
+	DUMP
+loop2:
+	GOTO step3 IF MARK FROM blobheader_data >= blobheader_length
+	IF MATCH 0A FROM blobheader_data {
+		type = READ STRING
+		type_match_count += 1
+		YIELD 1 type
+		GOTO loop2
+	}
+	IF MATCH 12 FROM blobheader_data
+		SKIP bytes FROM blobheader_data
+		GOTO loop2
+	IF MATCH 18 FROM blobheader_data
+		datasize = READ int32
+		datasize_match_count += 1
+		YIELD 3 datasize
+	FAIL IF READ EQ 0
+step3:
+	EXIT
+
+match_count = 0
+mark = MARK
+
+blobheader_length = READ FIXED32 IN BigEndian ELSE FAIL
+blobheader_data = READ blobheader_length ELSE FAIL
+
+IF MATCH 0A
+	type = READ STRING ELSE FAIL
+	match_count += 1
+	YIELD 0A type
+
+IF MATCH 12
+	SKIP BYTES
+
+IF MATCH 18
+	READ INT32 AS datasize ELSE FAIL
+	INC match_count
+	YIELD 18 datasize
+
+IF mark NE blobheader_length THEN WARN
+mark = MARK
 # READ [datasize] BYTES AS blob
-MARK EQ datasize ELSE FAIL
+IF mark NE datasize THEN FAIL

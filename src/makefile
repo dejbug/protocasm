@@ -1,9 +1,10 @@
 SHELL := cmd.exe
 CXXFLAGS := -Wpedantic -Wall -O2 --std=c++11
+WINFLAGS := --wincompat
 
 protocasm.exe: protocasm.lex.c protocasm.tab.c ; g++ $(CXXFLAGS) -o $@ $^
 protocasm.tab.c protocasm.tab.h: protocasm.y machine.h ; bison -d $<
-protocasm.lex.c: protocasm.l ; flex --wincompat -o $@ $<
+protocasm.lex.c: protocasm.l ; flex $(WINFLAGS) -o $@ $<
 
 .PHONY: clean
 clean:

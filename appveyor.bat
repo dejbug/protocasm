@@ -32,7 +32,7 @@ REM REM REM REM REM REM REM REM REM REM REM REM REM REM REM REM REM REM
 
 ECHO -- building for debug
 
-make TARGET=debug
+make TARGET=debug WINFLAGS=
 
 GOTO run_test
 
@@ -42,7 +42,7 @@ REM REM REM REM REM REM REM REM REM REM REM REM REM REM REM REM REM REM
 
 ECHO -- building for release
 
-make TARGET=release
+make TARGET=release WINFLAGS=
 
 ECHO %APPVEYOR_PROJECT_NAME%-%APPVEYOR_REPO_TAG_NAME%.zip > build\release.txt
 

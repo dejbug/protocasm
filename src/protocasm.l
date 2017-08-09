@@ -3,6 +3,8 @@
 
 %{
 #include "protocasm.tab.h"
+
+extern void yyerror(char const *);
 %}
 
 %x STATE_INSTR
@@ -16,6 +18,8 @@
 [""] { BEGIN(STATE_INSTR); }
 <STATE_INSTR>[^""\n]* { strncpy(yylval.id, yytext, sizeof(yylval.id)-1); return STRING; }
 <STATE_INSTR>[""] { BEGIN(INITIAL); }
+<STATE_INSTR>\n { BEGIN(INITIAL); yyerror("unclosed STRING"); }
+<STATE_INSTR><<EOF>> { BEGIN(INITIAL); yyerror("unclosed STRING"); }
 
 [=:{}] { return *yytext; }
 "+=" { return O_ADDA; }
@@ -62,4 +66,3 @@
 [_a-z][_a-z0-9]* { strncpy(yylval.id, yytext, sizeof(yylval.id)-1); return IDENTIFIER; }
 
 %%
-

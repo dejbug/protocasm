@@ -59,8 +59,8 @@ lines:
 
 line:
 	/* nothing -- matches empty lines */
-|	expr { printf("! %s", $1); }
-|	expr K_IF condop { printf("? %s", $1); }
+|	expr { printf(" {!} %s", $1); }
+|	expr K_IF condop { printf(" {?} %s", $1); }
 |	IDENTIFIER ':' { state.labels.set($1, yylineno); }
 |	K_DUMP { printf("  [dump]\n"); state.dump(); }
 
@@ -75,7 +75,7 @@ line:
 expr:
 	K_OPEN STRING { state.open($2); }
 |	K_GOTO IDENTIFIER { snprintf($$, sizeof($$), "[jump] %s", $2); }
-|	yieldexpr { snprintf($$, sizeof($$), "[yield]"); }
+|	yieldexpr { $$[0] = 0; }
 |	assignment { $$[0] = 0; }
 |	signal { snprintf($$, sizeof($$), "[signal]"); }
 |	K_SKIP NUMBER { __mingw_snprintf($$, sizeof($$), "[skip] %lld", $2); }
@@ -84,7 +84,7 @@ expr:
 
 yieldexpr:
 	K_YIELD STRING NUMBER
-|	K_YIELD STRING IDENTIFIER
+|	K_YIELD STRING IDENTIFIER { state.yield_si($2, $3); }
 |	K_YIELD NUMBER
 |	K_YIELD IDENTIFIER
 |	K_YIELD STRING

@@ -101,6 +101,12 @@ struct State
 		vars.dump();
 		labels.dump();
 	}
+
+	void yield_si(char const * str, char const * key)
+	{
+		log("yield_si '%s' %lld", str, vars.data[key]);
+	}
+
 };
 
 }

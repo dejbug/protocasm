@@ -57,7 +57,7 @@ GOTO run_test
 
 ECHO -- running test
 PUSHD build
-run_test.bat
+CALL run_test.bat
 POPD
 
 ECHO -- [WARN] keeping sample file in build folder

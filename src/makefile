@@ -5,7 +5,6 @@ protocasm.exe: protocasm.lex.c protocasm.tab.c ; g++ $(CXXFLAGS) -o $@ $^
 protocasm.tab.c protocasm.tab.h: protocasm.y machine.h ; bison -d $<
 protocasm.lex.c: protocasm.l ; flex --wincompat -o $@ $<
 
-
 .PHONY: clean
 clean:
 	del *.o 2>NUL

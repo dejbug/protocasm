@@ -9,18 +9,23 @@ variables:
   operator: '[]\[#]|EQ|NE|RESET'
   number10: '\b0|[1-9][0-9]*\b'
   number16: '\b0[0-9A-F]+\b'
-  number: '{{number16}}|{{number10}}'
+  number: '\b[-+]?({{number16}}|{{number10}})\b'
   identifier: '\b[_a-z][_a-z0-9]*\b'
-  keyword: '\b(AS|IN|IF|ELSE|MARK|READ|SKIP|MATCH)\b'
+  string: '".*?"'
+  keyword: '\b(AS|IN|IF|ELSE|MARK|READ|FROM|SKIP|GOTO|DUMP|MATCH|OPEN|YIELD)\b'
   signal: '\b(FAIL|WARN)\b'
-  type: '\b(fixed32|int32|string|bytes)\b'
-  storage_class: '\bBigEndian|LittleEndian\b'
+  type: '\b(KEY|VARINT|DELIMITED|FIXED32|FIXED32_BE|SFIXED32|FLOAT|FIXED64|FIXED64_BE|SFIXED64|DOUBLE|INT32|INT64|SINT32|SINT64|UINT32|UINT64|BOOL|ENUM|STRING|BYTES?|EMBEDDED|REPEATED|PACKED)\b'
+  storage_type: '\b(LittleEndian|BigEndian)\b'
 contexts:
   main:
+    - match: '{{storage_type}}'
+      scope: storage.modifier.protocasm
+    - match: '^\s*{{identifier}}:$'
+      scope: entity.name.label.protocasm
+    - match: '{{string}}'
+      scope: string.protocasm
     - match: '{{signal}}'
       scope: constant.language.protocasm
-    - match: '{{storage_class}}'
-      scope: storage.modifier.protocasm
     - match: ^(#)(.*)$\n?
       scope: comment.line.protocasm
     - match: '{{operator}}'

@@ -1,12 +1,21 @@
-%option noyywrap
-%option nodefault
+%option noyywrap nodefault yylineno
+%option nounput
 
 %{
 #include "protocasm.tab.h"
 %}
 
+%x STATE_INSTR
+
 %%
 
+	/// HACK: Redundant double quotes (") are given twice inside ranges
+	/// ([...]) just so that SublimeText's syntax highlighter doesn't
+	/// get confused.
+
+[""] { BEGIN(STATE_INSTR); }
+<STATE_INSTR>[^""\n]* { strncpy(yylval.id, yytext, sizeof(yylval.id)-1); return STRING; }
+<STATE_INSTR>[""] { BEGIN(INITIAL); }
 
 [=:{}] { return *yytext; }
 "+=" { return O_ADDA; }
@@ -26,6 +35,7 @@
 "FROM" { return K_FROM; }
 "GOTO" { return K_GOTO; }
 "MARK" { return K_MARK; }
+"OPEN" { return K_OPEN; }
 "DUMP" { return K_DUMP; }
 "MATCH" { return K_MATCH; }
 "RESET" { return K_RESET; }
@@ -41,16 +51,15 @@
 "LittleEndian" { return S_LE; }
 "BigEndian" { return S_BE; }
 
-"0"[0-9A-F]+ { yylval.u64 = strtoul(yytext, NULL, 16); return NUMBER; }
-"0"|[1-9][0-9]* { yylval.u64 = strtoul(yytext, NULL, 10); return NUMBER; }
-\n { ++yylineno; return EOL; }
+[-+]?"0"[0-9A-F]+ { yylval.u64 = strtoul(yytext, NULL, 16); return NUMBER; }
+[-+]?"0"|[1-9][0-9]* { yylval.u64 = strtoul(yytext, NULL, 10); return NUMBER; }
+\n { return EOL; }
 
 #.* { /* ignore comment lines */ }
 [ \t] { /* ignore whitespace */ }
 . { printf("Mystery character %c\n", *yytext); }
 
 [_a-z][_a-z0-9]* { strncpy(yylval.id, yytext, sizeof(yylval.id)-1); return IDENTIFIER; }
-"\""[^"]*"\"" { strncpy(yylval.id, yytext, sizeof(yylval.id)-1); return STRING; }
 
 %%
 

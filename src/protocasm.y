@@ -16,7 +16,7 @@ enum StorageType {
 	s_be,
 };
 
-std::map<std::string, long long> vars;
+machine::State state;
 
 %}
 
@@ -36,7 +36,7 @@ std::map<std::string, long long> vars;
 %token <id> STRING
 %token O_ADDA O_SUBA
 %token K_EQ K_NE K_GE
-%token K_AS K_IF K_ELSE K_FAIL K_WARN K_READ K_SKIP K_FROM
+%token K_AS K_IF K_ELSE K_FAIL K_WARN K_READ K_SKIP K_FROM K_OPEN
 %token K_MARK K_MATCH K_RESET K_BYTES K_YIELD K_GOTO K_DUMP
 %token T_KEY T_FIXED32 T_FIXED32_BE T_STRING T_BYTES T_INT32
 %token S_LE S_BE
@@ -62,22 +62,23 @@ line:
 |	expr { printf("! %s", $1); }
 |	expr K_IF condop { printf("? %s", $1); }
 |	IDENTIFIER ':' { printf("  [label] %s", $1); }
-|	K_DUMP { printf("  [dump]\n"); machine::dump(); }
+|	K_DUMP { printf("  [dump]\n"); state.vars.dump(); }
 
 |	K_IF K_MATCH NUMBER readop
 |	K_IF K_MATCH NUMBER K_SKIP datatype
-|	K_MATCH NUMBER { printf("match(#%02x)", $2); }
+|	K_MATCH NUMBER { __mingw_printf("match(#%02llx)", $2); }
 |	K_MARK NUMBER
 |	K_MARK NUMBER ops IDENTIFIER K_ELSE signal
 |	K_MATCH NUMBER readop
 ;
 
 expr:
-	K_GOTO IDENTIFIER { snprintf($$, sizeof($$), "[jump] %s", $2); }
+	K_OPEN STRING { state.open($2); }
+|	K_GOTO IDENTIFIER { snprintf($$, sizeof($$), "[jump] %s", $2); }
 |	yieldexpr { snprintf($$, sizeof($$), "[yield]"); }
-|	assignment { snprintf($$, sizeof($$), "%s", $1); }
+|	assignment { $$[0] = 0; }
 |	signal { snprintf($$, sizeof($$), "[signal]"); }
-|	K_SKIP NUMBER { snprintf($$, sizeof($$), "[skip] %d", $2); }
+|	K_SKIP NUMBER { __mingw_snprintf($$, sizeof($$), "[skip] %lld", $2); }
 |	K_SKIP IDENTIFIER { snprintf($$, sizeof($$), "[skip] %s", $2); }
 ;
 
@@ -99,9 +100,9 @@ condop:
 ;
 
 assignment:
-	IDENTIFIER assignop NUMBER { snprintf($$, sizeof($$), "%s %d %d", $1, $2, $3); machine::assign($1, $2, $3); }
-|	IDENTIFIER assignop IDENTIFIER { snprintf($$, sizeof($$), "%s %d %s", $1, $2, $3); machine::assign($1, $2, $3); }
-|	IDENTIFIER assignop readop { snprintf($$, sizeof($$), "%s %d %s", $1, $2, $3); machine::assign($1, $2, 0LL); }
+	IDENTIFIER assignop NUMBER { state.vars.assign($1, $2, $3); }
+|	IDENTIFIER assignop IDENTIFIER { state.vars.assign($1, $2, $3); }
+|	IDENTIFIER assignop readop { $$[0] = 0; }
 ;
 
 assignop:
@@ -157,13 +158,24 @@ int main(int argc, char **argv)
 	extern FILE * yyin;
 
 	if(argc < 2) return 1;
+
 	if(!(yyin = fopen(argv[1], "r")))
 	{
 		perror(argv[1]);
 		return 2;
 	}
 
-	yyparse();
+	try
+	{
+		yyparse();
+	}
+
+	catch (std::runtime_error & e)
+	{
+		yyerror(e.what());
+		return 3;
+	}
+
 	return 0;
 }
 

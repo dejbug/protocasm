@@ -1,4 +1,4 @@
-# OPEN "..\data\Darmstadt.osm.pbf"
+OPEN "..\data\Darmstadt.osm.pbf"
 loop1_count = 0
 loop1:
 	loop1_count += 1

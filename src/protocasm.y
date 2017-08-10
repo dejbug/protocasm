@@ -2,32 +2,21 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+
 #include "machine.h"
+machine::State state;
+machine::Context context;
 
 int yylex();
 void yyerror(char const *, ...);
-// void emit(char const *, ...);
 
 extern int yylineno;
-
-enum StorageType {
-	s_null,
-	s_le,
-	s_be,
-};
-
-machine::State state;
-
 %}
 
 %union {
-	char id[255+1];
+	char id[255 + 1];
 	unsigned long long u64;
-	int dtyp;
-	int styp;
-	int aop;
 	char text[1024];
-	char text1[1024];
 }
 
 /* declare tokens */
@@ -38,17 +27,9 @@ machine::State state;
 %token K_EQ K_NE K_GE
 %token K_AS K_IF K_ELSE K_FAIL K_WARN K_READ K_SKIP K_FROM K_OPEN
 %token K_MARK K_MATCH K_RESET K_BYTES K_YIELD K_GOTO K_DUMP
-%token T_KEY T_FIXED32 T_FIXED32_BE T_STRING T_BYTES T_INT32
+%token T_KEY T_FIXED32 T_STRING T_BYTES T_INT32
 %token S_LE S_BE
 %token EOL
-
-%type <text> expr
-%type <dtyp> datatype
-%type <styp> stortype
-%type <aop> assignop
-%type <text1> readop1
-%type <text> readop
-%type <text> assignment
 
 %%
 
@@ -59,27 +40,24 @@ lines:
 
 line:
 	/* nothing -- matches empty lines */
-|	expr { printf(" {!} %s", $1); }
-|	expr K_IF condop { printf(" {?} %s", $1); }
+|	expr {  }
+|	expr K_IF condop {  }
 |	IDENTIFIER ':' { state.labels.set($1, yylineno); }
-|	K_DUMP { printf("  [dump]\n"); state.dump(); }
+|	K_DUMP { state.dump(); }
 
 |	K_IF K_MATCH NUMBER readop
 |	K_IF K_MATCH NUMBER K_SKIP datatype
-|	K_MATCH NUMBER { __mingw_printf("match(#%02llx)", $2); }
-|	K_MARK NUMBER
-|	K_MARK NUMBER ops IDENTIFIER K_ELSE signal
-|	K_MATCH NUMBER readop
 ;
 
 expr:
 	K_OPEN STRING { state.open($2); }
-|	K_GOTO IDENTIFIER { snprintf($$, sizeof($$), "[jump] %s", $2); }
-|	yieldexpr { $$[0] = 0; }
-|	assignment { $$[0] = 0; }
-|	signal { snprintf($$, sizeof($$), "[signal]"); }
-|	K_SKIP NUMBER { __mingw_snprintf($$, sizeof($$), "[skip] %lld", $2); }
-|	K_SKIP IDENTIFIER { snprintf($$, sizeof($$), "[skip] %s", $2); }
+|	K_GOTO IDENTIFIER {  }
+|	yieldexpr {  }
+|	assignment { state.assignment(context); }
+|	signal {  }
+|	K_SKIP NUMBER {  }
+|	K_SKIP IDENTIFIER {  }
+|	K_MATCH NUMBER {  }
 ;
 
 yieldexpr:
@@ -100,58 +78,76 @@ condop:
 ;
 
 assignment:
-	IDENTIFIER assignop NUMBER { state.vars.assign($1, $2, $3); }
-|	IDENTIFIER assignop IDENTIFIER { state.vars.assign($1, $2, $3); }
-|	IDENTIFIER assignop readop { $$[0] = 0; }
-;
-
-assignop:
-	'=' { $$ = '='; }
-|	O_ADDA { $$ = O_ADDA; }
-|	O_SUBA { $$ = O_SUBA; }
-// | ...
+	IDENTIFIER assignop NUMBER {
+		context.at = machine::Context::AT_IN;
+		snprintf(context.dst, sizeof(context.dst), $1);
+		context.val = $3;
+	}
+|	IDENTIFIER assignop IDENTIFIER {
+		context.at = machine::Context::AT_II;
+		snprintf(context.dst, sizeof(context.dst), $1);
+		snprintf(context.src, sizeof(context.src), $3);
+	}
+|	IDENTIFIER assignop readop {
+		context.at = machine::Context::AT_IR;
+		snprintf(context.dst, sizeof(context.dst), $1);
+	}
 ;
 
 readop:
-	readop1 { strncpy($$, $1, sizeof($$)); }
-|	readop1 K_AS stortype { snprintf($$, sizeof($$), "{%d} %s", $3, $1); }
+	readop1 { context.styp = machine::Context::ST_LE; }
+|	readop1 K_AS stortype {  }
 ;
 
 readop1:
-	K_READ datatype { snprintf($$, sizeof($$), "read(%d)", $2); }
-|	K_READ datatype K_FROM IDENTIFIER { snprintf($$, sizeof($$), "%s.read(%d)", $4, $2); }
-|	K_READ IDENTIFIER { snprintf($$, sizeof($$), "read(%s)", $2); }
-|	K_READ IDENTIFIER K_FROM IDENTIFIER { snprintf($$, sizeof($$), "%s.read(%s)", $4, $2); }
+	K_READ datatype {
+		context.ao = machine::Context::AO_NONE;
+		context.readop = machine::Context::R_D;
+	}
+|	K_READ datatype K_FROM IDENTIFIER {
+		context.ao = machine::Context::AO_NONE;
+		context.readop = machine::Context::R_DFI;
+		snprintf(context.src, sizeof(context.src), $4);
+	}
+|	K_READ IDENTIFIER {
+		context.ao = machine::Context::AO_NONE;
+		context.readop = machine::Context::R_I;
+		snprintf(context.rid, sizeof(context.rid), $2);
+	}
+|	K_READ IDENTIFIER K_FROM IDENTIFIER {
+		context.ao = machine::Context::AO_NONE;
+		context.readop = machine::Context::R_IFI;
+		snprintf(context.rid, sizeof(context.rid), $2);
+		snprintf(context.src, sizeof(context.src), $4);
+	}
 ;
 
 datatype:
-	T_KEY { $$ = T_KEY; }
-|	T_STRING { $$ = T_STRING; }
-|	T_BYTES { $$ = T_BYTES; }
-|	T_FIXED32 { $$ = T_FIXED32; }
-|	T_FIXED32_BE { $$ = T_FIXED32_BE; }
-|	T_INT32 { $$ = T_INT32; }
+	T_KEY { context.dtyp = machine::Context::DT_KEY; }
+|	T_STRING { context.dtyp = machine::Context::DT_STRING; }
+|	T_BYTES { context.dtyp = machine::Context::DT_BYTES; }
+|	T_FIXED32 { context.dtyp = machine::Context::DT_FIXED32; }
+|	T_INT32 { context.dtyp = machine::Context::DT_INT32; }
 // ...
 ;
 
 stortype:
-	S_LE { $$ = S_LE; }
-|	S_BE { $$ = S_BE; }
+	S_LE { context.styp = machine::Context::ST_LE; }
+|	S_BE { context.styp = machine::Context::ST_BE; }
 ;
 
 ops: K_EQ | K_NE | K_GE ;
 
 signal: K_FAIL | K_WARN ;
 
-%%
+assignop:
+	'=' { context.ao = machine::Context::AO_ASS; }
+|	O_ADDA { context.ao = machine::Context::AO_ADD; }
+|	O_SUBA { context.ao = machine::Context::AO_SUB; }
+// | ...
+;
 
-// void emit(char const * s, ...)
-// {
-// 	va_list ap;
-// 	va_start(ap, s);
-// 	vfprintf(stdout, s, ap);
-// 	printf("\n");
-// }
+%%
 
 int main(int argc, char **argv)
 {

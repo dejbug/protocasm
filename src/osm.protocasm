@@ -3,6 +3,7 @@ loop1_count = 0
 loop1:
 	loop1_count += 1
 	blobheader_length = READ FIXED32 AS BigEndian
+	YIELD "blobheader_length" blobheader_length
 	SKIP blobheader_length
 	FAIL IF blobheader_length == 0
 	blobheader_data = READ blobheader_length

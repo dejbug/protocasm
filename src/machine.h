@@ -1,8 +1,7 @@
 #pragma once
 #include <map>
 #include <string>
-#include <stdexcept>
-#include "protocasm.tab.h"
+#include <stdarg.h>
 
 template<size_t N=1024, class E=std::runtime_error>
 E make_error(char const * format, ...)
@@ -32,91 +31,59 @@ void log(char const * format, ...)
 
 namespace machine {
 
+struct Context
+{
+	enum { DT_NONE, DT_KEY, DT_STRING, DT_BYTES, DT_FIXED32, DT_INT32 } dtyp;
+	unsigned long long val;
+
+	// struct Assignop
+	enum { AT_NONE, AT_IN, AT_II, AT_IR } at;
+	enum { AO_NONE, AO_ASS, AO_ADD, AO_SUB } ao;
+
+	// struct Readop
+	enum { R_NONE, R_D, R_DFI, R_I, R_IFI } readop;
+	char dst[255 + 1];
+	char src[255 + 1];
+	char rid[255 + 1];	// Used in readop1
+	// int dtyp;
+	enum { ST_LE, ST_BE } styp;
+};
+
 struct Vars
 {
-	std::map<std::string, long long> data;
+	std::map<std::string, unsigned long long> data;
 
-	void assign(char const * key, int op, long long val)
-	{
-		long long const old_val = data[key];
-
-		switch (op)
-		{
-			case '=': data[key] = val; break;
-			case O_ADDA: data[key] += val; break;
-			case O_SUBA: data[key] -= val; break;
-			// ...
-		}
-
-		log("var '%s' changed from %lld to %lld", key, old_val, data[key]);
-	}
-
-	void assign(char const * key_dst, int op, char const * key_src)
-	{
-		assign(key_dst, op, data[key_src]);
-	}
-
-	void dump()
-	{
-		for (auto it = data.cbegin(); it != data.cend(); ++it)
-			__mingw_printf("[var] %16lld : %s\n", it->second, it->first.c_str());
-	}
+	void assign(char const * key, int op, unsigned long long val);
+	void assign(char const * key_dst, int op, char const * key_src);
+	void dump();
 };
 
 struct Labels
 {
 	std::map<std::string, size_t> data;
 
-	void set(char const * key, size_t line)
-	{
-		data[key] = line;
-		log("label '%s' set at line #%d", key, line);
-	}
-
-	void dump()
-	{
-		for (auto it = data.cbegin(); it != data.cend(); ++it)
-			__mingw_printf("[label] '%s' at line #%d\n", it->first.c_str(), it->second);
-	}
+	void set(char const * key, size_t line);
+	void dump();
 };
 
 struct State
 {
 	Vars vars;
 	Labels labels;
+	unsigned long long acc = 0;
 
 	char file_path[260 + 1] = {0};
 	FILE * file = nullptr;
 
-	~State()
-	{
-		if (file) fclose(file);
-	}
+	~State();
 
-	void open(char const * path)
-	{
-		if (file) fclose(file);
-
-		strncpy(file_path, path, sizeof(file_path)-1);
-		file = fopen(file_path, "rb");
-
-		if (!file) throw make_error("file not found: \"%s\"", file_path);
-		log("opened file \"%s\" for input", file_path);
-	}
-
-	void dump()
-	{
-		__mingw_printf("\n");
-		__mingw_printf("[file] \"%s\" at %08x\n", file_path, (size_t) file);
-		vars.dump();
-		labels.dump();
-	}
-
-	void yield_si(char const * str, char const * key)
-	{
-		log("yield_si '%s' %lld", str, vars.data[key]);
-	}
-
+	void open(char const * path);
+	void dump();
+	void assignment(Context const & context);
+	void read(Context const & context);
+	void read_fixed32(int dtyp, int styp, unsigned long long * out=nullptr);
+	void flip_32(unsigned long long * d, unsigned long * s);
+	void yield_si(char const * str, char const * key);
 };
 
 }

@@ -49,7 +49,6 @@ extern void yyerror(char const *, ...);
 "STRING" { return T_STRING; }
 "BYTES" { return T_BYTES; }
 "FIXED32" { return T_FIXED32; }
-"FIXED32_BE" { return T_FIXED32_BE; }
 "INT32" { return T_INT32; }
 
 "LittleEndian" { return S_LE; }

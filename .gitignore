@@ -1,6 +1,7 @@
 *.exe
 *.dll
 *.o
+*.a
 *.pyc
 *.osm.pbf
 /src/*.lex.c

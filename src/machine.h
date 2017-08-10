@@ -81,9 +81,11 @@ struct State
 	void dump();
 	void assignment(Context const & context);
 	void read(Context const & context);
-	void read_fixed32(int dtyp, int styp, unsigned long long * out=nullptr);
-	void flip_32(unsigned long long * d, unsigned long * s);
 	void yield_si(char const * str, char const * key);
 };
+
+void read_fixed32(FILE * file, int dtyp, int styp, unsigned long long * out=nullptr);
+
+void flip_32(unsigned long long * dst, unsigned long const * src);
 
 }

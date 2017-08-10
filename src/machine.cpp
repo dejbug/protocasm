@@ -87,67 +87,89 @@ void machine::State::assignment(Context const & context)
 			break;
 
 		case Context::AT_IR:
-			printf("%s = ", context.dst);
+			// printf("%s = ", context.dst);
 			read(context);
 			vars.assign(context.dst, context.ao, acc);
 			break;
 	}
 }
 
-void machine::State::read(Context const & context)
+void read_from_file(machine::Context const & context, machine::State & state)
 {
-	printf("READ");
+	unsigned long long * const out = *context.dst ? &state.vars.data[context.dst] : nullptr;
+
 	switch (context.dtyp)
 	{
-		default: break;
-		case Context::DT_FIXED32: printf(" FIXED32"); break;
+		default: throw make_error("not implemented: read_from_file operation for dtyp %d", context.dtyp);
+
+		case machine::Context::DT_FIXED32:
+			// printf(" FIXED32");
+			machine::read_fixed32(state.file, context.dtyp, context.styp, out);
+			break;
 	}
-	switch (context.styp)
+}
+
+void read_from_mem(machine::Context const & context, machine::State & state)
+{
+	throw make_error("not implemented: read_from_mem");
+}
+
+typedef void (* ReadMethod) (machine::Context const &, machine::State &);
+
+ReadMethod get_read_method(machine::Context const & context)
+{
+	switch (context.readop)
 	{
-		case Context::ST_LE: break;
-		case Context::ST_BE: printf(" AS BigEndian"); break;
+		default: throw make_error("not implemented: read operation %d", context.readop);
+
+		case machine::Context::R_D:
+		case machine::Context::R_I:
+			return read_from_file;
+
+		case machine::Context::R_DFI:
+		case machine::Context::R_IFI:
+			return read_from_mem;
 	}
+}
 
-	// if (Readop::Rd != readop.typ)
-	// 	throw make_error("not implemented yet: read operation");
+void machine::State::read(Context const & context)
+{
+	auto read_method = get_read_method(context);
 
-	// unsigned long long * const out = *readop.dst ? &vars.data[readop.dst] : nullptr;
-
-	// switch (readop.dtyp)
+	// printf("READ");
+	read_method(context, *this);
+	// switch (context.styp)
 	// {
-	// 	// case T_FIXED32: read_fixed32(dtyp, styp, out); break;
+	// 	case Context::ST_LE: break;
+	// 	case Context::ST_BE: printf(" AS BigEndian"); break;
 	// }
-}
-
-void machine::State::read_fixed32(int dtyp, int styp, unsigned long long * out)
-{
-	unsigned long s32 = 0;
-	fread(&s32, 4, 1, file);
-	if (!out) return;
-	if (S_BE == styp) flip_32(out, &s32);
-	else *out = (unsigned long long) s32;
-}
-
-// void read_fixed32(int dtyp, int styp, char const * key=nullptr)
-// {
-// 	unsigned long s32 = 0;
-// 	fread(&s32, 4, 1, file);
-// 	if (!key) return;
-// 	if (S_BE == styp) flip_32(&vars.data[key], &s32);
-// 	else vars.data[key] = (unsigned long long) s32;
-// }
-
-void machine::State::flip_32(unsigned long long * d, unsigned long * s)
-{
-	// TODO: ws2_32.dll's htonl() does this using only
-	// scratch registers .
-	d[0] = s[3];
-	d[1] = s[2];
-	d[2] = s[1];
-	d[3] = s[0];
+	// printf("\n");
 }
 
 void machine::State::yield_si(char const * str, char const * key)
 {
 	log("yield_si '%s' %lld", str, vars.data[key]);
+}
+
+void machine::read_fixed32(FILE * file, int dtyp, int styp, unsigned long long * out)
+{
+	unsigned long s32 = 0;
+	fread(&s32, 4, 1, file);
+	if (!out) return;
+	if (Context::ST_BE == styp) flip_32(out, &s32);
+	else *out = (unsigned long long) s32;
+}
+
+void machine::flip_32(unsigned long long * dst, unsigned long const * src)
+{
+	// TODO: ws2_32.dll's htonl() does this using only
+	// scratch registers .
+
+	auto d = (char *) dst;
+	auto s = (char const *) src;
+
+	d[0] = s[3];
+	d[1] = s[2];
+	d[2] = s[1];
+	d[3] = s[0];
 }

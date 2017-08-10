@@ -2,13 +2,23 @@
 
 ECHO -- [ running ] "stage: prepare"
 
-ECHO -- setting MINGW paths
+ECHO -- installing flex/bison
+cinst winflexbison
+
+ECHO -- setting paths
 SET MINGW_BIN=C:\mingw-w64\i686-5.3.0-posix-dwarf-rt_v4-rev0\mingw32\bin
-SET PATH=%MINGW_BIN%;%PATH%
+SET WINFLEXBISON_BIN=C:\ProgramData\chocolatey\lib\winflexbison\tools
+SET PATH=%WINFLEXBISON_BIN%;%MINGW_BIN%;%PATH%
 
 ECHO -- renaming mingw32-make.exe in-place
 PUSHD %MINGW_BIN%
 RENAME mingw32-make.exe make.exe
+POPD
+
+ECHO -- renaming winflexbison exes in-place
+PUSHD %WINFLEXBISON_BIN%
+RENAME win_bison.exe bison.exe
+RENAME win_flex.exe flex.exe
 POPD
 
 ECHO -- ensuring proper tree
@@ -32,7 +42,7 @@ REM REM REM REM REM REM REM REM REM REM REM REM REM REM REM REM REM REM
 
 ECHO -- building for debug
 
-make TARGET=debug WINFLAGS=
+make TARGET=debug WINFLAGS=--wincompat
 
 GOTO run_test
 
@@ -42,7 +52,7 @@ REM REM REM REM REM REM REM REM REM REM REM REM REM REM REM REM REM REM
 
 ECHO -- building for release
 
-make TARGET=release WINFLAGS=
+make TARGET=release WINFLAGS=--wincompat
 
 ECHO %APPVEYOR_PROJECT_NAME%-%APPVEYOR_REPO_TAG_NAME%.zip > build\release.txt
 

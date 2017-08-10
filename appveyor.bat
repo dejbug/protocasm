@@ -43,9 +43,6 @@ IF "%APPVEYOR_REPO_TAG%"=="false" (
 	ECHO -- building for debug
 	SET MAKEFLAGS=%MAKEFLAGS% TARGET=debug
 )
-ECHO -- [ ERROR ] unexpected build type
-GOTO :EOF
-
 
 PUSHD src
 make %MAKEFLAGS%

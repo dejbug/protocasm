@@ -1,9 +1,13 @@
 @ECHO off
 
+SET WINFLEXBISON=0
+
 ECHO -- [ running ] "stage: prepare"
 
 ECHO -- installing flex/bison
-cinst winflexbison
+IF WINFLEXBISON==1 (
+	cinst winflexbison
+)
 
 ECHO -- setting paths
 SET MINGW_BIN=C:\mingw-w64\i686-5.3.0-posix-dwarf-rt_v4-rev0\mingw32\bin
@@ -16,11 +20,13 @@ PUSHD %MINGW_BIN%
 RENAME mingw32-make.exe make.exe
 POPD
 
-ECHO -- renaming winflexbison exes in-place
-PUSHD %WINFLEXBISON_BIN%
-RENAME win_bison.exe bison.exe
-RENAME win_flex.exe flex.exe
-POPD
+IF WINFLEXBISON==1 (
+	ECHO -- renaming winflexbison exes in-place
+	PUSHD %WINFLEXBISON_BIN%
+	RENAME win_bison.exe bison.exe
+	RENAME win_flex.exe flex.exe
+	POPD
+)
 
 ECHO -- ensuring proper tree
 IF NOT EXIST build MKDIR build
@@ -33,7 +39,17 @@ ECHO -- [ running ] "stage: build"
 
 ECHO -- selecting build target
 
-SET MAKEFLAGS=WINFLAGS=--wincompat FLEX=C:\ProgramData\chocolatey\lib\winflexbison\tools\win_flex.exe BISON=C:\ProgramData\chocolatey\lib\winflexbison\tools\win_bison.exe
+IF WINFLEXBISON==1 (
+	SET FLEX=C:\ProgramData\chocolatey\lib\winflexbison\tools\win_flex.exe
+	SET BISON=C:\ProgramData\chocolatey\lib\winflexbison\tools\win_bison.exe
+	SET WINFLAGS=--wincompat
+) ELSE (
+	SET FLEX=c:\MinGW\msys\1.0\bin\flex.exe
+	SET BISON=c:\MinGW\msys\1.0\bin\bison.exe
+	SET WINFLAGS=
+)
+
+SET MAKEFLAGS=WINFLAGS=%WINFLAGS% FLEX=%FLEX% BISON=%BISON%
 
 IF "%APPVEYOR_REPO_TAG%"=="true" (
 	ECHO -- building for release

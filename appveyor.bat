@@ -1,4 +1,7 @@
+@ECHO off
+
 SET WINFLEXBISON=0
+SET TEST_PBF_URL=http://download.bbbike.org/osm/bbbike/PhnomPenh/PhnomPenh.osm.pbf
 
 ECHO -- [ running ] "stage: prepare"
 
@@ -59,7 +62,7 @@ IF "%APPVEYOR_REPO_TAG%"=="false" (
 )
 
 PUSHD src
-cmd /c make %MAKEFLAGS%
+make %MAKEFLAGS%
 POPD
 
 ECHO -- generating build tree
@@ -70,7 +73,7 @@ MOVE src\protocasm.exe build\protocasm.exe
 python src\patch.py src\osm.protocasm -f -o build\osm.protocasm -b Ii4uXGRhdGFcRGFybXN0YWR0Lm9zbS5wYmYi IlBobm9tUGVuaC5vc20ucGJmIg==
 
 ECHO -- writing scripts
-ECHO IF NOT EXIST %%~dp0\$(notdir $(TEST_PBF_URL)) wget -P %%~dp0 --no-check-certificate $(TEST_PBF_URL) > build\fetch_sample.bat
+python -c "import os; print 'IF NOT EXIST %%~dp0\\' + os.path.split('%TEST_PBF_URL%')[1] + ' wget -P %%~dp0 --no-check-certificate %TEST_PBF_URL%'" > build\fetch_sample.bat
 ECHO CALL %%~dp0\fetch_sample.bat > build\run_test.bat
 ECHO %%~dp0\protocasm.exe %%~dp0\osm.protocasm >> build\run_test.bat
 

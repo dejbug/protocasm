@@ -1,3 +1,6 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/6c7g863wpar3nmh3?svg=true)](https://ci.appveyor.com/project/dejbug/protocasm)
+
+
 # protocasm
 
 _protobuf assembler_

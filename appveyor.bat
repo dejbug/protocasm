@@ -1,5 +1,3 @@
-@ECHO off
-
 SET WINFLEXBISON=0
 
 ECHO -- [ running ] "stage: prepare"

@@ -1,4 +1,4 @@
-SHELL := cmd.exe
+# SHELL := cmd.exe
 CXXFLAGS := -Wpedantic -Wall -O2 --std=c++11
 WINFLAGS := --wincompat
 FLEX := flex

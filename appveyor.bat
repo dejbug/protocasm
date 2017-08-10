@@ -61,7 +61,7 @@ IF "%APPVEYOR_REPO_TAG%"=="false" (
 )
 
 PUSHD src
-make %MAKEFLAGS%
+cmd /c make %MAKEFLAGS%
 POPD
 
 ECHO -- generating build tree

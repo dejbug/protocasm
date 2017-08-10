@@ -12,9 +12,9 @@ build:
 	IF NOT EXIST build MKDIR build
 	COPY src\protocasm.exe build\protocasm.exe
 	python src\patch.py src\osm.protocasm -f -o build\osm.protocasm -b Ii4uXGRhdGFcRGFybXN0YWR0Lm9zbS5wYmYi IlBobm9tUGVuaC5vc20ucGJmIg==
-	ECHO IF NOT EXIST %%~dp0\$(notdir $(TEST_PBF_URL)) wget -P %%~dp0 --no-check-certificate $(TEST_PBF_URL) > build\fetch_sample.bat
-	ECHO CALL %%~dp0\fetch_sample.bat > build\run_test.bat
-	ECHO %%~dp0\protocasm.exe %%~dp0\osm.protocasm >> build\run_test.bat
+	ECHO IF NOT EXIST ^"%%~dp0$(notdir $(TEST_PBF_URL))^" wget -P ^"%%~dp0.^" --no-check-certificate $(TEST_PBF_URL) > build\fetch_sample.bat
+	ECHO CALL ^"%%~dp0fetch_sample.bat^" > build\run_test.bat
+	ECHO ^"%%~dp0protocasm.exe^" ^"%%~dp0osm.protocasm^" >> build\run_test.bat
 	ECHO [InternetShortcut] > build\github.url
 	ECHO URL=https://github.com/dejbug/protocasm >> build\github.url
 

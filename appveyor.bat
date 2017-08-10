@@ -73,9 +73,9 @@ MOVE src\protocasm.exe build\protocasm.exe
 python src\patch.py src\osm.protocasm -f -o build\osm.protocasm -b Ii4uXGRhdGFcRGFybXN0YWR0Lm9zbS5wYmYi IlBobm9tUGVuaC5vc20ucGJmIg==
 
 ECHO -- writing scripts
-python -c "import os; print 'IF NOT EXIST \x22%%~dp0\\' + os.path.split('%TEST_PBF_URL%')[1] + '\x22 wget -P \x22%%~dp0\x22 --no-check-certificate %TEST_PBF_URL%'" > build\fetch_sample.bat
-ECHO CALL ^"%%~dp0\fetch_sample.bat^" > build\run_test.bat
-ECHO ^"%%~dp0\protocasm.exe^" ^"%%~dp0\osm.protocasm^" >> build\run_test.bat
+python -c "import os; print 'IF NOT EXIST \x22%%~dp0' + os.path.split('%TEST_PBF_URL%')[1] + '\x22 wget -P \x22%%~dp0.\x22 --no-check-certificate %TEST_PBF_URL%'" > build\fetch_sample.bat
+ECHO CALL ^"%%~dp0fetch_sample.bat^" > build\run_test.bat
+ECHO ^"%%~dp0protocasm.exe^" ^"%%~dp0osm.protocasm^" >> build\run_test.bat
 
 ECHO -- writing info
 ECHO [InternetShortcut] > build\protocasm.url

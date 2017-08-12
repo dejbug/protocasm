@@ -14,7 +14,7 @@ cache:
   # Also, because we want one of the smaller ( ~ 1MB )
   #   *.osm.pbf files here and they always could grow
   #   larger on the server in-between builds.
-  build\PhnomPenh.osm.pbf
+  test\PhnomPenh.osm.pbf
 
 artifacts:
   # Push the entire "build" folder as a zip

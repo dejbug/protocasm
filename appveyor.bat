@@ -94,14 +94,18 @@ IF "%APPVEYOR_REPO_TAG%"=="true" (
 	DIR deploy
 )
 
+ECHO -- preparing test
+COPY build\* test\
 ECHO -- running test
-PUSHD build
+PUSHD test
 CALL run_test.bat
 POPD
 
 IF %KEEPSAMPLE%==1 (
-	ECHO -- [ WARN ] keeping sample file in build folder
+	IF EXIST test\PhnomPenh.osm.pbf (
+		ECHO -- [ WARN ] adding sample file to build folder
+		COPY test\PhnomPenh.osm.pbf build\PhnomPenh.osm.pbf
+	)
 ) ELSE (
-	ECHO -- deleting sample file in build folder
-	DEL build\*.osm.pbf 2>NUL
+	ECHO -- keeping sample file out of build folder
 )

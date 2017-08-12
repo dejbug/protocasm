@@ -1,7 +1,7 @@
 @ECHO off
 
 SET WINFLEXBISON=0
-SET KEEPSAMPLE=1
+SET KEEPSAMPLE=0
 SET TEST_PBF_URL=http://download.bbbike.org/osm/bbbike/PhnomPenh/PhnomPenh.osm.pbf
 
 ECHO -- [ running ] "stage: prepare"
@@ -100,7 +100,7 @@ CALL run_test.bat
 POPD
 
 IF %KEEPSAMPLE%==1 (
-	ECHO -- [ FLAG ] keeping sample file in build folder
+	ECHO -- [ WARN ] keeping sample file in build folder
 ) ELSE (
 	ECHO -- deleting sample file in build folder
 	DEL build\*.osm.pbf 2>NUL

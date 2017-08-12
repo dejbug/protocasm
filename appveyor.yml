@@ -9,6 +9,13 @@ test: off
 build_script:
   - cmd: call appveyor.bat
 
+cache:
+  # Keep sample file around, avoiding re-downloads.
+  # Also, because we want one of the smaller ( ~ 1MB )
+  #   *.osm.pbf files here and they always could grow
+  #   larger on the server in-between builds.
+  build\PhnomPenh.osm.pbf
+
 artifacts:
   # Push the entire "build" folder as a zip
   - path: build

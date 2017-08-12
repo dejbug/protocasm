@@ -11,9 +11,9 @@ extern void yyerror(char const *, ...);
 
 %%
 
-	/// HACK: Redundant double quotes (") are given twice inside ranges
-	/// ([...]) just so that SublimeText's syntax highlighter doesn't
-	/// get confused.
+	/// HACK: In this file, redundant double quotes (") are given twice
+	///  inside ranges ([...]) just so that SublimeText's syntax
+	///  highlighter doesn't get confused.
 
 [""] { BEGIN(STATE_INSTR); }
 <STATE_INSTR>[^""\n]* { strncpy(yylval.id, yytext, sizeof(yylval.id)-1); return STRING; }

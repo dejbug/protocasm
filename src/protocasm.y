@@ -169,7 +169,7 @@ int main(int argc, char **argv)
 	catch (std::runtime_error & e)
 	{
 		yyerror(e.what());
-		return 3;
+		return 0;
 	}
 
 	return 0;

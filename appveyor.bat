@@ -1,12 +1,13 @@
 @ECHO off
 
 SET WINFLEXBISON=0
+SET KEEPSAMPLE=1
 SET TEST_PBF_URL=http://download.bbbike.org/osm/bbbike/PhnomPenh/PhnomPenh.osm.pbf
 
 ECHO -- [ running ] "stage: prepare"
 
-ECHO -- installing flex/bison
-IF WINFLEXBISON==1 (
+IF %WINFLEXBISON%==1 (
+	ECHO -- installing flex/bison
 	cinst winflexbison
 )
 
@@ -21,7 +22,7 @@ PUSHD %MINGW_BIN%
 RENAME mingw32-make.exe make.exe
 POPD
 
-IF WINFLEXBISON==1 (
+IF %WINFLEXBISON%==1 (
 	ECHO -- renaming winflexbison exes in-place
 	PUSHD %WINFLEXBISON_BIN%
 	RENAME win_bison.exe bison.exe
@@ -40,7 +41,7 @@ ECHO -- [ running ] "stage: build"
 
 ECHO -- selecting build target
 
-IF WINFLEXBISON==1 (
+IF %WINFLEXBISON%==1 (
 	SET FLEX=C:\ProgramData\chocolatey\lib\winflexbison\tools\win_flex.exe
 	SET BISON=C:\ProgramData\chocolatey\lib\winflexbison\tools\win_bison.exe
 	SET WINFLAGS=--wincompat
@@ -62,18 +63,23 @@ IF "%APPVEYOR_REPO_TAG%"=="false" (
 )
 
 PUSHD src
+ECHO [ MAKE CMD ] make %MAKEFLAGS%
 make %MAKEFLAGS%
 POPD
 
-ECHO -- generating build tree
-IF NOT EXIST build MKDIR build
+IF NOT EXIST build (
+	ECHO -- generating build tree
+	MKDIR build
+)
 
 ECHO -- moving files
 MOVE src\protocasm.exe build\protocasm.exe
+
+ECHO -- patching osm.protocasm
 python src\patch.py src\osm.protocasm -f -o build\osm.protocasm -b Ii4uXGRhdGFcRGFybXN0YWR0Lm9zbS5wYmYi IlBobm9tUGVuaC5vc20ucGJmIg==
 
 ECHO -- writing scripts
-python -c "import os; print 'IF NOT EXIST \x22' + os.path.split('%TEST_PBF_URL%')[1] + '\x22 wget --no-check-certificate %TEST_PBF_URL%'" > build\fetch_sample.bat
+python -c "import os; print('IF NOT EXIST \x22' + os.path.split('%TEST_PBF_URL%')[1] + '\x22 wget --no-check-certificate %TEST_PBF_URL%')" > build\fetch_sample.bat
 ECHO CALL fetch_sample.bat > build\run_test.bat
 ECHO protocasm.exe osm.protocasm >> build\run_test.bat
 
@@ -93,6 +99,9 @@ PUSHD build
 CALL run_test.bat
 POPD
 
-ECHO -- [WARN] keeping sample file in build folder
-REM ECHO -- deleting sample file in build folder
-REM DEL build\*.osm.pbf 2>NUL
+IF %KEEPSAMPLE%==1 (
+	ECHO -- [ FLAG ] keeping sample file in build folder
+) ELSE (
+	ECHO -- deleting sample file in build folder
+	DEL build\*.osm.pbf 2>NUL
+)

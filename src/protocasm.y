@@ -4,6 +4,9 @@
 #include <stdarg.h>
 #include <crtdbg.h>
 
+void dbgout(char const *, ...);
+int dbgout_lineno = 0;
+
 #ifdef _DEBUG
 extern "C" __declspec(dllimport) void __stdcall OutputDebugStringA (char const *);
 #endif
@@ -11,13 +14,12 @@ extern "C" __declspec(dllimport) void __stdcall OutputDebugStringA (char const *
 #include "machine.h"
 machine::State state;
 machine::Context context;
-void dbgout(char const *, ...);
+machine::Logger logger("protocasm.log", true);
 
 int yylex();
 void yyerror(char const *, ...);
 
 extern int yylineno;
-int dbgout_lineno = 0;
 %}
 
 %union {
@@ -42,31 +44,33 @@ int dbgout_lineno = 0;
 
 lines:
 	/* nothing */ {
-		dbgout("%03d lines: /* nothing */", dbgout_lineno++);
+		logger.out("lines: /* nothing */");
+		logger.inc();
 		printf("\n  %03d  ", yylineno /* == 1 */);
 	}
 |	lines line EOL {
-		dbgout("%03d lines: lines line EOL", dbgout_lineno++);
+		logger.out("lines: lines line EOL");
+		logger.inc();
 		printf("\n  %03d  ", yylineno/* > 1 */);
 	}
 ;
 
 line:
 	/* nothing -- matches empty lines */ {
-		dbgout("%03d line: /* nothing */", dbgout_lineno);
+		logger.out("line: /* nothing */");
 	}
 |	expr {
-		dbgout("%03d line: expr", dbgout_lineno);
+		logger.out("line: expr");
 	}
 |	expr K_IF condop {
-		dbgout("%03d line: expr K_IF condop", dbgout_lineno);
+		logger.out("line: expr K_IF condop");
 	}
 |	IDENTIFIER ':' {
-		dbgout("%03d line: IDENTIFIER ':'", dbgout_lineno);
+		logger.out("line: IDENTIFIER ':'");
 		state.labels.set($1, yylineno);
 	}
 |	K_DUMP {
-		dbgout("%03d line: K_DUMP", dbgout_lineno);
+		logger.out("line: K_DUMP");
 		state.dump();
 	}
 
@@ -76,37 +80,37 @@ line:
 
 expr:
 	K_OPEN STRING {
-		dbgout("%03d expr: K_OPEN STRING", dbgout_lineno);
+		logger.out("expr: K_OPEN STRING");
 		state.open($2);
 	}
 |	K_GOTO IDENTIFIER {
-		dbgout("%03d expr: K_GOTO IDENTIFIER", dbgout_lineno);
+		logger.out("expr: K_GOTO IDENTIFIER");
 	}
 |	yieldexpr {
-		dbgout("%03d expr: yieldexpr", dbgout_lineno);
+		logger.out("expr: yieldexpr");
 	}
 |	assignment {
-		dbgout("%03d expr: assignment", dbgout_lineno);
+		logger.out("expr: assignment");
 		state.assignment(context);
 	}
 |	signal {
-		dbgout("%03d expr: signal", dbgout_lineno);
+		logger.out("expr: signal");
 	}
 |	K_SKIP NUMBER {
-		dbgout("%03d expr: K_SKIP NUMBER", dbgout_lineno);
+		logger.out("expr: K_SKIP NUMBER");
 	}
 |	K_SKIP IDENTIFIER {
-		dbgout("%03d expr: K_SKIP IDENTIFIER", dbgout_lineno);
+		logger.out("expr: K_SKIP IDENTIFIER");
 	}
 |	K_MATCH NUMBER {
-		dbgout("%03d expr: K_MATCH NUMBER", dbgout_lineno);
+		logger.out("expr: K_MATCH NUMBER");
 	}
 ;
 
 yieldexpr:
 	K_YIELD STRING NUMBER
 |	K_YIELD STRING IDENTIFIER {
-		dbgout("%03d yieldexpr: K_YIELD STRING IDENTIFIER", dbgout_lineno);
+		logger.out("yieldexpr: K_YIELD STRING IDENTIFIER");
 		state.yield_si($2, $3);
 	}
 |	K_YIELD NUMBER
@@ -125,19 +129,19 @@ condop:
 
 assignment:
 	IDENTIFIER assignop NUMBER {
-		dbgout("%03d assignment: IDENTIFIER assignop NUMBER", dbgout_lineno);
+		logger.out("assignment: IDENTIFIER assignop NUMBER");
 		context.at = machine::Context::AT_IN;
 		snprintf(context.dst, sizeof(context.dst), $1);
 		context.val = $3;
 	}
 |	IDENTIFIER assignop IDENTIFIER {
-		dbgout("%03d assignment: IDENTIFIER assignop IDENTIFIER", dbgout_lineno);
+		logger.out("assignment: IDENTIFIER assignop IDENTIFIER");
 		context.at = machine::Context::AT_II;
 		snprintf(context.dst, sizeof(context.dst), $1);
 		snprintf(context.src, sizeof(context.src), $3);
 	}
 |	IDENTIFIER assignop readop {
-		dbgout("%03d assignment: IDENTIFIER assignop readop", dbgout_lineno);
+		logger.out("assignment: IDENTIFIER assignop readop");
 		context.at = machine::Context::AT_IR;
 		snprintf(context.dst, sizeof(context.dst), $1);
 	}
@@ -145,34 +149,34 @@ assignment:
 
 readop:
 	readop1 {
-		dbgout("%03d readop: readop1", dbgout_lineno);
+		logger.out("readop: readop1");
 		context.styp = machine::Context::ST_LE;
 	}
 |	readop1 K_AS stortype {
-		dbgout("%03d readop: readop1 K_AS stortype", dbgout_lineno);
+		logger.out("readop: readop1 K_AS stortype");
 	}
 ;
 
 readop1:
 	K_READ datatype {
-		dbgout("%03d readop1: K_READ datatype", dbgout_lineno);
+		logger.out("readop1: K_READ datatype");
 		context.ao = machine::Context::AO_NONE;
 		context.readop = machine::Context::R_D;
 	}
 |	K_READ datatype K_FROM IDENTIFIER {
-		dbgout("%03d readop1: K_READ datatype K_FROM IDENTIFIER", dbgout_lineno);
+		logger.out("readop1: K_READ datatype K_FROM IDENTIFIER");
 		context.ao = machine::Context::AO_NONE;
 		context.readop = machine::Context::R_DFI;
 		snprintf(context.src, sizeof(context.src), $4);
 	}
 |	K_READ IDENTIFIER {
-		dbgout("%03d readop1: K_READ IDENTIFIER", dbgout_lineno);
+		logger.out("readop1: K_READ IDENTIFIER");
 		context.ao = machine::Context::AO_NONE;
 		context.readop = machine::Context::R_I;
 		snprintf(context.rid, sizeof(context.rid), $2);
 	}
 |	K_READ IDENTIFIER K_FROM IDENTIFIER {
-		dbgout("%03d readop1: K_READ IDENTIFIER K_FROM IDENTIFIER", dbgout_lineno);
+		logger.out("readop1: K_READ IDENTIFIER K_FROM IDENTIFIER");
 		context.ao = machine::Context::AO_NONE;
 		context.readop = machine::Context::R_IFI;
 		snprintf(context.rid, sizeof(context.rid), $2);
@@ -182,23 +186,23 @@ readop1:
 
 datatype:
 	T_KEY {
-		dbgout("%03d datatype: T_KEY", dbgout_lineno);
+		logger.out("datatype: T_KEY");
 		context.dtyp = machine::Context::DT_KEY;
 	}
 |	T_STRING {
-		dbgout("%03d datatype: T_STRING", dbgout_lineno);
+		logger.out("datatype: T_STRING");
 		context.dtyp = machine::Context::DT_STRING;
 	}
 |	T_BYTES {
-		dbgout("%03d datatype: T_BYTES", dbgout_lineno);
+		logger.out("datatype: T_BYTES");
 		context.dtyp = machine::Context::DT_BYTES;
 	}
 |	T_FIXED32 {
-		dbgout("%03d datatype: T_FIXED32", dbgout_lineno);
+		logger.out("datatype: T_FIXED32");
 		context.dtyp = machine::Context::DT_FIXED32;
 	}
 |	T_INT32 {
-		dbgout("%03d datatype: T_INT32", dbgout_lineno);
+		logger.out("datatype: T_INT32");
 		context.dtyp = machine::Context::DT_INT32;
 	}
 // ...
@@ -206,15 +210,15 @@ datatype:
 
 assignop:
 	'=' {
-		dbgout("%03d assignop: '='", dbgout_lineno);
+		logger.out("assignop: '='");
 		context.ao = machine::Context::AO_ASS;
 	}
 |	O_ADDA {
-		dbgout("%03d assignop: O_ADDA", dbgout_lineno);
+		logger.out("assignop: O_ADDA");
 		context.ao = machine::Context::AO_ADD;
 	}
 |	O_SUBA {
-		dbgout("%03d assignop: O_SUBA", dbgout_lineno);
+		logger.out("assignop: O_SUBA");
 		context.ao = machine::Context::AO_SUB;
 	}
 // | ...
@@ -222,11 +226,11 @@ assignop:
 
 stortype:
 	S_LE {
-		dbgout("%03d stortype: S_LE", dbgout_lineno);
+		logger.out("stortype: S_LE");
 		context.styp = machine::Context::ST_LE;
 	}
 |	S_BE {
-		dbgout("%03d stortype: S_BE", dbgout_lineno);
+		logger.out("stortype: S_BE");
 		context.styp = machine::Context::ST_BE;
 	}
 ;

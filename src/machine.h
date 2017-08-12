@@ -31,6 +31,19 @@ void log(char const * format, ...)
 
 namespace machine {
 
+struct Logger
+{
+	FILE * file = nullptr;
+	int lineno = 0;
+	static size_t const N = 1024;
+
+	Logger(char const * path, bool force_overwrite=false, bool truncate=false);
+	~Logger();
+
+	void out(char const * format, ...) const;
+	inline void inc() { ++lineno; }
+};
+
 struct Context
 {
 	enum { DT_NONE, DT_KEY, DT_STRING, DT_BYTES, DT_FIXED32, DT_INT32 } dtyp;

@@ -4,6 +4,46 @@
 #include <string.h>
 
 
+
+bool file_exists(char const * path)
+{
+	FILE * file = fopen(path, "rb");
+	if (!file) return false;
+	fclose(file);
+	return true;
+}
+
+machine::Logger::Logger(char const * path, bool force_overwrite, bool truncate)
+{
+	if (!path || !*path)
+		throw make_error("machine::Logger - invalid argument");
+
+	if (!force_overwrite && file_exists(path))
+		throw make_error("machine::Logger - a file already exits at path \"%s\" and overwrite flag was not set", path);
+
+	file = fopen(path, truncate ? "wb" : "ab");
+
+	if (!file)
+		throw make_error("machine::Logger - unable to open file for %s at \"%s\"", truncate ? "wb" : "ab", path);
+}
+
+machine::Logger::~Logger()
+{
+	if(file) fclose(file);
+}
+
+void machine::Logger::out(char const * format, ...) const
+{
+	va_list args;
+	va_start(args, format);
+	__mingw_fprintf(file, "[00:00:00]\t");
+	__mingw_vfprintf(file, format, args);
+	__mingw_fprintf(file, "\n");
+	va_end(args);
+}
+
+
+
 void machine::Vars::assign(char const * key, int op, unsigned long long val)
 {
 	unsigned long long const old_val = data[key];

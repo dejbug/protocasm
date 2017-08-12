@@ -1,5 +1,6 @@
 # SHELL := cmd.exe
-DEBUG := 1
+ADD_SYMBOLS := 0
+ADD_DEBUGOUT := 0
 
 FLEX := flex
 BISON := bison
@@ -7,9 +8,12 @@ WINFLAGS := --wincompat
 
 CXXFLAGS := -Wpedantic -Wall -O2 --std=c++11
 
-ifeq ($(DEBUG),1)
-CXXFLAGS += -g -D_DEBUG -lkernel32
-else
+ifeq ($(ADD_SYMBOLS),1)
+CXXFLAGS += -g
+endif
+
+ifeq ($(ADD_DEBUGOUT),1)
+CXXFLAGS += -D_DEBUG -lkernel32
 endif
 
 CXX := g++ $(CXXFLAGS)

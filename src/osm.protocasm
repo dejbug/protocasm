@@ -6,6 +6,7 @@ loop1:
 	YIELD "blobheader_length" blobheader_length
 	SKIP blobheader_length
 	FAIL IF blobheader_length == 0
+	DUMP
 	blobheader_data = READ blobheader_length
 	YIELD "loop1_count" loop1_count
 	key = READ KEY FROM blobheader_data

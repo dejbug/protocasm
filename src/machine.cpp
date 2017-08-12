@@ -7,6 +7,7 @@
 void machine::Vars::assign(char const * key, int op, unsigned long long val)
 {
 	unsigned long long const old_val = data[key];
+	printf(" {var '%s': %llu} ", key, old_val);
 
 	switch (op)
 	{

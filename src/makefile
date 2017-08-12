@@ -1,8 +1,17 @@
 # SHELL := cmd.exe
-CXXFLAGS := -Wpedantic -Wall -O2 --std=c++11
-WINFLAGS := --wincompat
+DEBUG := 1
+
 FLEX := flex
 BISON := bison
+WINFLAGS := --wincompat
+
+CXXFLAGS := -Wpedantic -Wall -O2 --std=c++11
+
+ifeq ($(DEBUG),1)
+CXXFLAGS += -g -D_DEBUG -lkernel32
+else
+endif
+
 CXX := g++ $(CXXFLAGS)
 
 protocasm.exe: machine.o protocasm.a ; $(CXX) -o $@ $^

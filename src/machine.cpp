@@ -79,20 +79,96 @@ void machine::Logger::out(char const * format, ...) const
 
 
 
-void machine::Vars::assign(char const * key, int op, unsigned long long val)
+machine::Var::~Var()
 {
-	unsigned long long const old_val = data[key];
-	printf(" {var '%s': %llu} ", key, old_val);
+	if (buf) delete buf;
+	buf = nullptr;
+}
+
+machine::Var & machine::Var::operator=(machine::Var & var)
+{
+	val.u = var.val.u;
+	buf = var.buf;
+	var.buf = nullptr;
+	return *this;
+}
+
+machine::Var & machine::Var::operator+=(machine::Var & var)
+{
+	val.u += var.val.u;
+	buf = var.buf;
+	var.buf = nullptr;
+	return *this;
+}
+
+machine::Var & machine::Var::operator-=(machine::Var & var)
+{
+	val.u -= var.val.u;
+	buf = var.buf;
+	var.buf = nullptr;
+	return *this;
+}
+
+// void machine::Var::assign(int op, unsigned long long val)
+// {
+// }
+
+// void machine::Var::assign(int op, signed long long val)
+// {
+// }
+
+// void machine::Var::assign(char * buf)
+// {
+// }
+
+void machine::Var::dump() const
+{
+	if (buf)
+	{
+		__mingw_printf("[%lld] ", val.u);
+		for (unsigned long long i=0; i<val.u; ++i)
+			__mingw_printf("%02X ", buf[i]);
+	}
+	else if (val.u)
+	{
+		__mingw_printf("%llu", val.u);
+	}
+	else
+	{
+		__mingw_printf("%lld", val.s);
+	}
+}
+
+
+
+void machine::Vars::assign(char const * key, int op, machine::Var & acc)
+{
+	machine::Var & var = data[key];
 
 	switch (op)
 	{
-		case Context::AO_ASS: data[key] = val; break;
-		case Context::AO_ADD: data[key] += val; break;
-		case Context::AO_SUB: data[key] -= val; break;
+		case Context::AO_ASS: var = acc; break;
+		case Context::AO_ADD: var += acc; break;
+		case Context::AO_SUB: var -= acc; break;
 		// ...
 	}
 
-	log("var '%s' changed from %llu to %llu", key, old_val, data[key]);
+	echo("var '%s' changed", key);
+}
+
+void machine::Vars::assign(char const * key, int op, unsigned long long const & u)
+{
+	machine::Var & var = data[key];
+
+	switch (op)
+	{
+		case Context::AO_ASS: var.val.u = u; break;
+		case Context::AO_ADD: var.val.u += u; break;
+		case Context::AO_SUB: var.val.u -= u; break;
+		// ...
+	}
+
+	echo("var '%s' changed", key);
 }
 
 void machine::Vars::assign(char const * key_dst, int op, char const * key_src)
@@ -100,10 +176,14 @@ void machine::Vars::assign(char const * key_dst, int op, char const * key_src)
 	assign(key_dst, op, data[key_src]);
 }
 
-void machine::Vars::dump()
+void machine::Vars::dump() const
 {
 	for (auto it = data.cbegin(); it != data.cend(); ++it)
-		__mingw_printf("[var] %16llu : %s\n", it->second, it->first.c_str());
+	{
+		__mingw_printf("[var] %20s : ", it->first.c_str());
+		it->second.dump();
+		__mingw_printf("\n");
+	}
 }
 
 
@@ -111,10 +191,10 @@ void machine::Vars::dump()
 void machine::Labels::set(char const * key, size_t line)
 {
 	data[key] = line;
-	log("label '%s' set at line #%d", key, line);
+	echo("label '%s' set at line #%d", key, line);
 }
 
-void machine::Labels::dump()
+void machine::Labels::dump() const
 {
 	for (auto it = data.cbegin(); it != data.cend(); ++it)
 		__mingw_printf("[label] '%s' at line #%d\n", it->first.c_str(), it->second);
@@ -125,6 +205,7 @@ void machine::Labels::dump()
 machine::State::~State()
 {
 	if (file) fclose(file);
+	if (acc.buf) delete acc.buf;
 }
 
 void machine::State::open(char const * path)
@@ -135,12 +216,12 @@ void machine::State::open(char const * path)
 	file = fopen(file_path, "rb");
 
 	if (!file) throw make_error("file not found: \"%s\"", file_path);
-	log("opened file \"%s\" for input", file_path);
+	echo("opened file \"%s\" for input", file_path);
 }
 
-void machine::State::dump()
+void machine::State::dump() const
 {
-	log("dump");
+	echo("dump");
 
 	__mingw_printf("\n\n");
 	__mingw_printf("[file] \"%s\" at %08x\n", file_path, (size_t) file);
@@ -163,8 +244,8 @@ void machine::State::assignment(Context const & context)
 			break;
 
 		case Context::AT_IR:
-			// printf("%s = ", context.dst);
 			read(context);
+			// printf(" {acc : "); acc.dump(); printf("} ");
 			vars.assign(context.dst, context.ao, acc);
 			break;
 	}
@@ -172,16 +253,36 @@ void machine::State::assignment(Context const & context)
 
 void read_from_file(machine::Context const & context, machine::State & state)
 {
-	unsigned long long * const out = *context.dst ? &state.vars.data[context.dst] : nullptr;
+	if (state.acc.buf) delete state.acc.buf;
 
-	switch (context.dtyp)
+	switch (context.readop)
 	{
-		default: throw make_error("not implemented: read_from_file operation for dtyp %d", context.dtyp);
+		default: throw make_error("not a readop %d", context.readop);
 
-		case machine::Context::DT_FIXED32:
-			// printf(" FIXED32");
-			machine::read_fixed32(state.file, context.dtyp, context.styp, out);
+		case machine::Context::R_D:
+		{
+			switch (context.dtyp)
+			{
+				default: throw make_error("not implemented: read_from_file operation for dtyp %d", context.dtyp);
+
+				case machine::Context::DT_FIXED32:
+					machine::read_fixed32(state.file, context.dtyp, context.styp, state.acc);
+					break;
+			}
 			break;
+		}
+
+		case machine::Context::R_DFI: break;
+
+		case machine::Context::R_I:
+		{
+			state.acc.val.u = state.vars.data[context.rid].val.u;
+			state.acc.buf = new unsigned char[state.acc.val.u];
+			fread(state.acc.buf, state.acc.val.u, 1, state.file);
+			break;
+		}
+
+		case machine::Context::R_IFI: break;
 	}
 }
 
@@ -211,29 +312,22 @@ ReadMethod get_read_method(machine::Context const & context)
 void machine::State::read(Context const & context)
 {
 	auto read_method = get_read_method(context);
-
-	// printf("READ");
 	read_method(context, *this);
-	// switch (context.styp)
-	// {
-	// 	case Context::ST_LE: break;
-	// 	case Context::ST_BE: printf(" AS BigEndian"); break;
-	// }
-	// printf("\n");
 }
 
 void machine::State::yield_si(char const * str, char const * key)
 {
-	log("yield_si '%s' %lld", str, vars.data[key]);
+	echo("yield_si '%s' : ", str);
+	machine::Var & var = vars.data[key];
+	var.dump();
 }
 
-void machine::read_fixed32(FILE * file, int dtyp, int styp, unsigned long long * out)
+void machine::read_fixed32(FILE * file, int dtyp, int styp, machine::Var & acc)
 {
-	unsigned long s32 = 0;
-	fread(&s32, 4, 1, file);
-	if (!out) return;
-	if (Context::ST_BE == styp) flip_32(out, &s32);
-	else *out = (unsigned long long) s32;
+	unsigned long u = 0;
+	fread(&u, 4, 1, file);
+	if (Context::ST_BE == styp) flip_32(&acc.val.u, &u);
+	else acc.val.u = (unsigned long long) u;
 }
 
 void machine::flip_32(unsigned long long * dst, unsigned long const * src)

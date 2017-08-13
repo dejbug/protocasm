@@ -153,24 +153,20 @@ readop:
 readop1:
 	K_READ datatype {
 		logger.out("readop1: K_READ datatype");
-		context.ao = machine::Context::AO_NONE;
 		context.readop = machine::Context::R_D;
 	}
 |	K_READ datatype K_FROM IDENTIFIER {
 		logger.out("readop1: K_READ datatype K_FROM IDENTIFIER");
-		context.ao = machine::Context::AO_NONE;
 		context.readop = machine::Context::R_DFI;
 		snprintf(context.src, sizeof(context.src), $4);
 	}
 |	K_READ IDENTIFIER {
 		logger.out("readop1: K_READ IDENTIFIER");
-		context.ao = machine::Context::AO_NONE;
 		context.readop = machine::Context::R_I;
 		snprintf(context.rid, sizeof(context.rid), $2);
 	}
 |	K_READ IDENTIFIER K_FROM IDENTIFIER {
 		logger.out("readop1: K_READ IDENTIFIER K_FROM IDENTIFIER");
-		context.ao = machine::Context::AO_NONE;
 		context.readop = machine::Context::R_IFI;
 		snprintf(context.rid, sizeof(context.rid), $2);
 		snprintf(context.src, sizeof(context.src), $4);

@@ -19,7 +19,7 @@ E make_error(char const * format, ...)
 }
 
 template<size_t N=1024>
-void log(char const * format, ...)
+void echo(char const * format, ...)
 {
 	char buffer[N + 1] = {0};
 
@@ -64,13 +64,34 @@ struct Context
 	enum { ST_LE, ST_BE } styp;
 };
 
+struct Var
+{
+	union {
+		unsigned long long u;
+		signed long long s;
+	} val;
+	unsigned char * buf = nullptr;
+
+	~Var();
+
+	Var & operator=(Var & var);
+	Var & operator+=(Var & var);
+	Var & operator-=(Var & var);
+
+	// void assign(int op, unsigned long long uval);
+	// void assign(int op, signed long long sval);
+	// void assign(char * buf);
+	void dump() const;
+};
+
 struct Vars
 {
-	std::map<std::string, unsigned long long> data;
+	std::map<std::string, Var> data;
 
-	void assign(char const * key, int op, unsigned long long val);
+	void assign(char const * key, int op, Var & acc);
+	void assign(char const * key, int op, unsigned long long const & val);
 	void assign(char const * key_dst, int op, char const * key_src);
-	void dump();
+	void dump() const;
 };
 
 struct Labels
@@ -78,14 +99,14 @@ struct Labels
 	std::map<std::string, size_t> data;
 
 	void set(char const * key, size_t line);
-	void dump();
+	void dump() const;
 };
 
 struct State
 {
 	Vars vars;
 	Labels labels;
-	unsigned long long acc = 0;
+	machine::Var acc;
 
 	char file_path[260 + 1] = {0};
 	FILE * file = nullptr;
@@ -93,13 +114,13 @@ struct State
 	~State();
 
 	void open(char const * path);
-	void dump();
+	void dump() const;
 	void assignment(Context const & context);
 	void read(Context const & context);
 	void yield_si(char const * str, char const * key);
 };
 
-void read_fixed32(FILE * file, int dtyp, int styp, unsigned long long * out=nullptr);
+void read_fixed32(FILE * file, int dtyp, int styp, machine::Var & acc);
 
 void flip_32(unsigned long long * dst, unsigned long const * src);
 

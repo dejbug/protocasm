@@ -2,6 +2,8 @@
 #include "protocasm.tab.h"
 #include <stdexcept>
 #include <string.h>
+#include <time.h>
+// #include "dbgout.h"
 
 
 
@@ -11,6 +13,33 @@ bool file_exists(char const * path)
 	if (!file) return false;
 	fclose(file);
 	return true;
+}
+
+void fwrite_time(FILE * file, bool date=true, bool msec=true)
+{
+	char tmpbuf[32];
+
+	if (date)
+	{
+		time_t now;
+		time(&now);
+		struct tm * const today = localtime(&now);
+
+		strftime(tmpbuf, sizeof(tmpbuf), "%Y-%m-%d | %H:%M:%S", today);
+		fputs(tmpbuf, file);
+	}
+	else
+	{
+		_strtime(tmpbuf);
+		fputs(tmpbuf, file);
+	}
+
+	if (msec)
+	{
+		struct _timeb tstruct;
+		_ftime(&tstruct);
+		fprintf(file, ":%03d", tstruct.millitm);
+	}
 }
 
 machine::Logger::Logger(char const * path, bool force_overwrite, bool truncate)
@@ -25,6 +54,8 @@ machine::Logger::Logger(char const * path, bool force_overwrite, bool truncate)
 
 	if (!file)
 		throw make_error("machine::Logger - unable to open file for %s at \"%s\"", truncate ? "wb" : "ab", path);
+
+	_tzset();
 }
 
 machine::Logger::~Logger()
@@ -36,9 +67,13 @@ void machine::Logger::out(char const * format, ...) const
 {
 	va_list args;
 	va_start(args, format);
-	__mingw_fprintf(file, "[00:00:00]\t");
+
+	fwrite_time(file, true, false);
+	fputs(" | ", file);
+	__mingw_fprintf(file, "%05d | ", lineno);
 	__mingw_vfprintf(file, format, args);
-	__mingw_fprintf(file, "\n");
+	fputs("\n", file);
+
 	va_end(args);
 }
 

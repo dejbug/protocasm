@@ -7,6 +7,7 @@
 /src/*.lex.c
 /src/*.tab.c
 /src/*.tab.h
+/src/*.log
 /build
 /test
 /deploy

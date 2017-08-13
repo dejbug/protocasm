@@ -4,17 +4,10 @@
 #include <stdarg.h>
 #include <crtdbg.h>
 
-void dbgout(char const *, ...);
-int dbgout_lineno = 0;
-
-#ifdef _DEBUG
-extern "C" __declspec(dllimport) void __stdcall OutputDebugStringA (char const *);
-#endif
-
 #include "machine.h"
 machine::State state;
 machine::Context context;
-machine::Logger logger("protocasm.log", true);
+machine::Logger logger("protocasm.log");
 
 int yylex();
 void yyerror(char const *, ...);
@@ -275,20 +268,4 @@ void yyerror(char const * format, ...)
 	__mingw_vfprintf(stderr, format, args);
 	__mingw_fprintf(stderr, ">\n");
 	va_end(args);
-}
-
-void dbgout(char const * format, ...)
-{
-#ifdef _DEBUG
-	size_t const N = 1024;
-	char buffer[N + 1] = {0};
-
-	va_list args;
-	va_start(args, format);
-	__mingw_vsnprintf(buffer, N, format, args);
-	va_end(args);
-
-	// _RPT0(_CRT_WARN, buffer);
-	OutputDebugStringA(buffer);
-#endif
 }

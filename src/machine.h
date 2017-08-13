@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _MACHINE_H_
+#define _MACHINE_H_
+
 #include <map>
 #include <string>
 #include <stdarg.h>
@@ -37,7 +39,7 @@ struct Logger
 	int lineno = 0;
 	static size_t const N = 1024;
 
-	Logger(char const * path, bool force_overwrite=false, bool truncate=false);
+	Logger(char const * path, bool force_overwrite=true, bool truncate=true);
 	~Logger();
 
 	void out(char const * format, ...) const;
@@ -102,3 +104,5 @@ void read_fixed32(FILE * file, int dtyp, int styp, unsigned long long * out=null
 void flip_32(unsigned long long * dst, unsigned long const * src);
 
 }
+
+#endif // _MACHINE_H_

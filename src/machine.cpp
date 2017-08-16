@@ -7,6 +7,16 @@
 
 
 
+void emit(char const * format, ...)
+{
+	va_list args;
+	va_start(args, format);
+	__mingw_fprintf(stdout, "\n[[ ");
+	__mingw_vfprintf(stdout, format, args);
+	__mingw_fprintf(stdout, " ]]");
+	va_end(args);
+}
+
 bool file_exists(char const * path)
 {
 	FILE * file = fopen(path, "rb");
@@ -162,6 +172,21 @@ void machine::Vars::assign(char const * key, int op, unsigned long long const & 
 
 	switch (op)
 	{
+		case Context::AO_ASS:
+			emit("MOV %s, %llu", key, u);
+			break;
+
+		case Context::AO_ADD:
+			emit("ADD %s, %llu", key, u);
+			break;
+
+		case Context::AO_SUB:
+			emit("SUB %s, %llu", key, u);
+			break;
+	}
+
+	switch (op)
+	{
 		case Context::AO_ASS: var.val.u = u; break;
 		case Context::AO_ADD: var.val.u += u; break;
 		case Context::AO_SUB: var.val.u -= u; break;
@@ -217,6 +242,8 @@ void machine::State::open(char const * path)
 
 	if (!file) throw make_error("file not found: \"%s\"", file_path);
 	echo("opened file \"%s\" for input", file_path);
+
+	emit("FILE %s", file_path);
 }
 
 void machine::State::dump() const
@@ -267,6 +294,7 @@ void read_from_file(machine::Context const & context, machine::State & state)
 
 				case machine::Context::DT_FIXED32:
 					machine::read_fixed32(state.file, context.dtyp, context.styp, state.acc);
+					emit("R acc, FIXED32, %s", context.styp == machine::Context::ST_LE ? "LE" : "BE");
 					break;
 			}
 			break;
@@ -279,6 +307,7 @@ void read_from_file(machine::Context const & context, machine::State & state)
 			state.acc.val.u = state.vars.data[context.rid].val.u;
 			state.acc.buf = new unsigned char[state.acc.val.u];
 			fread(state.acc.buf, state.acc.val.u, 1, state.file);
+			emit("READF acc, FIXED32, %s", context.styp == machine::Context::ST_LE ? "LE" : "BE");
 			break;
 		}
 
@@ -317,9 +346,9 @@ void machine::State::read(Context const & context)
 
 void machine::State::yield_si(char const * str, char const * key)
 {
-	echo("yield_si '%s' : ", str);
 	machine::Var & var = vars.data[key];
-	var.dump();
+	if (echo("yield_si '%s' : ", str))
+		var.dump();
 }
 
 void machine::read_fixed32(FILE * file, int dtyp, int styp, machine::Var & acc)

@@ -4,13 +4,13 @@
 #include <stdarg.h>
 #include <crtdbg.h>
 
+int yylex();
+void yyerror(char const *, ...);
+
 #include "machine.h"
 machine::State state;
 machine::Context context;
 machine::Logger logger("protocasm.log");
-
-int yylex();
-void yyerror(char const *, ...);
 
 extern int yylineno;
 %}
@@ -24,7 +24,7 @@ extern int yylineno;
 /* declare tokens */
 %token <id> IDENTIFIER
 %token <u64> NUMBER
-%token <id> STRING
+%token <text> STRING
 %token O_ADDA O_SUBA
 %token K_EQ K_NE K_GE
 %token K_AS K_IF K_ELSE K_FAIL K_WARN K_READ K_SKIP K_FROM K_OPEN
@@ -39,11 +39,13 @@ lines:
 	/* nothing */ {
 		logger.out("lines: /* nothing */");
 		logger.inc();
+		// echo("\n  %03d  ", yylineno /* == 1 */);
 		printf("\n  %03d  ", yylineno /* == 1 */);
 	}
 |	lines line EOL {
 		logger.out("lines: lines line EOL");
 		logger.inc();
+		// echo("\n  %03d  ", yylineno/* > 1 */);
 		printf("\n  %03d  ", yylineno/* > 1 */);
 	}
 ;

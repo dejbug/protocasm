@@ -30,6 +30,7 @@ protocasm.lex.c: protocasm.l ; $(FLEX) $(WINFLAGS) -o $@ $<
 clean:
 	del *.o 2>NUL
 	del *.a 2>NUL
+	del *.log 2>NUL
 	del protocasm.exe 2>NUL
 	del protocasm.tab.c 2>NUL
 	del protocasm.tab.h 2>NUL

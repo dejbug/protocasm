@@ -99,6 +99,7 @@ COPY build\* test\
 ECHO -- running test
 PUSHD test
 CALL run_test.bat
+ECHO.
 POPD
 
 IF %KEEPSAMPLE%==1 (

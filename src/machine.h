@@ -5,6 +5,10 @@
 #include <string>
 #include <stdarg.h>
 
+#define ECHO_OFF
+
+void emit(char const *, ...);
+
 template<size_t N=1024, class E=std::runtime_error>
 E make_error(char const * format, ...)
 {
@@ -19,8 +23,9 @@ E make_error(char const * format, ...)
 }
 
 template<size_t N=1024>
-void echo(char const * format, ...)
+bool echo(char const * format, ...)
 {
+#ifndef ECHO_OFF
 	char buffer[N + 1] = {0};
 
 	va_list args;
@@ -29,6 +34,9 @@ void echo(char const * format, ...)
 	va_end(args);
 
 	__mingw_fprintf(stdout, "* %s", buffer);
+	return true;
+#endif
+	return false;
 }
 
 namespace machine {

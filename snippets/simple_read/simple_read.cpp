@@ -1,38 +1,7 @@
 #include <stdio.h>
 #include <string.h>
-#include <stdarg.h>
-#include <stdexcept>
 
-
-
-template<size_t N=1024, class E=std::runtime_error>
-E make_error(char const * format, ...)
-{
-	char buffer[N + 1] = {0};
-
-	va_list args;
-	va_start(args, format);
-	__mingw_vsnprintf(buffer, N, format, args);
-	va_end(args);
-
-	return E(buffer);
-}
-
-
-
-void flip_32(unsigned int * dst, unsigned int * src)
-{
-	// TODO: ws2_32.dll's htonl() does this much more
-	// efficiently, using only scratch registers .
-
-	auto d = (unsigned char *) dst;
-	auto s = (unsigned char const *) src;
-
-	d[0] = s[3];
-	d[1] = s[2];
-	d[2] = s[1];
-	d[3] = s[0];
-}
+#include "operations.h"
 
 
 
@@ -110,8 +79,7 @@ struct Buffer
 	{
 		if (good < 4)
 			throw make_error("Buffer::to_int : not enough bytes: only %d available, required 4", good);
-		unsigned int value = 0;
-		flip_32(&value, (unsigned int *) data);
+		unsigned int value = op::flip_32(*(unsigned int *) data);
 		return value;
 	}
 
@@ -124,7 +92,7 @@ struct Buffer
 
 
 
-template<class T=unsigned long long>
+template<class T>
 struct Varint
 {
 	T value = 0;
@@ -225,11 +193,23 @@ struct Field
 
 int main()
 {
-	char const * file_path = "..\\..\\data\\Darmstadt.osm.pbf";
+	char const * path = "..\\..\\data\\Darmstadt.osm.pbf";
 
-	InputFile file(file_path);
+	InputFile file(path);
+
+	unsigned int const blobheader_size = op::flip_32(op::read_fixed32(file.handle));
+	printf("blobheader_size = %d\n", blobheader_size);
+
+	char * const blobheader_data = new char[blobheader_size];
+	op::read(file.handle, blobheader_data, blobheader_size);
+
+	printf("blobheader_data = \n");
+	op::dump(blobheader_data, blobheader_size);
+	printf("\n");
+
+	return 0;
+
 	Buffer<64> buffer;
-
 	buffer.read(file, 4);
 	printf("\n");
 	buffer.dump();

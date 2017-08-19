@@ -21,9 +21,43 @@ E make_error(char const * format, ...)
 namespace op {
 
 size_t read(FILE * file, char * buffer, size_t size);
-unsigned int flip_32(unsigned int value);
-unsigned int read_fixed32(FILE * file);
 void dump(char const * buffer, size_t size);
+unsigned long flip_32(unsigned long value);
+unsigned long long flip_64(unsigned long long value);
+unsigned long read_fixed32(FILE * file);
+unsigned long long read_fixed64(FILE * file);
+int read_varint_32(FILE * file);
+char * read_string(FILE * file);
+
+template<size_t N>
+size_t read_varint(FILE * file, char (&buffer)[N])
+{
+	for (size_t i=0; i < N; ++i)
+	{
+		char byte;
+		read(file, &byte, 1);
+		buffer[i] = 0x7F & byte;
+		if ((byte & 0x80) == 0)
+			return i + 1;
+	}
+	throw make_error("op::read_varint : end of buffer reached at byte %d before varint fully read", N);
+}
+
+struct Varint
+{
+	char data[32] = {0};
+	size_t good = 0;
+
+	void read(FILE * file);
+	long to_int32() const;
+	long long to_int64() const;
+	signed long to_sint32() const;
+	signed long long to_sint64() const;
+	unsigned long to_uint32() const;
+	unsigned long long to_uint64() const;
+	bool to_bool() const;
+	int to_enum() const;
+};
 
 } // namespace op
 

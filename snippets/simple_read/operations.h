@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdexcept>
+#include <string>
 
 template<size_t N=1024, class E=std::runtime_error>
 E make_error(char const * format, ...)
@@ -27,7 +28,7 @@ unsigned long long flip_64(unsigned long long value);
 unsigned long read_fixed32(FILE * file);
 unsigned long long read_fixed64(FILE * file);
 int read_varint_32(FILE * file);
-char * read_string(FILE * file);
+std::string read_string(FILE * file);
 
 template<size_t N>
 size_t read_varint(FILE * file, char (&buffer)[N])
@@ -43,12 +44,37 @@ size_t read_varint(FILE * file, char (&buffer)[N])
 	throw make_error("op::read_varint : end of buffer reached at byte %d before varint fully read", N);
 }
 
+struct Mark
+{
+	FILE * file;
+	long mark = 0;
+
+	Mark(FILE * file);
+	bool operator<(size_t pos) const;
+	bool operator>(size_t pos) const;
+	bool operator>=(size_t pos) const;
+
+	void set();
+	size_t get_dist() const;
+};
+
+struct Key
+{
+	int id = 0;		// field id
+	int wt = -1;	// wire type
+
+	Key(int id, int wt);
+};
+
 struct Varint
 {
 	char data[32] = {0};
 	size_t good = 0;
 
 	void read(FILE * file);
+
+	Key to_key() const;
+
 	long to_int32() const;
 	long long to_int64() const;
 	signed long to_sint32() const;

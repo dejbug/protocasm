@@ -56,27 +56,45 @@ int main()
 	/// OPEN "..."
 	raii::InputFile file(path);
 
-	op::read_fixed32(file);
-
-	op::Varint varint;
-	varint.read(file);
-	printf("int from varint : %ld\n", varint.to_int32());
-	varint.read(file);
-
-	return 0;
-
-	/// READ 4
-	/// FLIP 4
+	/// blobheader_size = READ FIXED32 AS BigEndian
 	unsigned int const blobheader_size = op::flip_32(op::read_fixed32(file));
 	printf("blobheader_size = %d\n", blobheader_size);
 
-	/// SET HARD LIMIT AT ACC
-	char * const blobheader_data = new char[blobheader_size];
-	op::read(file, blobheader_data, blobheader_size);
+	/// We must only read the next {blobheader_size} bytes, so we
+	/// set a mark at the current file pos and check against it after
+	/// every read operation to see whether we have exceeded the
+	/// blobheader's advertised size . If so, this would indicate an
+	/// unexpected error .
 
-	printf("blobheader_data = \n");
-	op::dump(blobheader_data, blobheader_size);
-	printf("\n");
+	/// mark = MARK
+	op::Mark mark(file);
+	mark.set();
+
+	while (mark < blobheader_size)
+	{
+		/// varint = READ VARINT
+		op::Varint varint;
+		varint.read(file);
+
+		/// key = varint AS KEY
+		op::Key key = varint.to_key();
+		/// DUMP key
+		printf("key id %d wire type %d\n", key.id, key.wt);
+
+		switch (key.wt)
+		{
+			case 3:
+			{
+				std::string s = op::read_string(file);
+				printf("string |%s|\n", s.c_str());
+				break;
+			}
+		}
+	}
+
+	/// FAIL IF MARK - mark >= blobheader_size
+	if (mark >= blobheader_size)
+		throw make_error("read past hard limit: either our varint-reading logic has a bug, or the input file's generating application is at fault");
 
 	return 0;
 }

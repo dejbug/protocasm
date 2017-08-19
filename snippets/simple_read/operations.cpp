@@ -1,4 +1,5 @@
 #include "operations.h"
+#include <memory>
 
 size_t op::read(FILE * file, char * buffer, size_t size)
 {
@@ -62,15 +63,65 @@ unsigned long long op::read_fixed64(FILE * file)
 	return value;
 }
 
-char * op::read_string(FILE * file)
+std::string op::read_string(FILE * file)
 {
-	return nullptr;
+	op::Varint varint;
+	varint.read(file);
+	long const size = varint.to_int32();
+
+	std::unique_ptr<char[]> buffer(new char[size + 1]);
+	op::read(file, buffer.get(), size);
+	buffer[size] = 0;
+
+	return std::string(buffer.get());
 }
 
+op::Mark::Mark(FILE * file)
+	: file(file)
+{
+	if (!file)
+		throw make_error("Mark::ctor : invalid file handle");
+	set();
+}
+
+bool op::Mark::operator<(size_t pos) const
+{
+	return get_dist() < pos;
+}
+
+bool op::Mark::operator>(size_t pos) const
+{
+	return get_dist() > pos;
+}
+
+bool op::Mark::operator>=(size_t pos) const
+{
+	return !(*this < pos);
+}
+
+void op::Mark::set()
+{
+	mark = ftell(file);
+}
+
+size_t op::Mark::get_dist() const
+{
+	return ftell(file) - mark;
+}
+
+op::Key::Key(int id, int wt)
+	: id(id), wt(wt)
+{
+}
 
 void op::Varint::read(FILE * file)
 {
 	good = op::read_varint(file, data);
+}
+
+op::Key op::Varint::to_key() const
+{
+	return {1, 3};
 }
 
 long op::Varint::to_int32() const

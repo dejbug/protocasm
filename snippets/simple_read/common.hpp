@@ -23,24 +23,6 @@ E make_error(char const * format, ...)
 	return E(buffer);
 }
 
-template<size_t N, class T=char>
-size_t read(FILE * file, T (&buffer)[N])
-{
-	size_t const good = fread(buffer, sizeof(T), N, file);
-	if (good < N && !feof(file))
-		throw make_error("common::read : error while reading from file at %08X: only %d of %d bytes read", (size_t) file, good, N);
-	return good;
-}
-
-template<class T=char>
-size_t read(FILE * file, T * buffer, size_t size)
-{
-	size_t const good = fread(buffer, 1, size, file);
-	if (good < size && !feof(file))
-		throw common::make_error("File::read : error while reading from file at %08X: only %d of %d bytes read", (size_t) file, good, size);
-	return good;
-}
-
 }
 
 #endif // _COMMON_H_

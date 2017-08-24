@@ -2,46 +2,32 @@
 #define _raii_h_
 
 #include <stdio.h>
+#include "common.hpp"
 #include "operations.h"
 
 namespace raii {
 
-struct InputFile
+struct ifile
 {
 	FILE * handle = nullptr;
 	char * path = nullptr;
 	long mark = 0;
 
-	InputFile(char const * path);
-	virtual ~InputFile();
+	ifile(char const * path);
+	virtual ~ifile();
 
 	inline operator FILE * () { return handle; }
 
 };
 
 
-template<size_t N>
-struct Buffer
+struct buffer : public common::typ::bytes
 {
-	char * data = new char[N];
-	size_t const size = N;
-	size_t good = 0;
-	size_t done = 0;
+	buffer(size_t capacity);
+	virtual ~buffer();
 
-	virtual ~Buffer()
-	{
-		delete data;
-	}
-
-	void read(FILE * file)
-	{
-		good = op::read(file, data, size);
-	}
-
-	bool more() const
-	{
-		return done < good;
-	}
+	void read(FILE * file, size_t size);
+	void read(FILE * file);
 };
 
 

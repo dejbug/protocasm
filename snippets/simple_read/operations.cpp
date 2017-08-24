@@ -5,7 +5,7 @@ size_t op::read(FILE * file, char * buffer, size_t size)
 {
 	size_t const good = fread(buffer, 1, size, file);
 	if (good < size && !feof(file))
-		throw make_error("File::read : error while reading from file at %08X: only %d of %d bytes read", (size_t) file, good, size);
+		throw common::make_error("File::read : error while reading from file at %08X: only %d of %d bytes read", (size_t) file, good, size);
 	return good;
 }
 
@@ -80,7 +80,7 @@ op::Mark::Mark(FILE * file)
 	: file(file)
 {
 	if (!file)
-		throw make_error("Mark::ctor : invalid file handle");
+		throw common::make_error("Mark::ctor : invalid file handle");
 	set();
 }
 

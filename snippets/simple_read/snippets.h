@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include "common.hpp"
 
 namespace snippets {
 
@@ -27,10 +28,10 @@ struct Buffer
 	{
 		if (!size) size = this->size;
 		if (size > this->size)
-			throw make_error("Buffer::read : too many bytes: %d bytes requested, capacity is %d", size, this->size);
+			throw common::make_error("Buffer::read : too many bytes: %d bytes requested, capacity is %d", size, this->size);
 		good = fread(data, 1, size, file);
 		if (good < size && !feof(file))
-			throw make_error("Buffer::read : error while reading from file at%08X: only %d of %d bytes read", (size_t) file, good, size);
+			throw common::make_error("Buffer::read : error while reading from file at%08X: only %d of %d bytes read", (size_t) file, good, size);
 	}
 
 	void dump()
@@ -50,14 +51,14 @@ struct Buffer
 	unsigned int to_int() const
 	{
 		if (good < 4)
-			throw make_error("Buffer::to_int : not enough bytes: only %d available, required 4", good);
+			throw common::make_error("Buffer::to_int : not enough bytes: only %d available, required 4", good);
 		return *(unsigned int *) data;
 	}
 
 	unsigned int to_int_be() const
 	{
 		if (good < 4)
-			throw make_error("Buffer::to_int : not enough bytes: only %d available, required 4", good);
+			throw common::make_error("Buffer::to_int : not enough bytes: only %d available, required 4", good);
 		unsigned int value = op::flip_32(*(unsigned int *) data);
 		return value;
 	}
@@ -87,14 +88,14 @@ struct Varint
 		for (size_t i=offset; i<buffer.good && need_more; ++i, ++done)
 		{
 			if (i >= max_loop)
-				throw make_error("Field::read_varint : max_loop (%d) reached", max_loop);
+				throw common::make_error("Field::read_varint : max_loop (%d) reached", max_loop);
 			unsigned char const c = buffer.data[i];
 			need_more = 0x80 & c;
 			value |= (0x7F & c) << (7 * done);
 		}
 
 		if (need_more)
-			throw make_error("Field::read : premature end of buffer while reading varint: could read only %d so far (preliminary value is %llu", done, value);
+			throw common::make_error("Field::read : premature end of buffer while reading varint: could read only %d so far (preliminary value is %llu", done, value);
 
 		return value;
 	}

@@ -30,7 +30,7 @@ size_t read_varint(FILE * file, char (&buffer)[N])
 		if ((byte & 0x80) == 0)
 			return i + 1;
 	}
-	throw make_error("op::read_varint : end of buffer reached at byte %d before varint fully read", N);
+	throw common::make_error("op::read_varint : end of buffer reached at byte %d before varint fully read", N);
 }
 
 struct Mark

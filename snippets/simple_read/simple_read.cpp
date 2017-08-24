@@ -5,12 +5,38 @@
 #include "raii.h"
 // #include "snippets.h"
 
+#include "io.hpp"
+
 int main()
 {
 	char const * path = "..\\..\\data\\Darmstadt.osm.pbf";
 
 	/// OPEN "..."
 	raii::InputFile file(path);
+
+	io::buffer buf(64);
+	buf.read(file, 64);
+	io::dump(buf);
+
+	long const bh_len_be = io::to_int32(buf);
+	ECHO2(08lx, ld, bh_len_be);
+
+	auto x = 0x1234000000000000LL;
+	ECHO2(016llx, lld, x);
+	auto y = io::flip64(x);
+	ECHO2(016llx, lld, y);
+
+	fseek(file, 0, SEEK_SET);
+
+	{
+		long const bh_len_be = io::read32(file);
+		ECHO2(08lx, ld, bh_len_be);
+		long const bh_len_le = io::flip32(bh_len_be);
+		ECHO2(08lx, ld, bh_len_le);
+	}
+
+	return 0;
+
 
 	/// blobheader_size = READ FIXED32 AS BigEndian
 	unsigned int const blobheader_size = op::flip_32(op::read_fixed32(file));
@@ -50,7 +76,7 @@ int main()
 
 	/// FAIL IF MARK - mark >= blobheader_size
 	if (mark >= blobheader_size)
-		throw make_error("read past hard limit: either our varint-reading logic has a bug, or the input file's generating application is at fault");
+		throw common::make_error("read past hard limit: either our varint-reading logic has a bug, or the input file's generating application is at fault");
 
 	return 0;
 }

@@ -8,30 +8,49 @@ lib::typ::bytes::bytes()
 }
 
 lib::typ::bytes::bytes(size_t capacity)
-	: capacity(capacity), good(0)
+	: data(nullptr), capacity(0), good(0)
 {
-	if (!capacity)
-		throw common::make_error("lib::typ::bytes::ctor : capacity must be >0 in this ctor");
-	data = new char[capacity];
+	if (!capacity) throw common::make_error("lib::typ::bytes::ctor : capacity must be >0 in this ctor");
+	grow(capacity);
 }
 
 lib::typ::bytes::~bytes()
 {
-	capacity = 0;
-	if (data)
-	{
-		delete[] data;
-		data = nullptr;
-	}
+	free();
 }
 
 lib::typ::bytes::bytes(lib::typ::bytes && other)
 {
 	data = other.data;
-	other.data = nullptr;
 	capacity = other.capacity;
 	good = other.good;
-	other.capacity = other.good = 0;
+	other.drop();
+}
+
+void lib::typ::bytes::grow(size_t size)
+{
+	if (!size) return;
+	if (capacity >= size) return;
+	free();
+	data = new char[capacity = size];
+}
+
+void lib::typ::bytes::drop()
+{
+	data = nullptr;
+	capacity = good = 0;
+}
+
+void lib::typ::bytes::free()
+{
+	if (data) delete[] data;
+	drop();
+}
+
+void lib::typ::bytes::fill(FILE * file)
+{
+	if (!capacity) return;
+	read(file, capacity);
 }
 
 void lib::typ::bytes::read(FILE * file, size_t size)
@@ -39,17 +58,17 @@ void lib::typ::bytes::read(FILE * file, size_t size)
 	good = 0;
 
 	if (size > capacity)
-		throw common::make_error("buffer::read : not enough room for reading %d bytes from file at %08X: only %d bytes allocated", size, (size_t) file, capacity);
+		throw common::make_error("lib::typ::bytes::read : not enough room for reading %d bytes from file at %08X: only %d bytes allocated", size, (size_t) file, capacity);
 
 	good = fread(data, 1, size, file);
 
 	if (good < size && !feof(file))
-		throw common::make_error("buffer::read : error while reading from file at %08X: only %d of %d bytes read", (size_t) file, good, size);
+		throw common::make_error("lib::typ::bytes::read : error while reading from file at %08X: only %d of %d bytes read", (size_t) file, good, size);
 }
 
 void lib::typ::bytes::read(FILE * file)
 {
-	good = 0;
+	grow(10);
 
 	for (size_t i = 0; i < capacity; ++i)
 	{
@@ -61,14 +80,14 @@ void lib::typ::bytes::read(FILE * file)
 		return;
 	}
 
-	throw common::make_error("buffer::read : end of buffer reached at byte %d before varint fully read", capacity);
+	throw common::make_error("lib::typ::bytes::read : end of buffer reached at byte %d before varint fully read", capacity);
 }
 
 size_t lib::io::read(FILE * file, char * buffer, size_t size)
 {
 	size_t const good = fread(buffer, sizeof(char), size, file);
 	if (good < size && !feof(file))
-		throw common::make_error("File::read : error while reading from file at %08X: only %d of %d bytes read", (size_t) file, good, size);
+		throw common::make_error("lib::io::read : error while reading from file at %08X: only %d of %d bytes read", (size_t) file, good, size);
 	return good;
 }
 
@@ -95,7 +114,7 @@ lib::io::file::file(char const * path)
 {
 	handle = fopen(path, "rb");
 	if (!handle)
-		throw common::make_error("ifile::ctor : file not found %s", path);
+		throw common::make_error("lib::io::file::ctor : file not found %s", path);
 	this->path = strdup(path);
 }
 

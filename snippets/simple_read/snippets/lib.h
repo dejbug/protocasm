@@ -38,6 +38,11 @@ struct bytes
 
 	bytes(bytes && other);
 
+	void grow(size_t size);
+	void drop();
+	void free();
+
+	void fill(FILE * file);
 	void read(FILE * file, size_t size);
 	void read(FILE * file);
 };

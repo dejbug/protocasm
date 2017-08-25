@@ -187,6 +187,43 @@ bool test(char const * path)
 	return true;
 }
 
+
+namespace osm {
+
+struct item
+{
+	long mark = 0;
+	lib::typ::i4 bh_len_le = 0;
+	lib::typ::bytes b1;
+
+	item(FILE * file)
+	{
+		lib::typ::i4 bh_len_be = 0;
+		lib::io::read(file, bh_len_be);
+		bh_len_le = lib::trans::flip(bh_len_be);
+		ECHO2(08lx, ld, bh_len_le);
+
+		mark = ftell(file);
+
+		b1.read(file);
+		lib::io::dump(b1);
+	}
+
+	virtual ~item()
+	{
+	}
+
+	void dump()
+	{
+		printf(" --- osm::item --- :\n");
+		ECHO2(08lx, ld, bh_len_le);
+		printf(" . ---\n");
+	}
+};
+
+} // namespace osm
+
+
 } // namespace snippets
 
 #endif // _SNIPPETS_H_

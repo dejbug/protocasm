@@ -23,6 +23,23 @@ E make_error(char const * format, ...)
 	return E(buffer);
 }
 
+template<size_t N=1024>
+bool echo(char const * format, ...)
+{
+#ifndef ECHO_OFF
+	char buffer[N + 1] = {0};
+
+	va_list args;
+	va_start(args, format);
+	__mingw_vsnprintf(buffer, N, format, args);
+	va_end(args);
+
+	__mingw_fprintf(stderr, "* { %s }\n", buffer);
+	return true;
+#endif
+	return false;
+}
+
 }
 
 #endif // _COMMON_H_

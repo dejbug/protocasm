@@ -13,8 +13,8 @@ void test_1(lib::io::file & file)
 
 void test_2(lib::io::file & file)
 {
-	auto bytes_2 = lib::io::read(file, 64);
-	lib::io::dump(bytes_2);
+	auto bytes = lib::io::read(file, 64);
+	lib::io::dump(bytes);
 	rewind(file);
 }
 
@@ -25,6 +25,7 @@ void test_3(lib::io::file & file)
 	ECHO2(08lx, ld, bh_len_be);
 	lib::typ::i4 bh_len_le = lib::trans::flip(bh_len_be);
 	ECHO2(08lx, ld, bh_len_le);
+	rewind(file);
 }
 
 int main()
@@ -34,8 +35,8 @@ int main()
 	lib::io::file file(path);
 
 	// test_1(file);
-	test_2(file);
-	test_3(file);
+	// test_2(file);
+	// test_3(file);
 
 
 

@@ -25,6 +25,15 @@ lib::typ::bytes::~bytes()
 	}
 }
 
+lib::typ::bytes::bytes(lib::typ::bytes && other)
+{
+	data = other.data;
+	other.data = nullptr;
+	capacity = other.capacity;
+	good = other.good;
+	other.capacity = other.good = 0;
+}
+
 void lib::typ::bytes::read(FILE * file, size_t size)
 {
 	good = 0;

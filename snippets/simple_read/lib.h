@@ -36,6 +36,8 @@ struct bytes
 	bytes(size_t capacity);
 	virtual ~bytes();
 
+	bytes(bytes && other);
+
 	void read(FILE * file, size_t size);
 	void read(FILE * file);
 };

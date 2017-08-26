@@ -6,6 +6,12 @@
 
 namespace osm {
 
+namespace err {
+
+DEFERR(end);
+
+} // namespace err
+
 namespace typ {
 
 // message BlobHeader {
@@ -46,8 +52,8 @@ osm::typ::bb read_bb(FILE * file, pb::typ::u4 datasize);
 
 namespace dbg {
 
-void dump(typ::bh);
-void dump(typ::bb);
+void dump(typ::bh const &);
+void dump(typ::bb const &);
 
 } // namespace dbg
 

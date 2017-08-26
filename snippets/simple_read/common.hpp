@@ -14,9 +14,19 @@
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 
+#define DEFERR(name) struct name : public std::runtime_error { using std::runtime_error::runtime_error; }
+
 namespace common {
 
-template<size_t N=1024, class E=std::runtime_error>
+namespace err {
+
+DEFERR(eof);
+
+} // namespace err
+
+size_t const MAX_BUF_LEN = 1024;
+
+template<class E=std::runtime_error, size_t N=MAX_BUF_LEN>
 E make_error(char const * format, ...)
 {
 	char buffer[N + 1] = {0};
@@ -46,6 +56,15 @@ bool echo(char const * format, ...)
 	return false;
 }
 
+inline size_t filesize(FILE * file)
+{
+	size_t const mark = ftell(file);
+	fseek(file, 0, SEEK_END);
+	size_t const size = ftell(file);
+	fseek(file, mark, SEEK_SET);
+	return size;
+}
+
 inline size_t read(FILE * file, char * buffer, size_t size)
 {
 	if (!size) return 0;
@@ -54,8 +73,12 @@ inline size_t read(FILE * file, char * buffer, size_t size)
 
 	size_t const good = fread(buffer, sizeof(char), size, file);
 
-	if (good < size && !feof(file))
-		throw common::make_error("common::read : error while reading byte %ld from file %08X: need %d more bytes (got only %d)", mark + good, (size_t) file, size-good, good);
+	if (good < size)
+	{
+		if(feof(file)) throw common::make_error<common::err::eof>("common::read : EOF while reading byte %lu (%08X) from file %08X: need %u more bytes (got only %u)", mark + good, mark + good, (size_t) file, size-good, good);
+
+		else throw common::make_error("common::read : unknown error while reading byte %lu (%08X) from file %08X: need %u more bytes (got only %u)", mark + good, mark + good, (size_t) file, size-good, good);
+	}
 
 	return good;
 }

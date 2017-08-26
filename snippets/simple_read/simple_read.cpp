@@ -7,16 +7,19 @@
 
 int main()
 {
+	size_t const debug_max_loops = 16;
+
 	char const * path = "..\\..\\data\\Darmstadt.osm.pbf";
 	pb::raii::file file(path);
 
-	auto bh = osm::io::read_bh(file);
-	osm::dbg::dump(bh);
+	for (size_t i=0; i<debug_max_loops; ++i)
+	{
+		auto bh = osm::io::read_bh(file);
+		osm::dbg::dump(bh);
 
-	auto bb = osm::io::read_bb(file, bh.datasize);
-	osm::dbg::dump(bb);
-
-	osm::dbg::dump(osm::io::read_bh(file));
+		auto bb = osm::io::read_bb(file, bh.datasize);
+		osm::dbg::dump(bb);
+	}
 
 	return 0;
 }

@@ -32,10 +32,7 @@ int main()
 
 			case 2:
 			{
-				pb::typ::i8 const str_size = pb::io::read_v8(file);
-				ECHO2(08llx, lld, str_size);
-
-				pb::typ::string const str = pb::io::read(file, str_size);
+				pb::typ::string const str = pb::io::read_string(file);
 				ECHO1(s, str.c_str());
 				break;
 			}

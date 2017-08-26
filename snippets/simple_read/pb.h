@@ -20,6 +20,12 @@ typedef unsigned long long u8;
 
 typedef std::string string;
 
+struct key
+{
+	unsigned long long id : 61;
+	unsigned long long wt : 3;
+};
+
 } // namespace typ
 
 namespace raii {
@@ -45,8 +51,10 @@ typ::i8 flip(typ::i8);
 
 namespace io {
 
-size_t read(FILE * file, char * buffer, size_t size);
-typ::string read(FILE * file, size_t size);
+// size_t read(FILE * file, char * buffer, size_t size);
+typ::string read_blob(FILE * file, size_t size);
+typ::string read_string(FILE * file);
+typ::key read_key(FILE * file);
 
 typ::i4 read_i4(FILE * file);
 typ::i8 read_i8(FILE * file);

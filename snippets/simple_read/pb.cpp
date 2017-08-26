@@ -12,12 +12,28 @@ pb::raii::file::~file()
 	if (handle) fclose(handle);
 }
 
-pb::typ::string pb::io::read(FILE * file, size_t size)
+pb::typ::string pb::io::read_blob(FILE * file, size_t size)
 {
 	pb::typ::string str;
 	str.resize(size);
 	common::read(file, (char *) str.data(), size);
 	return str;
+}
+
+pb::typ::string pb::io::read_string(FILE * file)
+{
+	pb::typ::i8 const str_size = pb::io::read_v8(file);
+	// ECHO2(08llx, lld, str_size);
+
+	pb::typ::string const str = pb::io::read_blob(file, str_size);
+	// ECHO1(s, str.c_str());
+
+	return str;
+}
+
+typ::key pb::io::read_key(FILE * file);
+{
+	return {0, 0};
 }
 
 pb::typ::i4 pb::io::read_i4(FILE * file)

@@ -6,7 +6,11 @@
 
 namespace osm {
 
+namespace io {
 
+pb::typ::string read_string(FILE * file);
+
+} // namespace io
 
 } // namespace osm
 

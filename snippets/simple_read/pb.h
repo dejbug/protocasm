@@ -19,6 +19,7 @@ typedef unsigned long u4;
 typedef unsigned long long u8;
 
 typedef std::string string;
+// typedef std::string bytes;
 
 struct key
 {
@@ -52,7 +53,7 @@ typ::i8 flip(typ::i8);
 namespace io {
 
 // size_t read(FILE * file, char * buffer, size_t size);
-typ::string read_blob(FILE * file, size_t size);
+typ::string read_bytes(FILE * file, size_t size);
 typ::string read_string(FILE * file);
 typ::key read_key(FILE * file);
 

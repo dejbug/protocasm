@@ -7,8 +7,12 @@
 
 // #define COMMON_ECHO_OFF
 
-#define ECHO1(t, expr) __mingw_printf(#expr " : %" #t "\n", (expr))
-#define ECHO2(t1, t2, expr) { auto const v = (expr); __mingw_printf(#expr " : %" #t1 " (%" #t2 ")\n", v, v); }
+#define ECHO(t, expr) __mingw_printf("+ %" #t "\n", (expr))
+#define ECHO1(t, expr) __mingw_printf("- " #expr " : %" #t "\n", (expr))
+#define ECHO2(t1, t2, expr) { auto const v = (expr); __mingw_printf("- " #expr " : %" #t1 " (%" #t2 ")\n", v, v); }
+
+#define MIN(x, y) (((x) < (y)) ? (x) : (y))
+#define MAX(x, y) (((x) > (y)) ? (x) : (y))
 
 namespace common {
 

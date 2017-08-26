@@ -3,10 +3,12 @@
 
 #include "common.hpp"
 #include "pb.h"
+#include "osm.h"
 
 int main()
 {
 	size_t const debug_max_loops = 8;
+
 	char const * path = "..\\..\\data\\Darmstadt.osm.pbf";
 	pb::raii::file file(path);
 

@@ -14,11 +14,18 @@ int main()
 
 	for (size_t i=0; i<debug_max_loops; ++i)
 	{
-		auto bh = osm::io::read_bh(file);
-		osm::dbg::dump(bh);
+		try {
+			auto bh = osm::io::read_bh(file);
+			osm::dbg::dump(bh);
 
-		auto bb = osm::io::read_bb(file, bh.datasize);
-		osm::dbg::dump(bb);
+			auto bb = osm::io::read_bb(file, bh.datasize);
+			osm::dbg::dump(bb);
+		}
+
+		catch (osm::err::end &)
+		{
+			break;
+		}
 	}
 
 	return 0;

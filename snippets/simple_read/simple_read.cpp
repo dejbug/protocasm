@@ -7,7 +7,7 @@
 
 int main()
 {
-	size_t const debug_max_loops = 8;
+	size_t const debug_max_loops = 16;
 
 	char const * path = "..\\..\\data\\Darmstadt.osm.pbf";
 	pb::raii::file file(path);
@@ -16,24 +16,36 @@ int main()
 	ECHO2(08lx, ld, osm_bh_size);
 
 	bool more = true;
-	for (size_t i=0; more && i<debug_max_loops; ++i)
+	for (size_t i=0; more; ++i)
 	{
-		pb::typ::i8 const key = pb::io::read_v<pb::typ::i8>(file);
-		ECHO2(08llx, lld, key);
+		printf("-----------------------------------------------  loop %d", i);
+		if (debug_max_loops) printf(" (of %d {debug})", debug_max_loops);
+		printf("\n");
 
-		pb::typ::i8 const id = key >> 3;
-		ECHO2(08llx, lld, id);
-		pb::typ::u1 const wt = key & 0x7;
-		ECHO2(08x, d, wt);
+		if (debug_max_loops && i >= debug_max_loops) break;
 
-		switch (wt)
+		pb::typ::key const key = pb::io::read_key(file);
+		ECHO2(08llx, lld, key.id);
+		ECHO2(08llx, lld, key.wt);
+
+		switch (key.wt)
 		{
 			default: more = false; break;
+
+			case 0:
+			{
+				pb::typ::u8 const vi = pb::io::read_v8(file);
+				ECHO2(08llx, lld, vi);
+				break;
+			}
 
 			case 2:
 			{
 				pb::typ::string const str = pb::io::read_string(file);
-				ECHO1(s, str.c_str());
+
+				if (1 == key.id) ECHO1(s, str.c_str());
+				else common::hexdump(str.c_str(), str.size() >= 48 ? 48 : str.size());
+
 				break;
 			}
 		}

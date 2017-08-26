@@ -62,6 +62,23 @@ size_t read(FILE * file, char (&buffer)[N])
 	return read(file, buffer, N);
 }
 
+inline void hexdump(char const * buffer, size_t size)
+{
+	size_t const br_at = 24;
+	size_t const sp_at = 4;
+
+	for (size_t i=0; i<size; ++i)
+	{
+		if (i > 0)
+		{
+			if(i % br_at == 0) printf("\n");
+			else if(i % sp_at == 0) printf (" ");
+		}
+		printf("%02X ", (unsigned char) buffer[i]);
+	}
+	printf("\n");
+}
+
 }
 
 #endif // _COMMON_H_

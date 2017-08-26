@@ -31,9 +31,11 @@ pb::typ::string pb::io::read_string(FILE * file)
 	return str;
 }
 
-typ::key pb::io::read_key(FILE * file);
+pb::typ::key pb::io::read_key(FILE * file)
 {
-	return {0, 0};
+	pb::typ::u8 const key = pb::io::read_v8(file);
+	// ECHO2(08llx, lld, key);
+	return {key >> 3, key & 0x7};
 }
 
 pb::typ::i4 pb::io::read_i4(FILE * file)

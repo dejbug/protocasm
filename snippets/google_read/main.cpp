@@ -7,9 +7,6 @@
 #include "common.hpp"
 #include "goo.h"
 
-int test_1(char const *);
-int test_2(char const *, bool respect_bh_len = false);
-
 int main()
 {
 	size_t const debug_max_loops = 16;

@@ -58,7 +58,7 @@ struct context
 };
 
 int test_1(char const *);
-int test_2(char const *);
+int test_2(char const *, bool respect_bh_len = false);
 
 int main()
 {
@@ -112,16 +112,23 @@ OSMPBF::BlobHeader read_bh(context & ctx)
 	return bh;
 }
 
-int test_2(char const * path)
+int test_2(char const * path, bool respect_bh_len)
 {
 	context ctx(path);
+	OSMPBF::BlobHeader bh;
 
-	// auto bh_len = read_bh_len(ctx);
-	// printf("- bh_len = %d\n", bh_len);
-	// OSMPBF::BlobHeader bh = read_bh(ctx, bh_len);
+	if (respect_bh_len)
+	{
+		auto bh_len = read_bh_len(ctx);
+		printf("- bh_len = %d\n", bh_len);
+		bh = read_bh(ctx, bh_len);
+	}
 
-	ctx.coded_input->Skip(4);
-	OSMPBF::BlobHeader bh = read_bh(ctx);
+	else
+	{
+		ctx.coded_input->Skip(4);
+		bh = read_bh(ctx);
+	}
 
 	printf("- bh.type = '%s'\n", bh.type().c_str());
 	printf("- bh.datasize = %d\n", bh.datasize());

@@ -153,8 +153,13 @@ namespace common {
 
 } // namespace common
 
+int test();
+
 int main()
 {
+	test();
+	exit(0);
+
 	char const * path = "..\\..\\data\\Darmstadt.osm.pbf";
 
 	input::buffer<64> buf;

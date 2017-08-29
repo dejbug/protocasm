@@ -1,7 +1,7 @@
 PROTOC := c:\Programme\3\protobuf\bin\protoc.exe
-CXXFLAGS := -Ic:\Programme\3\protobuf\include -Lc:\Programme\3\protobuf\lib -lprotobuf
+CXXFLAGS := -Ic:\Programme\3\protobuf\include -Lc:\Programme\3\protobuf\lib -lprotobuf-lite
 
-main.exe: main.o fileformat.pb.o osmformat.pb.o c:\Programme\3\protobuf\lib\libprotobuf.a
+main.exe: main.o fileformat.pb.o osmformat.pb.o c:\Programme\3\protobuf\lib\libprotobuf-lite.a
 	g++ $(LDFLAGS) -o $@ $^
 
 main.o: main.cpp common.hpp | fileformat.pb.h osmformat.pb.h ; g++ $(CXXFLAGS) -c $<

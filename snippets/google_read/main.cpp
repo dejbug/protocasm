@@ -5,7 +5,7 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 
-#include <google/protobuf/io/zero_copy_stream_impl.h>
+#include <google/protobuf/io/zero_copy_stream_impl_lite.h>
 
 #include "common.hpp"
 #include "fileformat.pb.h"
@@ -14,10 +14,42 @@
 google::protobuf::uint32 flip(google::protobuf::uint32 value);
 google::protobuf::uint64 flip(google::protobuf::uint64 value);
 
+struct infile : public google::protobuf::io::CopyingInputStream
+{
+	FILE * file = nullptr;
+
+	infile(char const * path)
+	{
+		file = fopen(path, "rb");
+	}
+
+	virtual ~infile()
+	{
+		fclose(file);
+	}
+
+	virtual int Read(void * buffer, int size)
+	{
+		if (feof(file)) return 0;
+		size_t const good = fread((char *) buffer, sizeof(char), size, file);
+		if (good < size && ferror(file)) return -1;
+		return good;
+	}
+
+	virtual int Skip(int count)
+	{
+		if (feof(file)) return 0;
+		long const mark = ftell(file);
+		if (0 != fseek(file, count, SEEK_CUR)) return -1;
+		return (int) (ftell(file) - mark);
+	}
+};
+
 struct context
 {
 	int fd = -1;
-	google::protobuf::io::ZeroCopyInputStream * raw_input = nullptr;
+	google::protobuf::io::CopyingInputStream * raw_input = nullptr;
+	google::protobuf::io::CopyingInputStreamAdaptor * raw_input_adaptor = nullptr;
 	google::protobuf::io::CodedInputStream * coded_input = nullptr;
 
 	context(char const * path);
@@ -114,16 +146,15 @@ context::context(char const * path)
 {
 	GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-	fd = _open(path, _O_RDONLY | _O_SEQUENTIAL, _S_IREAD);
-	if (-1 == fd) throw common::make_error("context::context : input file not found at '%s'\n", path);
-
-	raw_input = new google::protobuf::io::FileInputStream(fd);
-	coded_input = new google::protobuf::io::CodedInputStream(raw_input);
+	raw_input = new infile(path);
+	raw_input_adaptor = new google::protobuf::io::CopyingInputStreamAdaptor(raw_input);
+	coded_input = new google::protobuf::io::CodedInputStream(raw_input_adaptor);
 }
 
 context::~context()
 {
 	delete coded_input;
+	delete raw_input_adaptor;
 	delete raw_input;
 	_close(fd);
 

@@ -116,10 +116,11 @@ int test_2(char const * path)
 {
 	context ctx(path);
 
-	auto bh_len = read_bh_len(ctx);
-	printf("- bh_len = %d\n", bh_len);
-
+	// auto bh_len = read_bh_len(ctx);
+	// printf("- bh_len = %d\n", bh_len);
 	// OSMPBF::BlobHeader bh = read_bh(ctx, bh_len);
+
+	ctx.coded_input->Skip(4);
 	OSMPBF::BlobHeader bh = read_bh(ctx);
 
 	printf("- bh.type = '%s'\n", bh.type().c_str());

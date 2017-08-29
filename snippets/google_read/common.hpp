@@ -1,9 +1,10 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
-#include <stdio.h>
-#include <stdarg.h>
-#include <stdexcept>
+#include <stdio.h>		// printf, __mingw_printf
+#include <stdarg.h>		// va_list, va_start, va_end
+#include <stdexcept>	// std::runtime_error
+#include <string>		// std::string
 
 #define MAX_BUF_LEN 1024
 
@@ -45,6 +46,11 @@ void hexdump(T const * data, size_t size, size_t const br_at = 16, size_t const 
 		printf("%02X ", (unsigned char) buffer[i]);
 	}
 	printf("\n");
+}
+
+inline void hexdump(std::string const & bytes, size_t const br_at = 16, size_t const sp_at = 4)
+{
+	hexdump(bytes.c_str(), bytes.size(), br_at, sp_at);
 }
 
 inline size_t filesize(FILE * file)

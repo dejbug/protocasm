@@ -32,8 +32,8 @@ goo::context::context(char const * path)
 {
 	GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-	raw_input = new infile(path);
-	raw_input_adaptor = new goo::CopyingInputStreamAdaptor(raw_input);
+	file = new infile(path);
+	raw_input_adaptor = new goo::CopyingInputStreamAdaptor((goo::CopyingInputStream *) file);
 	coded_input = new goo::CodedInputStream(raw_input_adaptor);
 }
 
@@ -41,7 +41,7 @@ goo::context::~context()
 {
 	delete coded_input;
 	delete raw_input_adaptor;
-	delete raw_input;
+	delete file;
 }
 
 
@@ -77,6 +77,38 @@ goo::uint64 goo::flip(goo::uint64 value)
 		(static_cast<goo::uint64>(part1) << 32);
 }
 
+bool goo::more(goo::context & ctx)
+{
+	void const * ptr = nullptr;
+	int size = 0;
+	if (!ctx.coded_input->GetDirectBufferPointer(&ptr, &size)) return false;
+	return size > 0;
+}
+
+std::string goo::read_raw(goo::context & ctx, goo::uint32 size)
+{
+	std::string bytes;
+	bytes.resize(size);
+	ctx.coded_input->ReadRaw((goo::uint8 *) bytes.data(), size);
+	return bytes;
+}
+
+std::unique_ptr<goo::uint8> goo::read_mem(goo::context & ctx, goo::uint32 size)
+{
+	std::unique_ptr<goo::uint8> bytes(new goo::uint8[size]);
+	ctx.coded_input->ReadRaw(bytes.get(), size);
+	return bytes;
+}
+
+void goo::dump_ahead(goo::context & ctx, goo::uint32 max_len)
+{
+	void const * ptr = nullptr;
+	int size = 0;
+	printf("%08X : \n", ctx.coded_input->CurrentPosition());
+	if (ctx.coded_input->GetDirectBufferPointer(&ptr, &size))
+		common::hexdump(ptr, MIN(size, max_len));
+}
+
 goo::uint32 goo::read_bh_len(goo::context & ctx)
 {
 	goo::uint32 bh_len = 0;
@@ -84,22 +116,33 @@ goo::uint32 goo::read_bh_len(goo::context & ctx)
 	return goo::flip(bh_len);
 }
 
-std::unique_ptr<goo::uint8> goo::read_bh_mem(goo::context & ctx, goo::uint32 bh_len)
+OSMPBF::BlobHeader goo::read_bh(goo::context & ctx, std::string const & buf)
 {
-	std::unique_ptr<goo::uint8> buffer(new goo::uint8[bh_len]);
-	ctx.coded_input->ReadRaw(buffer.get(), bh_len);
-	return buffer;
+	OSMPBF::BlobHeader bh;
+
+	if (!bh.ParseFromArray(buf.data(), buf.size()))
+		throw common::make_error("goo::read_bh : failed to parse BlobHeader from memory");
+
+	assert(bh.has_type());
+	assert(bh.has_datasize());
+
+	return bh;
 }
 
 OSMPBF::BlobHeader goo::read_bh(goo::context & ctx, goo::uint32 bh_len)
 {
 	OSMPBF::BlobHeader bh;
+	CodedInputStream::Limit limit = -1;
 
-	auto buffer = goo::read_bh_mem(ctx, bh_len);
-	// common::hexdump(buffer.get(), bh_len);
+	if (bh_len > 0) limit = ctx.coded_input->PushLimit(bh_len);
+	bool const ok = bh.ParseFromCodedStream(ctx.coded_input);
+	if (bh_len > 0) ctx.coded_input->CheckEntireMessageConsumedAndPopLimit(limit);
 
-	if (!bh.ParseFromArray(buffer.get(), bh_len))
-		throw common::make_error("failed to parse BlobHeader from memory");
+	if (!ok)
+	{
+		if (bh_len > 0) throw common::make_error("goo::read_bh : failed to parse BlobHeader (with limit %d)", bh_len);
+		else throw common::make_error("goo::read_bh : failed to parse BlobHeader (without limit)");
+	}
 
 	assert(bh.has_type());
 	assert(bh.has_datasize());
@@ -107,15 +150,7 @@ OSMPBF::BlobHeader goo::read_bh(goo::context & ctx, goo::uint32 bh_len)
 	return bh;
 }
 
-OSMPBF::BlobHeader goo::read_bh(goo::context & ctx)
+void goo::skip_bb(goo::context & ctx, goo::int32 datasize)
 {
-	OSMPBF::BlobHeader bh;
-
-	if (!bh.ParseFromCodedStream(ctx.coded_input))
-		throw common::make_error("failed to parse BlobHeader");
-
-	assert(bh.has_type());
-	assert(bh.has_datasize());
-
-	return bh;
+	ctx.coded_input->Skip(datasize);
 }

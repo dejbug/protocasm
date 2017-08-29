@@ -31,8 +31,10 @@ E make_error(char const * format, ...)
 	return E(buffer);
 }
 
-inline void hexdump(char const * buffer, size_t size, size_t const br_at = 16, size_t const sp_at = 4)
+template<class T>
+void hexdump(T const * data, size_t size, size_t const br_at = 16, size_t const sp_at = 4)
 {
+	auto buffer = (char const *) data;
 	for (size_t i=0; i<size; ++i)
 	{
 		if (i > 0)

@@ -1,5 +1,6 @@
 #include <assert.h>
 #include <stdio.h>
+#include <memory>
 
 #include <io.h>
 #include <fcntl.h>
@@ -68,39 +69,58 @@ int main()
 	return 0;
 }
 
+google::protobuf::uint32 read_bh_len(context & ctx)
+{
+	google::protobuf::uint32 bh_len = 0;
+	ctx.coded_input->ReadLittleEndian32(&bh_len);
+	return flip(bh_len);
+}
+
+std::unique_ptr<google::protobuf::uint8> read_bh_mem(context & ctx, google::protobuf::uint32 bh_len)
+{
+	std::unique_ptr<google::protobuf::uint8> buffer(new google::protobuf::uint8[bh_len]);
+	ctx.coded_input->ReadRaw(buffer.get(), bh_len);
+	return buffer;
+}
+
+OSMPBF::BlobHeader read_bh(context & ctx, google::protobuf::uint32 bh_len)
+{
+	OSMPBF::BlobHeader bh;
+
+	auto buffer = read_bh_mem(ctx, bh_len);
+	// common::hexdump(buffer.get(), bh_len);
+
+	if (!bh.ParseFromArray(buffer.get(), bh_len))
+		throw common::make_error("failed to parse BlobHeader from memory");
+
+	assert(bh.has_type());
+	assert(bh.has_datasize());
+
+	return bh;
+}
+
+OSMPBF::BlobHeader read_bh(context & ctx)
+{
+	OSMPBF::BlobHeader bh;
+
+	if (!bh.ParseFromCodedStream(ctx.coded_input))
+		throw common::make_error("failed to parse BlobHeader");
+
+	assert(bh.has_type());
+	assert(bh.has_datasize());
+
+	return bh;
+}
+
 int test_2(char const * path)
 {
 	context ctx(path);
 
-	google::protobuf::uint32 bh_len = 0;
-	ctx.coded_input->ReadLittleEndian32(&bh_len);
-	bh_len = flip(bh_len);
+	auto bh_len = read_bh_len(ctx);
 	printf("- bh_len = %d\n", bh_len);
 
-	OSMPBF::BlobHeader bh;
-
-	// if (!bh.ParseFromCodedStream(ctx.coded_input)) {
-	// 	fprintf(stderr, "Failed to parse BlobHeader.\n");
-	// 	return -1;
-	// }
-
-	auto * buffer = new google::protobuf::uint8[bh_len];
-	ctx.coded_input->ReadRaw((void *) buffer, (int) bh_len);
-	common::hexdump((char *) buffer, bh_len);
-	// auto * coded_input = new google::protobuf::io::CodedInputStream(buffer, bh_len);
-
-	// if (!bh.ParseFromCodedStream(coded_input)) {
-	if (!bh.ParseFromArray(buffer, bh_len)) {
-		fprintf(stderr, "Failed to parse BlobHeader from memory.\n");
-		return -1;
-	}
-
-	// delete coded_input;
-	delete[] buffer;
-
-
-	assert(bh.has_type());
-	assert(bh.has_datasize());
+	// OSMPBF::BlobHeader bh = read_bh(ctx, bh_len);
+	OSMPBF::BlobHeader bh = read_bh(ctx);
 
 	printf("- bh.type = '%s'\n", bh.type().c_str());
 	printf("- bh.datasize = %d\n", bh.datasize());

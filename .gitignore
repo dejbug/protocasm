@@ -11,3 +11,4 @@
 /build
 /test
 /deploy
+*.lnk

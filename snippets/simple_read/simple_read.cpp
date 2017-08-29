@@ -6,13 +6,39 @@
 #include "pb.h"
 #include "osm.h"
 
-struct input
+namespace input {
+
+template<size_t N=16>
+struct buffer
+{
+	char * const data = new char[N];
+	size_t const capacity = N;
+	size_t good = 0;
+
+	virtual ~buffer()
+	{
+		good = 0;
+		if (data) delete[] data;
+	}
+
+	void fill(char c=0)
+	{
+		memset(data, c, capacity);
+	}
+
+	void hexdump(size_t const br_at = 24, size_t const sp_at = 4)
+	{
+		common::hexdump(data, good, br_at, sp_at);
+	}
+};
+
+struct iinput
 {
 	virtual size_t read(char * buffer, size_t size) = 0;
 	virtual size_t more() const = 0;
 };
 
-struct fileinput : public input
+struct fileinput : public iinput
 {
 	FILE * file = nullptr;
 	size_t file_size = 0;
@@ -56,7 +82,7 @@ struct fileinput : public input
 	}
 };
 
-struct heapinput : public input
+struct heapinput : public iinput
 {
 	char * data = nullptr;
 	size_t data_size = 0;
@@ -98,7 +124,8 @@ struct heapinput : public input
 		size_t const copy_size = MIN(out_size, data_left_size);
 		memcpy(out, data + offset, copy_size);
 		offset += copy_size;
-		return 0;
+
+		return copy_size;
 	}
 
 	size_t more() const
@@ -107,29 +134,48 @@ struct heapinput : public input
 	}
 };
 
+} // namespace input
+
+namespace common {
+
+	template<size_t N>
+	inline void hexdump(input::buffer<N> & buf, size_t const br_at = 24, size_t const sp_at = 4)
+	{
+		hexdump(buf.data, buf.good, br_at, sp_at);
+	}
+
+	template<size_t N>
+	size_t read(input::buffer<N> & buf, input::iinput & iin)
+	{
+		return buf.good = iin.read(buf.data, buf.capacity);
+	}
+
+
+} // namespace common
+
 int main()
 {
 	char const * path = "..\\..\\data\\Darmstadt.osm.pbf";
 
-	char buffer[64] = {0};
+	input::buffer<64> buf;
 
-	fileinput fin(path);
-	fin.read(buffer, sizeof(buffer));
-	fputs("\n", stdout);
-	common::hexdump(buffer, sizeof(buffer));
+	input::fileinput fin(path);
+	common::read(buf, fin);
+	fputs("---\n", stdout);
+	common::hexdump(buf);
 
-	heapinput hin;
-	hin.clone(buffer, sizeof(buffer));
-	fputs("\n", stdout);
+	input::heapinput hin;
+	hin.clone(buf.data, buf.capacity);
+	fputs("---\n", stdout);
 	common::hexdump(hin.data, hin.data_size);
 
-	memset(buffer, 0, sizeof(buffer));
-	fputs("\n", stdout);
-	common::hexdump(buffer, sizeof(buffer));
+	buf.fill(0);
+	fputs("---\n", stdout);
+	common::hexdump(buf);
 
-	hin.read(buffer, sizeof(buffer));
-	fputs("\n", stdout);
-	common::hexdump(buffer, sizeof(buffer));
+	common::read(buf, hin);
+	fputs("---\n", stdout);
+	common::hexdump(buf);
 
 	return 0;
 }

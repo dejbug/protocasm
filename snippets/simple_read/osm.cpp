@@ -1,23 +1,25 @@
 #include "osm.h"
 #include <assert.h>
 
-osm::typ::bh osm::io::read_bh(FILE * file)
+osm::typ::bh osm::io::read_bh(input::iinput & iin)
 {
-	if ((size_t) ftell(file) >= common::filesize(file)) throw common::make_error<osm::err::end>("end of data");
+	if (!iin.more()) throw common::make_error<osm::err::end>("end of data");
 
 	osm::typ::bh x;
-	x.size = pb::trans::flip(pb::io::read_i4(file));
+	x.size = pb::trans::flip(pb::io::read_i4(iin));
+
+	input::heapinput hin(x.size);
+	iin.read(hin.data, hin.data_size);
 
 	bool more = true;
 	bool seen_type = false;
 	bool seen_datasize = false;
-	unsigned long const mark = ftell(file);
 
 	for (size_t i=0; more; ++i)
 	{
-		if (ftell(file) - mark >= x.size) break;
+		if (!hin.more()) break;
 
-		pb::typ::key const key = pb::io::read_key(file);
+		pb::typ::key const key = pb::io::read_key(hin);
 		// ECHO2(08llx, lld, key.id);
 		// ECHO2(08llx, lld, key.wt);
 
@@ -29,7 +31,7 @@ osm::typ::bh osm::io::read_bh(FILE * file)
 			{
 				assert(2 == key.wt);
 				seen_type = true;
-				x.type = pb::io::read_string(file);
+				x.type = pb::io::read_string(hin);
 				// ECHO1(s, x.type.c_str());
 				break;
 			}
@@ -37,7 +39,7 @@ osm::typ::bh osm::io::read_bh(FILE * file)
 			case 2:
 			{
 				assert(2 == key.wt);
-				x.indexdata = pb::io::read_string(file);
+				x.indexdata = pb::io::read_string(hin);
 				// common::hexdump(x.indexdata.c_str(), MIN(48, x.indexdata.size()));
 				break;
 			}
@@ -46,7 +48,7 @@ osm::typ::bh osm::io::read_bh(FILE * file)
 			{
 				assert(0 == key.wt);
 				seen_datasize = true;
-				x.datasize = pb::io::read_v8(file);
+				x.datasize = pb::io::read_v8(hin);
 				// ECHO2(08lx, lu, x.datasize);
 				break;
 			}
@@ -55,17 +57,17 @@ osm::typ::bh osm::io::read_bh(FILE * file)
 
 	// ECHO2(08lx, lu, ftell(file));
 
-	assert(ftell(file) - mark == x.size);
+	// assert(ftell(file) - mark == x.size);
 	assert(seen_type);
 	assert(seen_datasize);
 
 	return x;
 }
 
-osm::typ::bb osm::io::read_bb(FILE * file, pb::typ::u4 datasize)
+osm::typ::bb osm::io::read_bb(input::iinput & iin, pb::typ::u4 datasize)
 {
 	// pb::io::read_bytes(file, datasize);
-	fseek(file, datasize, SEEK_CUR);
+	iin.skip(datasize);
 	return {};
 }
 

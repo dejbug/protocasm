@@ -45,8 +45,8 @@ struct bb
 
 namespace io {
 
-osm::typ::bh read_bh(FILE * file);
-osm::typ::bb read_bb(FILE * file, pb::typ::u4 datasize);
+osm::typ::bh read_bh(input::iinput &);
+osm::typ::bb read_bb(input::iinput &, pb::typ::u4 datasize);
 
 } // namespace io
 

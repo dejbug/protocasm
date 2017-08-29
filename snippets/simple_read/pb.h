@@ -1,8 +1,9 @@
 #ifndef _PB_H_
 #define _PB_H_
 
-#include "common.hpp"
 #include <string>
+#include "common.hpp"
+#include "input.h"
 
 namespace pb {
 
@@ -29,20 +30,6 @@ struct key
 
 } // namespace typ
 
-namespace raii {
-
-struct file
-{
-	FILE * handle = nullptr;
-
-	file(char const * path);
-	virtual ~file();
-
-	operator FILE * () { return handle; }
-};
-
-} // namespace raii
-
 namespace trans {
 
 typ::i4 flip(typ::i4);
@@ -53,15 +40,15 @@ typ::i8 flip(typ::i8);
 namespace io {
 
 // size_t read(FILE * file, char * buffer, size_t size);
-typ::string read_bytes(FILE * file, size_t size);
-typ::string read_string(FILE * file);
-typ::key read_key(FILE * file);
+typ::string read_bytes(input::iinput &, size_t size);
+typ::string read_string(input::iinput &);
+typ::key read_key(input::iinput &);
 
-typ::i4 read_i4(FILE * file);
-typ::i8 read_i8(FILE * file);
+typ::i4 read_i4(input::iinput &);
+typ::i8 read_i8(input::iinput &);
 
-typ::i4 read_v4(FILE * file);
-typ::i8 read_v8(FILE * file);
+typ::i4 read_v4(input::iinput &);
+typ::i8 read_v8(input::iinput &);
 
 } // namespace io
 

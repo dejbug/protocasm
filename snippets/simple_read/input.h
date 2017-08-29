@@ -9,6 +9,7 @@ namespace input {
 
 struct iinput
 {
+	virtual size_t skip(size_t size) = 0;
 	virtual size_t read(char * buffer, size_t size) = 0;
 	virtual size_t more() const = 0;
 };
@@ -50,6 +51,7 @@ struct fileinput : public iinput
 	fileinput(char const * path);
 	virtual ~fileinput();
 
+	size_t skip(size_t size);
 	size_t read(char * buffer, size_t size);
 	size_t more() const;
 };
@@ -61,11 +63,14 @@ struct heapinput : public iinput
 	bool manage_mem = false;
 	size_t offset = 0;
 
+	heapinput();
+	heapinput(size_t capacity);
 	virtual ~heapinput();
 
-	void attach(char * buffer, size_t size);
+	void attach(char * buffer, size_t size, bool manage=false);
 	void clone(char * buffer, size_t size);
 
+	size_t skip(size_t size);
 	size_t read(char * out, size_t out_size);
 	size_t more() const;
 };

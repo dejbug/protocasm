@@ -17,6 +17,13 @@ input::fileinput::~fileinput()
 	file_size = 0;
 }
 
+size_t input::fileinput::skip(size_t size)
+{
+	size_t mark = ftell(file);
+	fseek(file, size, SEEK_CUR);
+	return (size_t) ftell(file) - mark;
+}
+
 size_t input::fileinput::read(char * buffer, size_t size)
 {
 	if (!size) return 0;
@@ -38,6 +45,23 @@ size_t input::fileinput::more() const
 	return mark < file_size ? file_size - mark : 0;
 }
 
+input::heapinput::heapinput()
+{
+	data = nullptr;
+	data_size = 0;
+	manage_mem = false;
+	offset = 0;
+}
+
+input::heapinput::heapinput(size_t capacity)
+{
+	if (capacity > 0)
+		data = new char[capacity];
+	data_size = capacity;
+	manage_mem = !!data;
+	offset = 0;
+}
+
 input::heapinput::~heapinput()
 {
 	if (manage_mem && data) delete[] data;
@@ -45,11 +69,11 @@ input::heapinput::~heapinput()
 	data_size = 0;
 }
 
-void input::heapinput::attach(char * buffer, size_t size)
+void input::heapinput::attach(char * buffer, size_t size, bool manage)
 {
 	data = buffer;
 	data_size = size;
-	manage_mem = false;
+	manage_mem = manage;
 	offset = 0;
 }
 
@@ -61,6 +85,14 @@ void input::heapinput::clone(char * buffer, size_t size)
 	memcpy(data, buffer, data_size);
 	manage_mem = true;
 	offset = 0;
+}
+
+size_t input::heapinput::skip(size_t skip_size)
+{
+	size_t const data_left_size = data_size - offset;
+	size_t const real_size = MIN(skip_size, data_left_size);
+	offset += real_size;
+	return real_size;
 }
 
 size_t input::heapinput::read(char * out, size_t out_size)

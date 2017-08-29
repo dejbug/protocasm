@@ -11,6 +11,9 @@ int test();
 
 int main()
 {
+	test();
+	return 0;
+
 	char const * path = "..\\..\\data\\Darmstadt.osm.pbf";
 
 	input::buffer<64> buf;
@@ -41,15 +44,15 @@ int test()
 	size_t const debug_max_loops = 16;
 
 	char const * path = "..\\..\\data\\Darmstadt.osm.pbf";
-	pb::raii::file file(path);
+	input::fileinput fin(path);
 
 	for (size_t i=0; i<debug_max_loops; ++i)
 	{
 		try {
-			auto bh = osm::io::read_bh(file);
+			auto bh = osm::io::read_bh(fin);
 			osm::dbg::dump(bh);
 
-			auto bb = osm::io::read_bb(file, bh.datasize);
+			auto bb = osm::io::read_bb(fin, bh.datasize);
 			osm::dbg::dump(bb);
 		}
 

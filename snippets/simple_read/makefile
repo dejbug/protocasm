@@ -1,7 +1,7 @@
 # SHELL := cmd.exe
 CXXFLAGS := -Wpedantic -Wall -O2 --std=c++11
 # CXXFLAGS += -D_DEBUG -lkernel32
-CXX := g++ $(CXXFLAGS)
+CXX := g++ -g $(CXXFLAGS)
 
 simple_read.exe: simple_read.o pb.o osm.o input.o ; $(CXX) -o $@ $^
 simple_read.o: simple_read.cpp common.hpp ; $(CXX) -c $<

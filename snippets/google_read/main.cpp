@@ -79,13 +79,31 @@ int test_2(char const * path)
 
 	OSMPBF::BlobHeader bh;
 
-	if (!bh.ParseFromCodedStream(ctx.coded_input)) {
-		fprintf(stderr, "Failed to parse BlobHeader.\n");
+	// if (!bh.ParseFromCodedStream(ctx.coded_input)) {
+	// 	fprintf(stderr, "Failed to parse BlobHeader.\n");
+	// 	return -1;
+	// }
+
+	auto * buffer = new google::protobuf::uint8[bh_len];
+	ctx.coded_input->ReadRaw((void *) buffer, (int) bh_len);
+	common::hexdump((char *) buffer, bh_len);
+	// auto * coded_input = new google::protobuf::io::CodedInputStream(buffer, bh_len);
+
+	// if (!bh.ParseFromCodedStream(coded_input)) {
+	if (!bh.ParseFromArray(buffer, bh_len)) {
+		fprintf(stderr, "Failed to parse BlobHeader from memory.\n");
 		return -1;
 	}
 
-	if (bh.has_datasize())
-		printf("- bh.datasize = %d\n", bh.datasize());
+	// delete coded_input;
+	delete[] buffer;
+
+
+	assert(bh.has_type());
+	assert(bh.has_datasize());
+
+	printf("- bh.type = '%s'\n", bh.type().c_str());
+	printf("- bh.datasize = %d\n", bh.datasize());
 
 	return 0;
 }

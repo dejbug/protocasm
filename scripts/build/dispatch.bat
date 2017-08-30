@@ -7,6 +7,7 @@ IF NOT EXIST appveyor.yml (
 	GOTO :EOF
 )
 
+ECHO -- running common setup script
 CALL scripts\build\common.bat
 
 IF %SNIPPETS_BUILD%==0 (

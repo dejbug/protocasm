@@ -7,27 +7,12 @@ IF NOT EXIST appveyor.yml (
 	GOTO :EOF
 )
 
-rem SET WINFLEXBISON=0
-rem SET KEEPSAMPLE=0
-rem SET TEST_PBF_URL=http://download.bbbike.org/osm/bbbike/PhnomPenh/PhnomPenh.osm.pbf
-
 ECHO -- [ running ] "stage: prepare"
 
 IF %WINFLEXBISON%==1 (
 	ECHO -- installing flex/bison
 	cinst winflexbison
 )
-
-ECHO -- setting paths
-SET MINGW_BIN=C:\mingw-w64\i686-5.3.0-posix-dwarf-rt_v4-rev0\mingw32\bin
-SET WINFLEXBISON_BIN=C:\ProgramData\chocolatey\lib\winflexbison\tools
-SET WGET_BIN=c:\MinGW\msys\1.0\bin
-SET PATH=%WGET_BIN%;%WINFLEXBISON_BIN%;%MINGW_BIN%;%PATH%
-
-ECHO -- renaming mingw32-make.exe in-place
-PUSHD %MINGW_BIN%
-RENAME mingw32-make.exe make.exe
-POPD
 
 IF %WINFLEXBISON%==1 (
 	ECHO -- renaming winflexbison exes in-place
@@ -36,11 +21,6 @@ IF %WINFLEXBISON%==1 (
 	RENAME win_flex.exe flex.exe
 	POPD
 )
-
-ECHO -- ensuring proper tree
-IF NOT EXIST build MKDIR build
-IF NOT EXIST test MKDIR test
-IF NOT EXIST deploy MKDIR deploy
 
 ECHO -- [ ready ] for make
 

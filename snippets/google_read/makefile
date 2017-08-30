@@ -1,9 +1,10 @@
 PROTOC := c:\Programme\3\protobuf\bin\protoc.exe
-CXXFLAGS := -Ic:\Programme\3\protobuf\include -Lc:\Programme\3\protobuf\lib -lprotobuf-lite
+CXXFLAGS := -Ic:\Programme\3\protobuf\include -Lc:\Programme\3\protobuf\lib -lprotobuf-lite -lz
 
 main.exe : main.o goo.o
 main.exe : fileformat.pb.o osmformat.pb.o
 main.exe : c:\Programme\3\protobuf\lib\libprotobuf-lite.a
+main.exe : c:\Programme\3\mingw32\i686-w64-mingw32\lib\libz.a
 main.exe : ; g++ $(LDFLAGS) -o $@ $^
 
 main.o : main.cpp common.hpp | goo.o ; g++ $(CXXFLAGS) -c $<

@@ -59,6 +59,9 @@ uint32 read_bh_len(context & ctx);
 OSMPBF::BlobHeader read_bh(context & ctx, std::string const & buf);
 OSMPBF::BlobHeader read_bh(context & ctx, uint32 bh_len = 0);
 void skip_bb(context & ctx, int32 datasize);
+OSMPBF::Blob read_bb(context & ctx, int32 datasize);
+void inflate_zlib(OSMPBF::Blob const &);
+OSMPBF::HeaderBlock read_hb(OSMPBF::Blob const &);
 
 }
 

@@ -1,4 +1,5 @@
 #include "goo.h"
+#include <zlib.h>
 
 
 goo::infile::infile(char const * path)
@@ -155,4 +156,40 @@ OSMPBF::BlobHeader goo::read_bh(goo::context & ctx, goo::uint32 bh_len)
 void goo::skip_bb(goo::context & ctx, goo::int32 datasize)
 {
 	ctx.coded_input->Skip(datasize);
+}
+
+OSMPBF::Blob goo::read_bb(goo::context & ctx, goo::int32 datasize)
+{
+	assert(datasize > 0);
+
+	OSMPBF::Blob bb;
+	CodedInputStream::Limit limit = -1;
+
+	limit = ctx.coded_input->PushLimit(datasize);
+	bool const ok = bb.ParseFromCodedStream(ctx.coded_input);
+	ctx.coded_input->CheckEntireMessageConsumedAndPopLimit(limit);
+
+	if (!ok) throw common::make_error("goo::read_bb : failed to parse Blob (with limit %d)", datasize);
+
+	return bb;
+}
+
+void goo::inflate_zlib(OSMPBF::Blob const & bb)
+{
+	throw common::make_error("goo::inflate_zlib : failed to inflate zlib compressed Blob data.");
+}
+
+OSMPBF::HeaderBlock goo::read_hb(OSMPBF::Blob const & bb)
+{
+	OSMPBF::HeaderBlock hb;
+
+	if (!bb.has_raw())
+	{
+		if (bb.has_zlib_data()) goo::inflate_zlib(bb);
+		else throw common::make_error("goo::read_hb : could not find supported Blob data format.");
+	}
+
+	if (!hb.ParseFromString(bb.raw())) throw common::make_error("goo::read_hb : failed to parse HeaderBlock from Blob.");
+
+	return hb;
 }

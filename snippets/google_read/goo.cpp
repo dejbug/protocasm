@@ -42,6 +42,8 @@ goo::context::~context()
 	delete coded_input;
 	delete raw_input_adaptor;
 	delete file;
+
+	google::protobuf::ShutdownProtobufLibrary();
 }
 
 

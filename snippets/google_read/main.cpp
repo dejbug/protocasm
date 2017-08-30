@@ -22,7 +22,8 @@ int main()
 		goo::dump_ahead(ctx, 32);
 		auto const bh_len = goo::read_bh_len(ctx);
 
-		OSMPBF::BlobHeader bh = goo::read_bh(ctx, bh_len);
+		auto bh = goo::read_bh(ctx, bh_len);
+		printf("- '%s'\n", bh.GetTypeName().c_str());
 
 		printf("- bh.type = '%s'\n", bh.type().c_str());
 		printf("- bh.datasize = %d\n", bh.datasize());

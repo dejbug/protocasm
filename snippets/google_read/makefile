@@ -27,5 +27,4 @@ clean:
 
 .PHONY: run
 run: main.exe
-	main.exe
-
+	main.exe "..\\..\\data\\Darmstadt.osm.pbf"

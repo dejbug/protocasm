@@ -1,5 +1,7 @@
 #include "goo.h"
 #include <zlib.h>
+#include <string>
+#include <sstream>
 
 
 goo::infile::infile(char const * path)
@@ -32,6 +34,7 @@ int goo::infile::Skip(int count)
 goo::context::context(char const * path)
 {
 	GOOGLE_PROTOBUF_VERIFY_VERSION;
+	printf("- zlibVersion = '%s'\n", zlibVersion());
 
 	file = new infile(path);
 	raw_input_adaptor = new goo::CopyingInputStreamAdaptor((goo::CopyingInputStream *) file);
@@ -174,22 +177,118 @@ OSMPBF::Blob goo::read_bb(goo::context & ctx, goo::int32 datasize)
 	return bb;
 }
 
-void goo::inflate_zlib(OSMPBF::Blob const & bb)
+std::string goo::describe_bb(OSMPBF::BlobHeader const & bh, OSMPBF::Blob const & bb)
 {
-	throw common::make_error("goo::inflate_zlib : failed to inflate zlib compressed Blob data.");
+	std::ostringstream ss;
+	ss << "- [ " << bh.type();
+	if (bb.has_raw()) ss << " raw " << bh.datasize();
+	else if (bb.has_zlib_data())
+	{
+		ss << " zlib " << bh.datasize();
+		if (bb.has_raw_size()) ss << " (" << bb.raw_size() << ")";
+	}
+	else ss << " ? " << bh.datasize();
+	ss << " ]";
+
+	return ss.str();
+}
+
+void goo::inflate_zlib(OSMPBF::Blob & bb)
+{
+	if (bb.has_raw()) return;
+
+	if (!bb.has_zlib_data()) throw common::make_error("goo::inflate_zlib : could not find zlib compressed data in Blob.");
+	if (!bb.has_raw_size()) throw common::make_error("goo::inflate_zlib : could not find uncompressed data size for zlib compressed data in Blob.");
+
+	std::string raw;
+	raw.resize(bb.raw_size());
+
+	z_stream strm;
+	memset(&strm, 0, sizeof(z_stream));
+
+	strm.next_in = (Bytef *) bb.zlib_data().data();
+	strm.avail_in = bb.zlib_data().size();
+	strm.next_out = (Bytef *) raw.data();
+	strm.avail_out = raw.capacity();
+
+	int const ok_init = inflateInit(&strm);
+
+	if (Z_VERSION_ERROR == ok_init) throw common::make_error("goo::inflate_zlib : wrong zlib version.");
+	else if (Z_STREAM_ERROR == ok_init) throw common::make_error("goo::inflate_zlib : invalid argument to inflateInit.");
+	else if (Z_MEM_ERROR == ok_init) throw common::make_error("goo::inflate_zlib : not enough memory to inflate.");
+
+	// loop: int const ok_inflate = inflate(&strm, Z_NO_FLUSH);
+	int const ok_inflate = inflate(&strm, Z_FINISH);
+
+	switch (ok_inflate)
+	{
+		default: case Z_STREAM_END: /* ok */ break;
+		// case Z_OK: goto loop; break;
+		case Z_OK: throw common::make_error("goo::inflate_zlib : inflate ended prematurely: needed to keep calling until finished.");
+		case Z_DATA_ERROR: throw common::make_error("goo::inflate_zlib : data is either not conforming to the zlib format or has incorrect check value '%s': needed to call inflateSync() and keep calling to attempt partial recovery.", strm.msg ? strm.msg : "");
+		case Z_STREAM_ERROR: throw common::make_error("goo::inflate_zlib : unexpected error while inflating: was stream accessed by another thread?");
+		case Z_MEM_ERROR: throw common::make_error("goo::inflate_zlib : out of memory while inflating");
+		case Z_BUF_ERROR: throw common::make_error("goo::inflate_zlib : output buffer was not large enough for inflate: needed to resize output buffer and keep calling until finished.");
+	}
+
+	if (Z_OK != inflateEnd(&strm)) throw common::make_error("goo::inflate_zlib : error while concluding inflate: '%s'.", strm.msg ? strm.msg : "");
+
+	bb.clear_zlib_data();
+	bb.set_raw(raw);
 }
 
 OSMPBF::HeaderBlock goo::read_hb(OSMPBF::Blob const & bb)
 {
 	OSMPBF::HeaderBlock hb;
 
-	if (!bb.has_raw())
-	{
-		if (bb.has_zlib_data()) goo::inflate_zlib(bb);
-		else throw common::make_error("goo::read_hb : could not find supported Blob data format.");
-	}
+	if (!bb.has_raw()) throw common::make_error("goo::read_hb : could not find raw Blob data: need to inflate zlib data?");
 
 	if (!hb.ParseFromString(bb.raw())) throw common::make_error("goo::read_hb : failed to parse HeaderBlock from Blob.");
 
 	return hb;
+}
+
+OSMPBF::PrimitiveBlock goo::read_pb(OSMPBF::Blob const & bb)
+{
+	OSMPBF::PrimitiveBlock hb;
+
+	if (!bb.has_raw()) throw common::make_error("goo::read_pb : could not find raw Blob data: need to inflate zlib data?");
+
+	if (!hb.ParseFromString(bb.raw())) throw common::make_error("goo::read_pb : failed to parse PrimitiveBlock from Blob.");
+
+	return hb;
+}
+
+std::string goo::describe_pb(OSMPBF::PrimitiveBlock const & pb)
+{
+	std::ostringstream ss;
+
+	ss << "- [ PrimitiveBlock || pg = " << pb.primitivegroup_size() << " |";
+
+	for (size_t i = 0; i < pb.primitivegroup_size(); ++i)
+	{
+		if (i > 0) ss << " | ";
+
+		OSMPBF::PrimitiveGroup const & pg = pb.primitivegroup(i);
+
+		ss << " " << i << ":";
+		if (pg.nodes_size() > 0) ss << " nodes = " << pg.nodes_size();
+		else if (pg.ways_size() > 0) ss << " ways = " << pg.ways_size();
+		else if (pg.relations_size() > 0) ss << " relations = " << pg.relations_size();
+		else if (pg.changesets_size() > 0) ss << " changesets = " << pg.changesets_size();
+		else if (pg.has_dense() > 0) ss << " has_dense";
+		else ss << " -?-";
+	}
+
+	ss << " ||";
+
+	if (pb.has_stringtable())
+	{
+		OSMPBF::StringTable const & st = pb.stringtable();
+		ss << " st = " << st.s_size();
+	}
+
+	ss << " ]";
+
+	return ss.str();
 }

@@ -8,12 +8,31 @@
 #include "common.hpp"
 #include "goo.h"
 
-int main()
+void run(char const * path);
+
+int main(int argc, char ** argv)
+{
+	if (argc < 2)
+	{
+		fprintf(stderr, "usage: %s PATH\n", argv[0]);
+		return -1;
+	}
+
+	char const * const path = argv[1];
+
+	try { run(path); }
+	catch (std::runtime_error & e)
+	{
+		printf("[ ERROR ] %s\n", e.what());
+		return -1;
+	}
+
+	return 0;
+}
+
+void run(char const * path)
 {
 	size_t const debug_max_loops = 16;
-	char const * path = "..\\..\\data\\Darmstadt.osm.pbf";
-
-	printf("- zlibVersion = '%s'\n", zlibVersion());
 
 	goo::context ctx(path);
 
@@ -32,28 +51,25 @@ int main()
 		auto bb = goo::read_bb(ctx, bh.datasize());
 		printf("- '%s'\n", bb.GetTypeName().c_str());
 
-		printf("- [ %s", bh.type().c_str());
-		if (bb.has_raw()) printf(" raw %d", bh.datasize());
-		else if (bb.has_zlib_data())
-		{
-			printf(" zlib", bh.datasize());
-			if (bb.has_raw_size()) printf(" %d", bb.raw_size());
-		}
-		else throw common::make_error("main : unexpected Blob data format: neither 'raw' nor 'zlib'.");
-		puts(" ]");
+		auto bb_desc = goo::describe_bb(bh, bb);
+		printf("%s\n", bb_desc.c_str());
 
 		if (bh.type() == "OSMHeader")
 		{
+			goo::inflate_zlib(bb);
+			auto hb = goo::read_hb(bb);
+			printf("- '%s'\n", hb.GetTypeName().c_str());
 		}
 		else if (bh.type() == "OSMData")
 		{
-		}
-		else throw common::make_error("main : unexpected BlobHeader type '%s'.", bh.type());
+			goo::inflate_zlib(bb);
+			auto pb = goo::read_pb(bb);
+			printf("- '%s'\n", pb.GetTypeName().c_str());
 
-		auto hb = goo::read_hb(bb);
-		printf("- '%s'\n", hb.GetTypeName().c_str());
+			auto pb_desc = goo::describe_pb(pb);
+			printf("%s\n", pb_desc.c_str());
+		}
+		else throw common::make_error("main : unexpected BlobHeader type '%s': this exception should be skippepd instead of being thrown.", bh.type());
 
 	}
-
-	return 0;
 }

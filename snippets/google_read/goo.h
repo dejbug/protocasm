@@ -60,8 +60,11 @@ OSMPBF::BlobHeader read_bh(context & ctx, std::string const & buf);
 OSMPBF::BlobHeader read_bh(context & ctx, uint32 bh_len = 0);
 void skip_bb(context & ctx, int32 datasize);
 OSMPBF::Blob read_bb(context & ctx, int32 datasize);
-void inflate_zlib(OSMPBF::Blob const &);
+std::string describe_bb(OSMPBF::BlobHeader const &, OSMPBF::Blob const &);
+void inflate_zlib(OSMPBF::Blob &);
 OSMPBF::HeaderBlock read_hb(OSMPBF::Blob const &);
+OSMPBF::PrimitiveBlock read_pb(OSMPBF::Blob const &);
+std::string describe_pb(OSMPBF::PrimitiveBlock const &);
 
 }
 

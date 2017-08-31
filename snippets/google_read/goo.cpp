@@ -18,7 +18,7 @@ int goo::infile::Read(void * buffer, int size)
 {
 	if (feof(file)) return 0;
 	size_t const good = fread((char *) buffer, sizeof(char), size, file);
-	if (good < size && ferror(file)) return -1;
+	if (good < (size_t) size && ferror(file)) return -1;
 	return good;
 }
 
@@ -111,8 +111,9 @@ void goo::dump_ahead(goo::context & ctx, goo::uint32 max_len)
 	void const * ptr = nullptr;
 	int size = 0;
 	printf("%08X : \n", ctx.coded_input->CurrentPosition());
-	if (ctx.coded_input->GetDirectBufferPointer(&ptr, &size))
-		common::hexdump(ptr, MIN(size, max_len));
+	if (!ctx.coded_input->GetDirectBufferPointer(&ptr, &size)) return;
+	if (size < 0) return;
+	common::hexdump(ptr, MIN((goo::uint32) size, max_len));
 }
 
 goo::uint32 goo::read_bh_len(goo::context & ctx)
@@ -265,7 +266,7 @@ std::string goo::describe_pb(OSMPBF::PrimitiveBlock const & pb)
 
 	ss << "- [ PrimitiveBlock || pg = " << pb.primitivegroup_size() << " |";
 
-	for (size_t i = 0; i < pb.primitivegroup_size(); ++i)
+	for (int i = 0; i < pb.primitivegroup_size(); ++i)
 	{
 		if (i > 0) ss << " | ";
 

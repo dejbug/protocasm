@@ -3,7 +3,8 @@ CXXFLAGS += -Iprotobuf\include
 # CXXFLAGS += -Lprotobuf\lib -lprotobuf-lite
 # CXXFLAGS += -Lzlib\lib -lz
 
-QUIET := 1>NUL 2>NUL
+# QUIET := 1>NUL 2>NUL
+QUIET :=
 
 main.exe : main.o goo.o
 main.exe : fileformat.pb.o osmformat.pb.o

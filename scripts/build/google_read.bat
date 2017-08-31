@@ -9,6 +9,10 @@ IF NOT EXIST appveyor.yml (
 
 PUSHD snippets\google_read
 make
+IF ERRORLEVEL 1 (
+	ECHO -- [ ERROR ] make failed: rest of script makes no sense.
+	goto LEAVE
+)
 POPD
 
 ECHO -- moving files

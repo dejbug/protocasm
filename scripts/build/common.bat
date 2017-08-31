@@ -9,7 +9,7 @@ IF NOT EXIST appveyor.yml (
 
 ECHO -- ensuring proper tree
 
-CALL scripts\build\clean.bat
+rem CALL scripts\build\clean.bat
 
 ECHO -- making new tree
 IF NOT EXIST build MKDIR build

@@ -10,7 +10,7 @@ IF NOT EXIST appveyor.yml (
 PUSHD snippets\google_read
 make
 IF ERRORLEVEL 1 (
-	ECHO -- [ ERROR ] make failed: rest of script makes no sense.
+	ECHO -- [ ERROR ] make failed: rest of script would make no sense.
 	goto LEAVE
 )
 POPD

@@ -28,10 +28,13 @@ fileformat.pb.cc fileformat.pb.h : ; protobuf\bin\protoc.exe --cpp_out=. $<
 osmformat.pb.cc osmformat.pb.h : osmformat.proto | protobuf\bin\protoc.exe
 osmformat.pb.cc osmformat.pb.h : ; protobuf\bin\protoc.exe --cpp_out=. $<
 
-protobuf\include : ; 7z x -y ..\..\custom\protobuf.zip $@ $(QUIET)
-protobuf\bin\protoc.exe : ; 7z x -y ..\..\custom\protobuf.zip $@ $(QUIET)
-protobuf\lib\libprotobuf-lite.a : ; 7z x -y ..\..\custom\protobuf.zip $@ $(QUIET)
-zlib\lib\libz.a : ; 7z x -y ..\..\custom\zlib.zip $@ $(QUIET)
+protobuf\include : | protobuf
+protobuf\bin\protoc.exe : | protobuf
+protobuf\lib\libprotobuf-lite.a : | protobuf
+zlib\lib\libz.a : | zlib
+
+protobuf : ; 7z x -y ..\..\custom\protobuf.zip
+zlib : ; 7z x -y ..\..\custom\zlib.zip
 
 .PHONY: clean
 clean:

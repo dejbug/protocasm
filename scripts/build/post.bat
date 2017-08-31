@@ -8,7 +8,6 @@ IF NOT EXIST appveyor.yml (
 )
 
 ECHO -- writing fetch script
-ECHO -- [ DBG ] python -c "import os; print('IF NOT EXIST \x22' + os.path.split('%TEST_PBF_URL%')[1] + '\x22 wget --no-check-certificate %TEST_PBF_URL%')" > build\fetch_sample.bat
 python -c "import os; print('IF NOT EXIST \x22' + os.path.split('%TEST_PBF_URL%')[1] + '\x22 wget --no-check-certificate %TEST_PBF_URL%')" > build\fetch_sample.bat
 
 ECHO -- writing info
@@ -25,10 +24,10 @@ IF "%APPVEYOR_REPO_TAG%"=="true" (
 IF %RUN_TEST%==1 (
 	ECHO -- preparing test
 	COPY build\* test\
-	ECHO -- running test
 	PUSHD test
 	DIR
-	DIR /S /B
+	ECHO.
+	ECHO -- running test
 	CALL run_test.bat
 	ECHO.
 	POPD

@@ -1,10 +1,13 @@
-PROTOC := c:\Programme\3\protobuf\bin\protoc.exe
-CXXFLAGS := -Ic:\Programme\3\protobuf\include -Lc:\Programme\3\protobuf\lib -lprotobuf-lite -lz
+PROTOC := ..\..\extern\protobuf\bin\protoc.exe
+CXXFLAGS := --std=c++11 -Wall -Wpedantic -O2
+CXXFLAGS += -I..\..\extern\protobuf\include
+# CXXFLAGS += -L..\..\extern\protobuf\lib
+# CXXFLAGS += -lprotobuf-lite
 
 main.exe : main.o goo.o
 main.exe : fileformat.pb.o osmformat.pb.o
-main.exe : c:\Programme\3\protobuf\lib\libprotobuf-lite.a
-main.exe : c:\Programme\3\mingw32\i686-w64-mingw32\lib\libz.a
+main.exe : ..\..\extern\protobuf\lib\libprotobuf-lite.a
+main.exe : ..\..\extern\i686-w64-mingw32\lib\libz.a
 main.exe : ; g++ $(LDFLAGS) -o $@ $^
 
 main.o : main.cpp common.hpp | goo.o ; g++ $(CXXFLAGS) -c $<
@@ -21,9 +24,9 @@ osmformat.pb.cc osmformat.pb.h : osmformat.proto ; $(PROTOC) --cpp_out=. $<
 
 .PHONY: clean
 clean:
-	rm -f fileformat.pb.cc fileformat.pb.h
-	rm -f osmformat.pb.cc osmformat.pb.h
-	rm -f main.o main.exe
+	rm -f *.pb.cc *.pb.h
+	rm -f *.o
+	rm -f main.exe
 
 .PHONY: run
 run: main.exe

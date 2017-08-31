@@ -3,8 +3,8 @@ CXXFLAGS += -Iprotobuf\include
 # CXXFLAGS += -Lprotobuf\lib -lprotobuf-lite
 # CXXFLAGS += -Lzlib\lib -lz
 
-# QUIET := 1>NUL 2>NUL
-QUIET :=
+QUIET := 1>NUL
+NOERR := 2>NUL
 
 main.exe : main.o goo.o
 main.exe : fileformat.pb.o osmformat.pb.o
@@ -38,9 +38,9 @@ clean:
 	@IF EXIST protobuf RMDIR /S /Q protobuf
 	@IF EXIST zlib RMDIR /S /Q zlib
 
-	@DEL *.pb.cc *.pb.h $(QUIET)
-	@DEL *.o $(QUIET)
-	@DEL main.exe $(QUIET)
+	@DEL *.pb.cc *.pb.h $(NOERR)
+	@DEL *.o $(NOERR)
+	@DEL main.exe $(NOERR)
 
 .PHONY: run
 run: main.exe

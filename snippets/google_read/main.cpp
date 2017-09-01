@@ -72,8 +72,7 @@ void run(char const * path)
 			auto pb_desc = goo::describe_pb(pb);
 			printf("%s\n", pb_desc.c_str());
 
-			std::string const bb_ts = goo::get_pb_type_str(pb);
-			std::string const bb_fn_new = "OSMData." + bb_ts + ".blob";
+			std::string bb_fn_new = goo::get_zlib_descriptive_filename(pb, bb);
 			rename(bb_fn.c_str(), bb_fn_new.c_str());
 		}
 		else throw common::make_error("main : unexpected BlobHeader type '%s': this exception should be skippepd instead of being thrown.", bh.type());

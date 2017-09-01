@@ -43,7 +43,7 @@ clean:
 	@DEL main.exe $(NOERR)
 
 .PHONY: reallyclean
-clean:
+reallyclean:
 	@IF EXIST protobuf RMDIR /S /Q protobuf
 	@IF EXIST zlib RMDIR /S /Q zlib
 

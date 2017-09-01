@@ -71,6 +71,7 @@ std::string get_random_hexstring(size_t len = 16, bool upper_case = false);
 std::string get_unique_filename(char const * dir = nullptr, size_t len = 16);
 void write_zlib(OSMPBF::Blob const &, char const * path);
 std::string get_pb_type_str(OSMPBF::PrimitiveBlock const &);
+std::string get_zlib_descriptive_filename(OSMPBF::PrimitiveBlock const &, OSMPBF::Blob const &);
 
 }
 

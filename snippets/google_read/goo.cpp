@@ -394,3 +394,13 @@ std::string goo::get_pb_type_str(OSMPBF::PrimitiveBlock const & pb)
 
 	return ss.str();
 }
+
+std::string goo::get_zlib_descriptive_filename(OSMPBF::PrimitiveBlock const & pb, OSMPBF::Blob const & bb)
+{
+	std::ostringstream ss;
+
+	std::string const bb_ts = goo::get_pb_type_str(pb);
+	ss << "OSMData." << "raw-" << bb.raw_size() << "." << bb_ts << ".blob";
+
+	return ss.str();
+}

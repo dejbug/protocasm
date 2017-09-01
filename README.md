@@ -5,8 +5,9 @@
 
 _protobuf assembler_
 
-A quick reimagining of Google's [protoc](https://github.com/google/protobuf/releases) (protobuf compiler).
+A quick reimagining of Google's [protoc](https://github.com/google/protobuf/releases) (protobuf compiler) . To be used for all my `*.osm.pbf` [:earth_africa: parsing needs](http://wiki.openstreetmap.org/wiki/Planet.osm) .
 
-To be used for all my `*.osm.pbf` [parsing needs](http://wiki.openstreetmap.org/wiki/Planet.osm).
+--- 
 
-Get the latest commit's artifact [:floppy_disk: here](https://ci.appveyor.com/api/projects/dejbug/protocasm/artifacts/build.zip).
+Read the 
+[:books: wiki](https://github.com/dejbug/protocasm/wiki) or get the latest commit's [:floppy_disk: artifact](https://ci.appveyor.com/api/projects/dejbug/protocasm/artifacts/build.zip) .

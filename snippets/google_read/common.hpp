@@ -5,6 +5,7 @@
 #include <stdarg.h>		// va_list, va_start, va_end
 #include <stdexcept>	// std::runtime_error
 #include <string>		// std::string
+#include <stdlib.h>		// rand
 
 #define MAX_BUF_LEN 1024
 
@@ -16,6 +17,8 @@
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 
 #define DEFERR(name) struct name : public std::runtime_error { using std::runtime_error::runtime_error; }
+
+#define RAND(min, max) ((min) < (max) ? ((rand() % ((max) - (min) + 1)) + (min)) : 0)
 
 namespace common {
 

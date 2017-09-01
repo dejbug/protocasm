@@ -2,3 +2,4 @@
 *.pb.h
 protobuf
 zlib
+*.blob

@@ -65,6 +65,12 @@ void inflate_zlib(OSMPBF::Blob &);
 OSMPBF::HeaderBlock read_hb(OSMPBF::Blob const &);
 OSMPBF::PrimitiveBlock read_pb(OSMPBF::Blob const &);
 std::string describe_pb(OSMPBF::PrimitiveBlock const &);
+bool file_exists(char const * path);
+std::string make_path(char const * dir, char const * name);
+std::string get_random_hexstring(size_t len = 16, bool upper_case = false);
+std::string get_unique_filename(char const * dir = nullptr, size_t len = 16);
+void write_zlib(OSMPBF::Blob const &, char const * path);
+std::string get_pb_type_str(OSMPBF::PrimitiveBlock const &);
 
 }
 

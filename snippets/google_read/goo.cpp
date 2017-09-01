@@ -2,6 +2,8 @@
 #include <zlib.h>
 #include <string>
 #include <sstream>
+#include <time.h>
+
 
 
 goo::infile::infile(char const * path)
@@ -290,6 +292,105 @@ std::string goo::describe_pb(OSMPBF::PrimitiveBlock const & pb)
 	}
 
 	ss << " ]";
+
+	return ss.str();
+}
+
+bool goo::file_exists(char const * path)
+{
+	FILE * file = fopen(path, "rb");
+	if (!file) return false;
+	fclose(file);
+	return true;
+}
+
+std::string goo::make_path(char const * dir, char const * name)
+{
+	if (!dir || !*dir)
+	{
+		if (!name || !*name) return "";
+		else return name;
+	}
+
+	if (!name || !*name) return dir;
+
+	size_t const dir_len = strlen(dir);
+
+	if ('\\' != dir[dir_len-1] && '\\' != name[0])
+	{
+		return std::string(dir) + "\\" + name;
+	}
+
+	if ('\\' == dir[dir_len-1] && '\\' == name[0])
+	{
+		return std::string(dir) + (name + 1);
+	}
+
+	return std::string(dir) + name;
+}
+
+std::string goo::get_random_hexstring(size_t len, bool upper_case)
+{
+	srand((unsigned) time(nullptr));
+
+	char const A = upper_case ? 'A' : 'a';
+	char const F = upper_case ? 'F' : 'f';
+
+	std::ostringstream ss;
+
+	for (size_t i = 0; i < len; ++i)
+		ss << (char const) (RAND(0, 1) ? RAND('0', '9') : RAND(A, F));
+
+	return ss.str();
+}
+
+std::string goo::get_unique_filename(char const * dir, size_t len)
+{
+	size_t const max_tries = 64;
+
+	for (size_t i = 0; i < max_tries; ++i)
+	{
+		std::string const name = (dir && *dir) ? goo::make_path(dir, goo::get_random_hexstring(len).c_str()) : goo::get_random_hexstring(len);
+		if (!goo::file_exists(name.c_str())) return name;
+	}
+
+	throw common::make_error("goo::get_unique_filename : max attempts exceeded; tried %d random names, all names were already present in destination folder \"%s\".", max_tries, dir);
+}
+
+void goo::write_zlib(OSMPBF::Blob const & bb, char const * path)
+{
+	if (goo::file_exists(path)) throw common::make_error("goo::write_zlib : a file already exists at \"%s\": must not overwrite", path);
+	FILE * file = fopen(path, "wb");
+	size_t const good = fwrite(bb.zlib_data().data(), 1, bb.zlib_data().size(), file);
+	int const err = ferror(file);
+	fclose(file);
+	if (good != bb.zlib_data().size())
+		throw common::make_error("goo::write_zlib : an error occurred while writing to \"%s\": ferror code %08X (%d)", path, err, err);
+}
+
+std::string goo::get_pb_type_str(OSMPBF::PrimitiveBlock const & pb)
+{
+	std::ostringstream ss;
+
+	if (pb.has_stringtable())
+	{
+		OSMPBF::StringTable const & st = pb.stringtable();
+		ss << "st-" << st.s_size() << ".";
+	}
+
+	for (int i = 0; i < pb.primitivegroup_size(); ++i)
+	{
+		if (i > 0) ss << ".";
+
+		OSMPBF::PrimitiveGroup const & pg = pb.primitivegroup(i);
+
+		ss << "(" << i << ")-";
+		if (pg.nodes_size() > 0) ss << "nodes-" << pg.nodes_size();
+		else if (pg.ways_size() > 0) ss << "ways-" << pg.ways_size();
+		else if (pg.relations_size() > 0) ss << "relations-" << pg.relations_size();
+		else if (pg.changesets_size() > 0) ss << "changesets-" << pg.changesets_size();
+		else if (pg.has_dense() > 0) ss << "dense";
+	}
 
 	return ss.str();
 }

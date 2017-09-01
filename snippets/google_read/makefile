@@ -38,6 +38,12 @@ zlib : ; 7z x -y ..\..\custom\zlib.zip
 
 .PHONY: clean
 clean:
+	@DEL *.pb.cc *.pb.h $(NOERR)
+	@DEL *.o $(NOERR)
+	@DEL main.exe $(NOERR)
+
+.PHONY: reallyclean
+clean:
 	@IF EXIST protobuf RMDIR /S /Q protobuf
 	@IF EXIST zlib RMDIR /S /Q zlib
 

@@ -62,8 +62,8 @@ void run(char const * path)
 		}
 		else if (bh.type() == "OSMData")
 		{
-			std::string const bb_fn = goo::get_unique_filename();
-			goo::write_zlib(bb, bb_fn.c_str());
+			// std::string const bb_fn = goo::get_unique_filename();
+			// goo::write_zlib(bb, bb_fn.c_str());
 
 			goo::inflate_zlib(bb);
 			auto pb = goo::read_pb(bb);
@@ -72,8 +72,8 @@ void run(char const * path)
 			auto pb_desc = goo::describe_pb(pb);
 			printf("%s\n", pb_desc.c_str());
 
-			std::string bb_fn_new = goo::get_zlib_descriptive_filename(pb, bb);
-			rename(bb_fn.c_str(), bb_fn_new.c_str());
+			// std::string bb_fn_new = goo::get_zlib_descriptive_filename(pb, bb);
+			// rename(bb_fn.c_str(), bb_fn_new.c_str());
 		}
 		else throw common::make_error("main : unexpected BlobHeader type '%s': this exception should be skippepd instead of being thrown.", bh.type());
 

@@ -404,3 +404,134 @@ std::string goo::get_zlib_descriptive_filename(OSMPBF::PrimitiveBlock const & pb
 
 	return ss.str();
 }
+
+
+goo::parser::parser(char const * path)
+	: ctx(path)
+{
+}
+
+void goo::parser::run()
+{
+	size_t const debug_max_loops = 16;
+
+	// ctx.coded_input->Skip(4);
+	for (size_t i=0; i<debug_max_loops; ++i)
+	{
+		if (!goo::more(ctx)) break;
+
+		if (!on_loop()) break;
+
+		auto const bh_len = goo::read_bh_len(ctx);
+
+		auto bh = goo::read_bh(ctx, bh_len);
+		// goo::skip_bb(ctx, bh.datasize());
+		auto bb = goo::read_bb(ctx, bh.datasize());
+
+		if (!on_blob(bh, bb)) break;
+
+		if (bh.type() == "OSMHeader")
+		{
+			goo::inflate_zlib(bb);
+			auto hb = goo::read_hb(bb);
+			if (!on_hblock(hb)) break;
+		}
+		else if (bh.type() == "OSMData")
+		{
+			goo::inflate_zlib(bb);
+			auto pb = goo::read_pb(bb);
+			if (!on_pblock(pb)) break;
+		}
+		else throw common::make_error("main : unexpected BlobHeader type '%s': this exception should be skippepd instead of being thrown.", bh.type());
+
+	}
+}
+
+bool goo::parser::on_loop()
+{
+	return true;
+}
+
+bool goo::parser::on_blob(OSMPBF::BlobHeader const & bh, OSMPBF::Blob const & bb)
+{
+	return true;
+}
+
+bool goo::parser::on_hblock(OSMPBF::HeaderBlock const & hb)
+{
+	return true;
+}
+
+bool goo::parser::on_pblock(OSMPBF::PrimitiveBlock const & pb)
+{
+	return true;
+}
+
+
+bool goo::info_parser::on_loop()
+{
+	goo::dump_ahead(ctx, 32);
+	return true;
+}
+
+bool goo::info_parser::on_blob(OSMPBF::BlobHeader const & bh, OSMPBF::Blob const & bb)
+{
+	printf("- '%s'\n", bh.GetTypeName().c_str());
+	printf("- '%s'\n", bb.GetTypeName().c_str());
+
+	auto bb_desc = goo::describe_bb(bh, bb);
+	printf("%s\n", bb_desc.c_str());
+
+	return true;
+}
+
+bool goo::info_parser::on_hblock(OSMPBF::HeaderBlock const & hb)
+{
+	printf("- '%s'\n", hb.GetTypeName().c_str());
+	return true;
+}
+
+bool goo::info_parser::on_pblock(OSMPBF::PrimitiveBlock const & pb)
+{
+	printf("- '%s'\n", pb.GetTypeName().c_str());
+	auto pb_desc = goo::describe_pb(pb);
+	printf("%s\n", pb_desc.c_str());
+	return true;
+}
+
+
+bool goo::unzip_parser::on_loop()
+{
+	bb_fn = "";
+	bb_obj_last = nullptr;
+	return true;
+}
+
+bool goo::unzip_parser::on_blob(OSMPBF::BlobHeader const & bh, OSMPBF::Blob const & bb)
+{
+	if (bh.type() == "OSMData")
+	{
+		bb_fn = goo::get_unique_filename();
+		bb_obj_last = &bb;
+		printf("- writing (packed) OSMData to temp file '%s'\n", bb_fn.c_str());
+		goo::write_zlib(bb, bb_fn.c_str());
+	}
+	return true;
+}
+
+bool goo::unzip_parser::on_pblock(OSMPBF::PrimitiveBlock const & pb)
+{
+	if (bb_fn.empty() || !bb_obj_last) return true;
+
+	std::string const bb_fn_new = goo::get_zlib_descriptive_filename(pb, *bb_obj_last);
+
+	printf("- renaming (packed) OSMData from temp file '%s' to '%s'\n", bb_fn.c_str(), bb_fn_new.c_str());
+
+	if (!!rename(bb_fn.c_str(), bb_fn_new.c_str()))
+	{
+		printf("- [ WARNING ] renaming failed: deleting temp file at '%s'\n", bb_fn.c_str());
+		unlink(bb_fn.c_str());
+	}
+
+	return true;
+}

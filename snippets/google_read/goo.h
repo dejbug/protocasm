@@ -73,6 +73,42 @@ void write_zlib(OSMPBF::Blob const &, char const * path);
 std::string get_pb_type_str(OSMPBF::PrimitiveBlock const &);
 std::string get_zlib_descriptive_filename(OSMPBF::PrimitiveBlock const &, OSMPBF::Blob const &);
 
-}
+
+struct parser
+{
+	goo::context ctx;
+
+	parser(char const * path);
+	void run();
+
+	virtual bool on_loop();
+	virtual bool on_blob(OSMPBF::BlobHeader const &, OSMPBF::Blob const &);
+	virtual bool on_hblock(OSMPBF::HeaderBlock const &);
+	virtual bool on_pblock(OSMPBF::PrimitiveBlock const &);
+};
+
+struct info_parser : parser
+{
+	using parser::parser;
+
+	virtual bool on_loop();
+	virtual bool on_blob(OSMPBF::BlobHeader const &, OSMPBF::Blob const &);
+	virtual bool on_hblock(OSMPBF::HeaderBlock const &);
+	virtual bool on_pblock(OSMPBF::PrimitiveBlock const &);
+};
+
+struct unzip_parser : parser
+{
+	std::string bb_fn;
+	OSMPBF::Blob const * bb_obj_last = nullptr;
+
+	using parser::parser;
+
+	virtual bool on_loop();
+	virtual bool on_blob(OSMPBF::BlobHeader const &, OSMPBF::Blob const &);
+	virtual bool on_pblock(OSMPBF::PrimitiveBlock const &);
+};
+
+} // namespace goo
 
 #endif // _GOO_H_

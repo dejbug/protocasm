@@ -20,8 +20,9 @@ int main(int argc, char ** argv)
 
 	try
 	{
-		goo::info_parser parser(path);
+		// goo::info_parser parser(path);
 		// goo::unzip_parser parser(path);
+		goo::waycount_parser parser(path);
 		parser.run();
 	}
 	catch (std::runtime_error & e)

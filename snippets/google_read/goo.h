@@ -72,7 +72,7 @@ std::string get_unique_filename(char const * dir = nullptr, size_t len = 16);
 void write_zlib(OSMPBF::Blob const &, char const * path);
 std::string get_pb_type_str(OSMPBF::PrimitiveBlock const &);
 std::string get_zlib_descriptive_filename(OSMPBF::PrimitiveBlock const &, OSMPBF::Blob const &);
-
+std::string get_dict_string(OSMPBF::StringTable const &, OSMPBF::Way const &);
 
 struct parser
 {
@@ -106,6 +106,13 @@ struct unzip_parser : parser
 
 	virtual bool on_loop();
 	virtual bool on_blob(OSMPBF::BlobHeader const &, OSMPBF::Blob const &);
+	virtual bool on_pblock(OSMPBF::PrimitiveBlock const &);
+};
+
+struct waycount_parser : parser
+{
+	using parser::parser;
+
 	virtual bool on_pblock(OSMPBF::PrimitiveBlock const &);
 };
 

@@ -405,6 +405,26 @@ std::string goo::get_zlib_descriptive_filename(OSMPBF::PrimitiveBlock const & pb
 	return ss.str();
 }
 
+template<class T> std::string _get_dict_string(OSMPBF::StringTable const & st, T const & t)
+{
+	assert(t.keys_size() == t.vals_size());
+
+	std::ostringstream ss;
+
+	for (int i = 0; i < t.keys_size(); ++i)
+	{
+		if (i > 0) ss << ", ";
+		ss << st.s(t.keys(i)) << "=" << st.s(t.vals(i));
+	}
+
+	return ss.str();
+}
+
+std::string goo::get_dict_string(OSMPBF::StringTable const & st, OSMPBF::Way const & way)
+{
+	return _get_dict_string<OSMPBF::Way>(st, way);
+}
+
 
 goo::parser::parser(char const * path)
 	: ctx(path)
@@ -535,3 +555,26 @@ bool goo::unzip_parser::on_pblock(OSMPBF::PrimitiveBlock const & pb)
 
 	return true;
 }
+
+
+bool goo::waycount_parser::on_pblock(OSMPBF::PrimitiveBlock const & pb)
+{
+	static int debug_max_way_prints = 8;
+
+	OSMPBF::StringTable const & st = pb.has_stringtable() ? pb.stringtable() : OSMPBF::StringTable();
+
+	for (int i = 0; i < pb.primitivegroup_size(); ++i)
+	{
+		OSMPBF::PrimitiveGroup const & pg = pb.primitivegroup(i);
+
+		for (int j = 0; debug_max_way_prints > 0 && j < pg.ways_size(); ++j, --debug_max_way_prints)
+		{
+			OSMPBF::Way const & way = pg.ways(j);
+
+			__mingw_printf("+ [way] id=%lld, dict={%s}\n", way.id(), goo::get_dict_string(st, way).c_str());
+		}
+	}
+
+	return true;
+}
+
